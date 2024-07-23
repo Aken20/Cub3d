@@ -8,34 +8,33 @@
 
 typedef struct s_imgs
 {
-	void	*wall;
-	void	*player;
-	void	*player_l;
-	void	*player_r;
-	void	*collectable;
-	void	*exit;
-	void	*closed_door;
+	void	*W_Wall;
+	void	*E_Wall;
+	void	*N_Wall;
+    void	*S_Wall;
+    int     C;
+    int     F;
 }				t_imgs;
 
 typedef struct s_map
 {
 	char	**map;
+    int     map_width;
+    int     map_height;
 	int		p_x;
 	int		p_y;
-	int		p_s;
-	int		x;
-	int		y;
+	int		p_dx;
+	int		p_dy;
 }				t_map;
 
 typedef struct s_data
 {
 	t_map	*map_s;
-	t_map	*map_tmp;
+	// t_map	*map_tmp;
 	t_imgs	*img_s;
 	void	*win;
 	void	*mlx;
 	int		size;
-	int		moves;
 	int		x;
 	int		y;
 }				t_data;

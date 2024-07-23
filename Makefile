@@ -31,10 +31,10 @@ $(MLX):
 	make -C minilibx-linux
 
 %.o: %.c
-	$(CC) -Wall -Wextra -Werror -Imlx -c $< -o $@
+	$(CC) -Wall -Wextra -Werror -I/usr/include -Iminilibx-linux -O3 -c $< -o $@
 
 $(NAME): $(OBJS) $(PRINTF) $(GNL) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(GNL) $(MLX) -framework OpenGL -framework AppKit -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(GNL) $(MLX) -L/usr/lib -Iminilibx-linux -lXext -lX11 -lm -lz -o $(NAME)
 
 # bonus: $(NAME)_bonus
 
