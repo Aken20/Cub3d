@@ -1,6 +1,6 @@
-NAME = so_long
+NAME = Cub3d
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3
 AR = ar -rcs
 RM = rm -f
 
@@ -31,7 +31,7 @@ $(MLX):
 	make -C minilibx-linux
 
 %.o: %.c
-	$(CC) -Wall -Wextra -Werror -I/usr/include -Iminilibx-linux -O3 -c $< -o $@
+	$(CC) $(CFLAGS) -Wall -Wextra -Werror -I/usr/include -Iminilibx-linux -O3 -c $< -o $@
 
 $(NAME): $(OBJS) $(PRINTF) $(GNL) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(GNL) $(MLX) -L/usr/lib -Iminilibx-linux -lXext -lX11 -lm -lz -o $(NAME)
