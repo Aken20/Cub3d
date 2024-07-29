@@ -1,6 +1,6 @@
 NAME = Cub3d
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 AR = ar -rcs
 RM = rm -f
 
@@ -11,7 +11,18 @@ FILES = main
 GNL = get_next_line/GNL.a
 PRINTF = printf/printf.a
 LIBFT = libft/libft.a
-MLX = minilibx-linux/libmlx.a
+
+ifeq ( $(shell uname), "Linux" ); then
+	MLX_DIR = minilibx-linux
+	MLX = minilibx-linux/libmlx_Linux.a
+	MLX_FLAGS = -L/usr/lib -Iminilibx-linux -lXext -lX11 -lm -lz
+	OBJ_FLAGS = -I/usr/include -Iminilibx-linux -O3
+else
+	MLX_DIR = mlx
+	MLX = mlx/libmlx.a
+	MLX_FLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit
+	OBJ_FLAGS = -Imlx
+endif
 
 SRCS = $(addsuffix .c, $(FILES))
 BSRCS = $(addsuffix _bonus.c, $(BFILES))
@@ -28,24 +39,19 @@ $(PRINTF):
 $(LIBFT):
 	make -C libft
 $(MLX):
-	make -C minilibx-linux
-
-%.o: %.c
-	$(CC) $(CFLAGS) -Wall -Wextra -Werror -I/usr/include -Iminilibx-linux -O3 -c $< -o $@
+	make -C $(MLX_DIR)
 
 $(NAME): $(OBJS) $(PRINTF) $(GNL) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(GNL) $(MLX) -L/usr/lib -Iminilibx-linux -lXext -lX11 -lm -lz -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(GNL) $(MLX) $(MLX_FLAGS) -o $(NAME)
 
-# bonus: $(NAME)_bonus
-
-# $(NAME)_bonus: $(BOBJS) $(PRINTF) $(GNL) $(LIBFT) $(MLX)
-# 	$(CC) $(CFLAGS) $(BOBJS) $(LIBFT) $(PRINTF) $(GNL) $(MLX) -framework OpenGL -framework AppKit -o $(NAME)_bonus
+%.o: %.c
+	$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
 clean:
 	make clean -C get_next_line
 	make clean -C printf
 	make clean -C libft
-	make clean -C minilibx-linux
+	make clean -C $(MLX_DIR)
 	$(RM) $(OBJS) $(BOBJS)
 
 fclean: clean

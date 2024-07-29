@@ -6,6 +6,12 @@
 # include "get_next_line/get_next_line.h"
 # include "minilibx-linux/mlx.h"
 
+# define ESC 53
+# define W 13
+# define S 1
+# define A 0
+# define D 2
+
 typedef struct s_imgs
 {
 	void	*W_Wall;
@@ -15,6 +21,10 @@ typedef struct s_imgs
 	void	*img;
     int     C;
     int     F;
+	char	*addr;
+    int 	bits_per_pixel;
+    int 	line_length;
+    int 	endian;
 }				t_imgs;
 
 typedef struct s_map
@@ -39,8 +49,8 @@ typedef struct s_data
 	int		height;
 	int		pixel;
 	int		speed;
-	int		x;
-	int		y;
+	int		px;
+	int		py;
 }				t_data;
 
 // int		ft_collectable_count(char **map);
