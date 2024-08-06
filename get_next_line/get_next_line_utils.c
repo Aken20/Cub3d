@@ -12,19 +12,19 @@
 
 #include "get_next_line.h"
 
-void	*ft_bzero(void *s, int n)
-{
-	char	*c_s;
+// void	*ft_bzero(void *s, int n)
+// {
+// 	char	*c_s;
 
-	c_s = (char *) s;
-	while (n > 0)
-	{
-		*c_s = 0;
-		--n;
-		++c_s;
-	}
-	return (c_s);
-}
+// 	c_s = (char *) s;
+// 	while (n > 0)
+// 	{
+// 		*c_s = 0;
+// 		--n;
+// 		++c_s;
+// 	}
+// 	return (c_s);
+// }
 
 char	*ft_g_strdup(char *s, int k)
 {

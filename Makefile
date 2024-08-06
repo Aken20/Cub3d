@@ -1,4 +1,4 @@
-NAME = so_long
+NAME = Cub3D
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 AR = ar -rcs
@@ -11,7 +11,7 @@ FILES = main
 GNL = get_next_line/GNL.a
 PRINTF = printf/printf.a
 LIBFT = libft/libft.a
-MLX = minilibx-linux/libmlx.a
+MLX = mlx/libmlx.a
 
 SRCS = $(addsuffix .c, $(FILES))
 BSRCS = $(addsuffix _bonus.c, $(BFILES))
@@ -28,7 +28,7 @@ $(PRINTF):
 $(LIBFT):
 	make -C libft
 $(MLX):
-	make -C minilibx-linux
+	make -C mlx
 
 %.o: %.c
 	$(CC) -Wall -Wextra -Werror -Imlx -c $< -o $@
@@ -45,7 +45,7 @@ clean:
 	make clean -C get_next_line
 	make clean -C printf
 	make clean -C libft
-	make clean -C minilibx-linux
+	make clean -C mlx
 	$(RM) $(OBJS) $(BOBJS)
 
 fclean: clean

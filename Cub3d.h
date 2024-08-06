@@ -1,6 +1,8 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
+# include <stdio.h>
+# include <stdlib.h>
 # include "libft/libft.h"
 # include "printf/ft_printf.h"
 # include "get_next_line/get_next_line.h"
@@ -27,6 +29,18 @@ typedef struct s_map
 	int		y;
 }				t_map;
 
+
+typedef struct s_vars {
+	int			i;
+	int			j;
+	int			k;
+	int			l;
+	int			m;
+	int			n;
+	int			fd;
+	char 		*line;
+	char		*tmp;
+}               t_vars;
 typedef struct s_data
 {
 	t_map	*map_s;
