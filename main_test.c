@@ -40,11 +40,11 @@ void test_check_map_extension()
         waitpid(id, &status, 0);
         if (WIFEXITED(status) && WEXITSTATUS(status) == 0)
         {
-            printf(GREEN "check_map_extention valid extension test passed ✅.\n" RESET);
+            printf(GREEN "1 - check_map_extention valid extension test passed ✅.\n" RESET);
         }
         else
         {
-            printf(RED "check_map_extention valid extension test failed ❌.\n" RESET);
+            printf(RED "1 - check_map_extention valid extension test failed ❌.\n" RESET);
         }
     }
 
@@ -60,11 +60,11 @@ void test_check_map_extension()
         waitpid(id, &status, 0);
         if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
         {
-            printf(GREEN "check_map_extention invalid extension test passed ✅.\n" RESET);
+            printf(GREEN "2 - check_map_extention invalid extension test passed ✅.\n" RESET);
         }
         else
         {
-            printf(RED "check_map_extention invalid extension test failed ❌.\n" RESET);
+            printf(RED "2 - check_map_extention invalid extension test failed ❌.\n" RESET);
         }
     }
 
@@ -80,11 +80,11 @@ void test_check_map_extension()
         waitpid(id, &status, 0);
         if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
         {
-            printf(GREEN "check_map_extention no extension test passed ✅.\n" RESET);
+            printf(GREEN "3 - check_map_extention no extension test passed ✅.\n" RESET);
         }
         else
         {
-            printf(RED "check_map_extention no extension test failed ❌.\n" RESET);
+            printf(RED "3 - check_map_extention no extension test failed ❌.\n" RESET);
         }
     }
 
@@ -100,11 +100,31 @@ void test_check_map_extension()
         waitpid(id, &status, 0);
         if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
         {
-            printf(GREEN "check_map_extention no file name test passed ✅.\n" RESET);
+            printf(GREEN "4 - check_map_extention no file name test passed ✅.\n" RESET);
         }
         else
         {
-            printf(RED "check_map_extention no file name test failed ❌.\n" RESET);
+            printf(RED "4 - check_map_extention no file name test failed ❌.\n" RESET);
+        }
+    }
+
+    id = fork();
+    if (id == 0)
+    {
+        check_map_extention("cub");
+        exit(0);
+    }
+    else if (id > 0)
+    {
+        int status;
+        waitpid(id, &status, 0);
+        if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
+        {
+            printf(GREEN "5 - check_map_extention no file name test passed ✅.\n" RESET);
+        }
+        else
+        {
+            printf(RED "5 - check_map_extention no file name test failed ❌.\n" RESET);
         }
     }
 }
