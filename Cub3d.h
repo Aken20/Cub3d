@@ -1,5 +1,5 @@
-#ifndef SO_LONG_H
-# define SO_LONG_H
+#ifndef CUB3D_H
+# define CUB3D_H
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -7,6 +7,16 @@
 # include "printf/ft_printf.h"
 # include "get_next_line/get_next_line.h"
 # include "minilibx-linux/mlx.h"
+
+// Define color codes
+# define RESET   "\033[0m"
+# define RED     "\033[31m"      /* Red */
+# define GREEN   "\033[32m"      /* Green */
+# define YELLOW  "\033[33m"      /* Yellow */
+# define BLUE    "\033[34m"      /* Blue */
+# define MAGENTA "\033[35m"      /* Magenta */
+# define CYAN    "\033[36m"      /* Cyan */
+# define WHITE   "\033[37m"      /* White */
 
 typedef struct s_imgs
 {
@@ -29,7 +39,6 @@ typedef struct s_map
 	int		y;
 }				t_map;
 
-
 typedef struct s_vars {
 	int			i;
 	int			j;
@@ -41,6 +50,7 @@ typedef struct s_vars {
 	char 		*line;
 	char		*tmp;
 }               t_vars;
+
 typedef struct s_data
 {
 	t_map	*map_s;
@@ -54,6 +64,15 @@ typedef struct s_data
 	int		y;
 }				t_data;
 
+// Function prototypes
+void	init_struct(t_map *map, t_vars *vars);
+void	exit_error(char *str);
+void	check_map_extention(char *map_file);
+void	fill_the_map(t_map *map_data, int i, char *map_file);
+void	read_map(t_map *map_data, char *map_file);
+void	parse_the_map(t_map *map_data);
+
+// Other functions
 int		ft_collectable_count(char **map);
 int		ft_check_map(t_data *img);
 int		ft_valid_path(t_data *img, int x, int y);

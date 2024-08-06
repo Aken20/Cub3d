@@ -96,24 +96,24 @@ void parse_the_map(t_map *map_data)
     printf("parsing in the process\n");
 }
 
-int main(int ac, char **av)
-{
-    t_map map;
-    t_vars vars;
+// int main(int ac, char **av)
+// {
+//     t_map map;
+//     t_vars vars;
 
-    if (ac != 2)
-    {
-        printf("Error\nInvalid number of arguments\n");
-        exit(1);
-    }
-    init_struct(&map, &vars);
-    read_map(&map, av[1]);
-    parse_the_map(&map);
-    // while(1)
-    // {
-        printf("Hello World\n");
-    // }
+//     if (ac != 2)
+//     {
+//         printf("Error\nInvalid number of arguments\n");
+//         exit(1);
+//     }
+//     init_struct(&map, &vars);
+//     read_map(&map, av[1]);
+//     parse_the_map(&map);
+//     // while(1)
+//     // {
+//         printf("Hello World\n");
+//     // }
     
 
-    return 0;
-}
+//     return 0;
+// }
