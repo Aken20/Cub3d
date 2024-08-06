@@ -23,11 +23,6 @@ void test_init_struct()
         printf(RED "init_struct test failed.\n" RESET);
     }
 }
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-#include <unistd.h>
 
 void test_check_map_extension()
 {
