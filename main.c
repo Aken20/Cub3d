@@ -1,81 +1,10 @@
 # include "Cub3d.h"
 
-
-void my_mlx_pixel_put(t_data *data, int x, int y, int color)
-{
-    char *dst;
-
-    dst = data->img_s->addr + (y * data->img_s->line_length + x * (data->img_s->bits_per_pixel / 8));
-    *(unsigned int*)dst = color;
-}
-
 void    ft_free_data(t_data *data)
 {
     free(data->map_s);
     free(data->img_s);
     free(data);
-}
-
-void ft_read_map(t_data *img, char *file)
-{
-    int fd;
-
-    char *line;
-    int i;
-
-    i = 0;
-    fd = open(file, O_RDONLY);
-    if (fd < 0)
-        printf("Error\n"), exit(0);
-    line = get_next_line(fd);
-    while (line)
-    {
-        img->map_s->map_height++;
-        i = ft_strlen(line);
-        if (i > img->map_s->map_width)
-            img->map_s->map_width = i;
-        free(line);
-        line = get_next_line(fd);
-    }
-    // img->map_s->map_height--;
-    // printf("map_width: %d, map_height: %d\n", img->map_s->map_width, img->map_s->map_height);
-    close(fd);
-    fd = open(file, O_RDONLY);
-    if (fd < 0 || img->map_s->map_height <= 1)
-        printf("Error\n"), exit(0);
-    img->map_s->map = malloc(sizeof(char*) * (img->map_s->map_height + 1));
-    i = 0;
-    line = get_next_line(fd);
-    while (line)
-    {
-        img->map_s->map[i++] = ft_strdup(line);
-        free(line);
-        line = get_next_line(fd);
-    }
-    img->map_s->map[i] = NULL;
-    close(fd);
-}
-
-void ft_draw_player(t_data *data)
-{
-    int y;
-    int x;
-    int pixel;
-
-    pixel = data->pixel / 3;
-    y = 0;
-    x = 0;
-
-    while (y <= pixel)
-    {
-        while (x <= pixel)
-        {
-            my_mlx_pixel_put(data, data->px + x, data->py + y, 0x0000fa);
-            x++;
-        }
-        x = 0;
-        y++;
-    }
 }
 
 t_data *ft_init(char *file)
@@ -86,12 +15,11 @@ t_data *ft_init(char *file)
     data->map_s = malloc(sizeof(t_map));
     data->img_s = malloc(sizeof(t_imgs));
     data->pixel = 30;
-    data->px = 4 * data->pixel + (data->pixel / 3);
-    data->py = 3 * data->pixel + (data->pixel / 3);
     data->speed = 5;
     data->map_s->map_width = 0;
     data->map_s->map_height = 0;
     ft_read_map(data, file);
+    ft_player_find(data);
     data->width = data->map_s->map_width * data->pixel;
     data->height = data->map_s->map_height * data->pixel;
     data->mlx = mlx_init();
@@ -105,139 +33,6 @@ int ft_quit_game(t_data *data)
 {
     ft_free_data(data);
     exit(0);
-}
-
-bool ft_check_collision(t_data *data, int x, int y, int direction)
-{
-    int pixel;
-    int p_size;
-    int speed;
-
-    pixel = data->pixel;
-    speed = data->speed;
-    p_size = pixel / 3;
-
-    printf("x: %d, y: %d\n", x / pixel, y / pixel);
-    if (direction == 1)
-    {
-        if (data->map_s->map[(y - speed) / pixel][x / pixel] != '1' && data->map_s->map[(y - speed) / pixel][(x + p_size) / pixel] != '1')
-            return true;
-    }
-    else if (direction == 2)
-    {
-        if (data->map_s->map[(y + speed + p_size) / pixel][x / pixel] != '1' && data->map_s->map[(y + speed + p_size) / pixel][(x + p_size) / pixel] != '1')
-            return true;
-    }
-    else if (direction == 3)
-    {
-        if (data->map_s->map[y / pixel][(x - speed) / pixel] != '1' && data->map_s->map[(y + p_size) / pixel][(x - speed) / pixel] != '1')
-            return true;
-    }
-    else if (data->map_s->map[y / pixel][(x + speed + p_size) / pixel] != '1' && data->map_s->map[(y + p_size) / pixel][(x + speed + p_size) / pixel] != '1')
-        return true;
-    return false;
-}
-
-int ft_up(t_data *data)
-{
-    if (data->py - data->speed > 0 && ft_check_collision(data, data->px, data->py, 1))
-    {
-        // printf("x: %d, y: %d\n", data->px, data->py);
-        data->map_s->map[data->py / data->pixel][data->px / data->pixel] = '0';
-        data->py -= data->speed;
-        data->map_s->map[data->py / data->pixel][data->px / data->pixel] = 'N';
-    }
-    
-    return 0;
-}
-
-int ft_down(t_data *data)
-{
-    if (data->py < data->height && ft_check_collision(data, data->px, data->py, 2))
-    {
-        data->map_s->map[data->py / data->pixel][data->px / data->pixel] = '0';
-        data->py += data->speed;
-        data->map_s->map[data->py / data->pixel][data->px / data->pixel] = 'N';
-    }
-    return 0;
-}
-
-int ft_left(t_data *data)
-{
-    if (data->px - data->speed > 0 && ft_check_collision(data, data->px, data->py, 3))
-    {
-        data->map_s->map[data->py / data->pixel][data->px / data->pixel] = '0';
-        data->px -= data->speed;
-        data->map_s->map[data->py / data->pixel][data->px / data->pixel] = 'N';
-    }
-    return 0;
-}
-
-int ft_right(t_data *data)
-{
-    if (data->px< data->width && ft_check_collision(data, data->px, data->py, 4))
-    {
-        data->map_s->map[data->py / data->pixel][data->px / data->pixel] = '0';
-        data->px += data->speed;
-        data->map_s->map[data->py / data->pixel][data->px / data->pixel] = 'N';
-    }
-    return 0;
-}
-
-int ft_hocks(int keycode, t_data *data)
-{
-    // printf("keycode: %d\n", keycode);
-    if (keycode == ESC)
-        ft_quit_game(data);
-    if (keycode == W)
-        return (ft_up(data));
-    if (keycode == S)
-        return (ft_down(data));
-    if (keycode == A)
-        return (ft_left(data));
-    if (keycode == D)
-        return (ft_right(data));
-    return 0;
-}
-
-int ft_render(t_data *data)
-{
-    int x;
-    int y;
-    // static int s;
-
-    x = 0;
-    y = 0;
-
-    // if (s == 25)
-    // {
-        mlx_clear_window(data->mlx, data->win);
-    //     s = 0;
-    // }
-    // printf("width: %d\n", data->width);
-    // printf("height: %d\n", data->height);
-    while (y < data->height)
-    {
-        while (x < data->width && data->map_s->map[y / data->pixel][x / data->pixel])
-        {
-            // printf("y: %d, x: %d\n", y, x);
-            // printf("pixel: %d\n", data->pixel);
-            // printf("y: %d, x: %d\n", y / data->pixel, x / data->pixel);
-            // printf("width: %d, hight: %d\n", data->width, data->height);
-            if (x % data->pixel > 1 && y % data->pixel > 1 && data->map_s->map[y / data->pixel][x / data->pixel] == '1')
-                my_mlx_pixel_put(data, x, y, 0x80FF33);
-            else if (x % data->pixel > 1 && y % data->pixel > 1 && data->map_s->map[y / data->pixel][x / data->pixel] == '0')
-                my_mlx_pixel_put(data, x, y, 0xc8c8cc);
-            // else if (data->map_s->map[y / data->pixel][x / data->pixel] == 'N')
-            x++;
-        }
-        x = 0;
-        y++;
-    }
-    ft_draw_player(data);
-    mlx_put_image_to_window(data->mlx, data->win, data->img_s->img, 0, 0);
-    // s++;
-    return 0;
 }
 
 int main(int ac, char **av)

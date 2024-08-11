@@ -4,9 +4,7 @@ CFLAGS = -Wall -Wextra -Werror #-g3 -fsanitize=address
 AR = ar -rcs
 RM = rm -f
 
-FILES = main
-
-# BFILES = map so_long readmap movment valid_map allocate enemy ft_fire
+FILES = main map render movement
 
 GNL = get_next_line/GNL.a
 PRINTF = printf/printf.a
@@ -54,9 +52,12 @@ clean:
 	make clean -C $(MLX_DIR)
 	$(RM) $(OBJS) $(BOBJS)
 
-fclean: clean
+fclean:
+	make clean
 	$(RM) $(NAME) $(NAME)_bonus $(PRINTF) $(GNL) $(MLX) $(LIBFT)
 
-re: clean all
+re:
+	make fclean
+	make all
 
 .PHONY: bonus all clean fclean re
