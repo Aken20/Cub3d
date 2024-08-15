@@ -3,6 +3,7 @@
 
 # include <stdbool.h>
 # include "libft/libft.h"
+# include <math.h>
 # include "printf/ft_printf.h"
 # include "get_next_line/get_next_line.h"
 # include "minilibx-linux/mlx.h"
@@ -12,6 +13,9 @@
 # define S 1
 # define A 0
 # define D 2
+# define RA 123
+# define LA 124
+# define PI 3.14159265359
 
 typedef struct s_imgs
 {
@@ -54,6 +58,7 @@ typedef struct s_data
 	int		py;
 	int		rx;
 	int		ry;
+	int		angle;
 }				t_data;
 
 int ft_hocks(int keycode, t_data *data);
@@ -63,5 +68,8 @@ void ft_player_find(t_data *data);
 bool ft_check_collision(t_data *data, int x, int y, int direction);
 int ft_quit_game(t_data *data);
 void draw_ray(t_data *data);
+float d_to_r(int degree);
+void draw_ray(t_data *data);
+void my_mlx_pixel_put(t_data *data, int x, int y, int color);
 
 #endif

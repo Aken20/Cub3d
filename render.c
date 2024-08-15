@@ -7,6 +7,7 @@ void my_mlx_pixel_put(t_data *data, int x, int y, int color)
     dst = data->img_s->addr + (y * data->img_s->line_length + x * (data->img_s->bits_per_pixel / 8));
     *(unsigned int*)dst = color;
 }
+
 void ft_draw_player(t_data *data)
 {
     int y;
@@ -27,28 +28,6 @@ void ft_draw_player(t_data *data)
         }
         x = 0;
         y++;
-    }
-    while (pixel > 0)
-    {
-        my_mlx_pixel_put(data, data->rx, data->ry - pixel, 0x000000);
-        pixel--;
-    }
-}
-
-void draw_ray(t_data *data)
-{
-    int y;
-    int x;
-    int pixel;
-
-    pixel = data->pixel / 3;
-    y = 0;
-    x = 0;
-
-    while (pixel > 0)
-    {
-        my_mlx_pixel_put(data, data->rx, data->ry - pixel, 0x000000);
-        pixel--;
     }
 }
 
@@ -76,7 +55,7 @@ int ft_render(t_data *data)
         y++;
     }
     ft_draw_player(data);
-    // draw_ray(data);
+    draw_ray(data);
     mlx_put_image_to_window(data->mlx, data->win, data->img_s->img, 0, 0);
     return 0;
 }

@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror #-g3 -fsanitize=address
 AR = ar -rcs
 RM = rm -f
 
-FILES = main map render movement
+FILES = main map render movement ray
 
 GNL = get_next_line/GNL.a
 PRINTF = printf/printf.a
