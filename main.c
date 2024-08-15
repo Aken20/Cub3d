@@ -46,8 +46,8 @@ int main(int ac, char **av)
     data = ft_init(av[1]);
     // ft_render(data);
     mlx_loop_hook(data->mlx, ft_render, data);
-    mlx_hook(data->win, 2, 0, ft_hocks, data);
+    // mlx_hook(data->win, 2, 0, ft_hocks, data);
     mlx_hook(data->win, 17, 0, ft_quit_game, data);
-    // mlx_key_hook(data->win, ft_hocks, data);
+    mlx_key_hook(data->win, ft_hocks, data);
     mlx_loop(data->mlx);
 }

@@ -3,22 +3,22 @@
 bool ft_check_collision(t_data *data, int x, int y, int direction)
 {
     int pixel;
-    int p_size;
+    // int p_size;
     int speed;
 
     pixel = data->pixel;
     speed = data->speed;
-    p_size = pixel / 3 - 1;
+    // p_size = pixel / 3 - 1;
 
-    printf("x: %d, y: %d\n", (int)(x + (cos(d_to_r(data->angle)) * data->speed)) / pixel, (int)(y - (sin(d_to_r(data->angle)) * data->speed)) / pixel);
+    printf("x: %f, y: %f\n", (x + (cos(d_to_r(data->angle)) * speed)) / pixel, (y - (sin(d_to_r(data->angle)) * speed)) / pixel);
     if (direction == 1)
     {
-        if (data->map_s->map[(int)(x + (cos(d_to_r(data->angle)) * data->speed)) / pixel][(int)(y - (sin(d_to_r(data->angle)) * data->speed)) / pixel] != '1')
+        if (data->map_s->map[(int)(x + (cos(d_to_r(data->angle)) * speed)) / pixel][(int)(y - (sin(d_to_r(data->angle)) * speed)) / pixel] != '1')
             return true;
     }
     else if (direction == 2)
     {
-        if (data->map_s->map[(int)(x - (cos(d_to_r(data->angle)) * data->speed)) / pixel][(int)(y + (sin(d_to_r(data->angle)) * data->speed)) / pixel] != '1')
+        if (data->map_s->map[(int)(x - (cos(d_to_r(data->angle)) * speed)) / pixel][(int)(y + (sin(d_to_r(data->angle)) * speed)) / pixel] != '1')
             return true;
     }
     return false;
@@ -26,11 +26,11 @@ bool ft_check_collision(t_data *data, int x, int y, int direction)
 
 static int ft_up(t_data *data)
 {
+    printf("x: %d, y: %d\n", data->px, data->py);
     if ((data->py - sin(d_to_r(data->angle)) * data->speed) > 0
         && (data->px + cos(d_to_r(data->angle)) * data->speed) <= data->width
     && ft_check_collision(data, data->px, data->py, 1))
     {
-        // printf("x: %d, y: %d\n", data->px, data->py);
         data->map_s->map[data->py / data->pixel][data->px / data->pixel] = '0';
         data->px += cos(d_to_r(data->angle)) * data->speed;
         data->py -= sin(d_to_r(data->angle)) * data->speed;
@@ -84,9 +84,9 @@ int ft_hocks(int keycode, t_data *data)
     if (keycode == ESC)
         ft_quit_game(data);
     if (keycode == RA)
-        data->angle -= 3;
-    if (keycode == LA)
         data->angle += 3;
+    if (keycode == LA)
+        data->angle -= 3;
     if (keycode == W)
         return (ft_up(data));
     if (keycode == S)

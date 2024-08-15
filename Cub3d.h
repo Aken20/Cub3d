@@ -5,16 +5,25 @@
 # include "libft/libft.h"
 # include <math.h>
 # include "printf/ft_printf.h"
-# include "get_next_line/get_next_line.h"
+# include "libft/get_next_line.h"
 # include "minilibx-linux/mlx.h"
 
-# define ESC 53
-# define W 13
-# define S 1
-# define A 0
-# define D 2
-# define RA 123
-# define LA 124
+# ifdef __linux__
+	# define ESC 65307
+	# define W 119
+	# define S 115
+	# define RA 65361
+	# define LA 65363
+# endif
+
+# ifdef __APPLE__
+	# define ESC 53
+	# define W 13
+	# define S 1
+	# define RA 123
+	# define LA 124
+# endif
+
 # define PI 3.14159265359
 
 typedef struct s_imgs
