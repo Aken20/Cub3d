@@ -10,7 +10,7 @@ bool ft_check_collision(t_data *data, int x, int y, int direction)
     speed = data->speed;
     // p_size = pixel / 3 - 1;
 
-    printf("x: %f, y: %f\n", (y + (sin(d_to_r(data->angle)) * speed)) / pixel, (x - (cos(d_to_r(data->angle)) * speed)) / pixel);
+    // printf("x: %f, y: %f\n", (y + (sin(d_to_r(data->angle)) * speed)) / pixel, (x - (cos(d_to_r(data->angle)) * speed)) / pixel);
     if (direction == 1)
     {
         if (data->map_s->map[(int)(y - (sin(d_to_r(data->angle)) * speed)) / pixel][(int)(x + (cos(d_to_r(data->angle)) * speed)) / pixel] != '1')
@@ -26,27 +26,29 @@ bool ft_check_collision(t_data *data, int x, int y, int direction)
 
 static int ft_up(t_data *data)
 {
-    printf("x: %f, y: %f, angle: %d\n", (cos(d_to_r(data->angle)) * data->speed), (sin(d_to_r(data->angle)) * data->speed), data->angle);
+    // printf("x: %d, y: %d, angle: %d\n", data->px, data->py, data->angle);
     if ((data->ry - sin(d_to_r(data->angle)) * data->speed) >= 0
         && (data->rx + cos(d_to_r(data->angle)) * data->speed) <= data->width
     && ft_check_collision(data, data->rx, data->ry, 1))
     {
-        data->px += (cos(d_to_r(data->angle)) * data->speed);
-        data->py -= (sin(d_to_r(data->angle)) * data->speed);
+        // printf("2. x: %f, y: %d, angle: %d\n", (cos(d_to_r(data->angle)) * data->speed), data->py, data->angle);
+        data->px += (int)(cos(d_to_r(data->angle)) * data->speed);
+        data->py -= (int)(sin(d_to_r(data->angle)) * data->speed);
     }
     return 0;
 }
 
 static int ft_down(t_data *data)
 {
-    printf("x: %f, y: %f, angle: %d\n", (cos(d_to_r(data->angle)) * data->speed), (sin(d_to_r(data->angle)) * data->speed), data->angle);
+    // printf("x: %d, y: %d, angle: %d\n", data->px, data->py, data->angle);
     if ((data->ry + sin(d_to_r(data->angle)) * data->speed) <= data->height
         && (data->rx - cos(d_to_r(data->angle)) * data->speed) >= 0
         && ft_check_collision(data, data->rx, data->ry, 2))
     {
-        data->px -= (cos(d_to_r(data->angle)) * data->speed);
-        data->py += (sin(d_to_r(data->angle)) * data->speed);
+        data->px -= (int)(cos(d_to_r(data->angle)) * data->speed);
+        data->py += (int)(sin(d_to_r(data->angle)) * data->speed);
     }
+    // printf("2. x: %d, y: %d, angle: %d\n", data->px, data->py, data->angle);
     return 0;
 }
 
