@@ -12,18 +12,21 @@
 	# define ESC 65307
 	# define W 119
 	# define S 115
-	# define RA 65361
-	# define LA 65363
+	# define D 65361
+	# define A 65363
 # endif
 
 # ifdef __APPLE__
 	# define ESC 53
 	# define W 13
 	# define S 1
-	# define RA 123
-	# define LA 124
+	# define D 2
+	# define A 0
 # endif
 
+
+# define WIDTH 1280
+# define HEIGHT 720
 # define PI 3.14159265359
 
 typedef struct s_imgs
@@ -32,13 +35,18 @@ typedef struct s_imgs
 	void	*E_Wall;
 	void	*N_Wall;
     void	*S_Wall;
-	void	*img;
-    int     C;
-    int     F;
+    int     celing;
+    int     floor;
 	char	*addr;
+	void	*mini_map;
     int 	bits_per_pixel;
     int 	line_length;
     int 	endian;
+	void	*screen;
+	char	*s_addr;
+    int 	s_bits_per_pixel;
+    int 	s_line_length;
+    int 	s_endian;
 }				t_imgs;
 
 typedef struct s_map
@@ -46,16 +54,13 @@ typedef struct s_map
 	char	**map;
     int     map_width;
     int     map_height;
-	int		p_x;
-	int		p_y;
-	int		p_dx;
-	int		p_dy;
+	int		px;
+	int		py;
 }				t_map;
 
 typedef struct s_data
 {
 	t_map	*map_s;
-	// t_map	*map_tmp;
 	t_imgs	*img_s;
 	void	*win;
 	void	*mlx;
@@ -65,10 +70,10 @@ typedef struct s_data
 	int		speed;
 	int		px;
 	int		py;
+	int		angle;
 	int		rx;
 	int		ry;
-	int		angle;
-	int		r_angle;
+	double	r_angle;
 }				t_data;
 
 int ft_hocks(int keycode, t_data *data);
@@ -80,6 +85,6 @@ int ft_quit_game(t_data *data);
 void draw_ray(t_data *data);
 float d_to_r(int degree);
 void draw_ray(t_data *data);
-void my_mlx_pixel_put(t_data *data, int x, int y, int color);
+void my_mlx_pixel_put(t_data *data, int x, int y, int color, int i);
 
 #endif

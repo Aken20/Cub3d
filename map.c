@@ -29,12 +29,12 @@ void ft_read_map(t_data *img, char *file)
         printf("Error\n"), exit(0);
     img->map_s->map = malloc(sizeof(char*) * (img->map_s->map_height + 1));
     i = 0;
-    line = get_next_line(fd);
+    line = ft_strtrim(get_next_line(fd), "\n");
     while (line)
     {
         img->map_s->map[i++] = ft_strdup(line);
         free(line);
-        line = get_next_line(fd);
+        line = ft_strtrim(get_next_line(fd), "\n");
     }
     img->map_s->map[i] = NULL;
     close(fd);
@@ -45,19 +45,16 @@ void ft_player_find(t_data *data)
     int j;
     char c;
 
-    i = 0;
-    while (data->map_s->map[i])
+    i = -1;
+    while (data->map_s->map[++i])
     {
-        j = 0;
-        while (data->map_s->map[i][j])
-        {
+        j = -1;
+        while (data->map_s->map[i][++j])
             if (data->map_s->map[i][j] == 'N' || data->map_s->map[i][j] == 'S'
                 || data->map_s->map[i][j] == 'W' || data->map_s->map[i][j] == 'E')
             {
                 data->px = (j * data->pixel) + (data->pixel / 3);
                 data->py = (i * data->pixel) + (data->pixel / 3);
-                data->rx = data->px + (data->pixel / 6);
-                data->ry = data->py + (data->pixel / 6);
                 c = data->map_s->map[i][j];
                 if (c == 'N')
                     data->angle = 90;
@@ -68,8 +65,5 @@ void ft_player_find(t_data *data)
                 else if (c == 'E')
                     data->angle = 0;
             }
-            j++;
-        }
-        i++;
     }
 }
