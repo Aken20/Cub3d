@@ -68,6 +68,7 @@ typedef struct s_data
 	int		rx;
 	int		ry;
 	int		angle;
+	int		r_angle;
 }				t_data;
 
 int ft_hocks(int keycode, t_data *data);
