@@ -12,8 +12,8 @@
 	# define ESC 65307
 	# define W 119
 	# define S 115
-	# define D 65361
-	# define A 65363
+	# define D 100
+	# define A 97
 # endif
 
 # ifdef __APPLE__

@@ -8,20 +8,27 @@ float d_to_r(int degree)
 void draw_ray_screen(t_data *data, float length, int x)
 {
     float y;
+    int color;
 
     // if (length > HEIGHT)
     //     length = 0;
     // else
     // length = (HEIGHT / data->height);
     length = HEIGHT - (length * (HEIGHT / data->height));
-    printf("length: %f\n", length);
+    length = length / 2;
+    // printf("length: %f\n", length);
     if (length < 0)
         length = 0;
     y = (HEIGHT / 2) - (length / 2);
+    if ((int)x % data->pixel > (int)y % data->pixel)
+        color = 0x0000fa;
+    else
+        color = 0xb9fba5;
     while(length >= 0)
     {
+        // printf("y: %d, x: %d\n", (int)y % data->pixel, (int)x % data->pixel);
         length--;
-        my_mlx_pixel_put(data, x, y + length, 0xb9fba5, 1);
+        my_mlx_pixel_put(data, x, y + length, color, 1);
     }
 
 }
@@ -35,7 +42,7 @@ void draw_ray(t_data *data)
     int k = 0;
     double r;
 
-    fov = 90;
+    fov = 60;
     data->rx = data->px + data->pixel / 6;
     data->ry = data->py + data->pixel / 6;
     r = fov / WIDTH;
@@ -46,26 +53,15 @@ void draw_ray(t_data *data)
         y = data->ry;
         x = data->rx;
         length = 0;
-        // if (data->r_angle >= 180)
-            while(y >= 0 && y <= data->height && x >= 0 && x <= data->width
-                && data->map_s->map[(int)(y) / data->pixel][(int)(x) / data->pixel]
-                && data->map_s->map[(int)(y) / data->pixel][(int)(x) / data->pixel] != '1')
-            {
-                length += 0.5;
-                my_mlx_pixel_put(data, x, y, 0xb9fba5, 0);
-                x += cos(d_to_r(data->r_angle));
-                y -= sin(d_to_r(data->r_angle));
-            }
-        // else
-        //     while(y >= 0 && y <= data->height && x >= 0 && x <= data->width
-        //         && data->map_s->map[(int)(y) / data->pixel][(int)(x) / data->pixel]
-        //         && data->map_s->map[(int)(y) / data->pixel][(int)(x) / data->pixel] != '1')
-        //     {
-        //         length++;
-        //         my_mlx_pixel_put(data, x, y, 0xb9fba5, 0);
-        //         x -= cos(d_to_r(data->r_angle));
-        //         y += sin(d_to_r(data->r_angle));
-        //     }
+        while(y >= 0 && y <= data->height && x >= 0 && x <= data->width
+            && data->map_s->map[(int)(y + 1) / data->pixel][(int)(x + 1) / data->pixel]
+            && data->map_s->map[(int)(y + 1) / data->pixel][(int)(x + 1) / data->pixel] != '1')
+        {
+            length++;
+            my_mlx_pixel_put(data, x, y, 0xb9fba5, 0);
+            x += cos(d_to_r(data->r_angle));
+            y -= sin(d_to_r(data->r_angle));
+        }
         length *= cos(d_to_r(data->angle - data->r_angle));
         draw_ray_screen(data, length, k++);
         fov -= r;
