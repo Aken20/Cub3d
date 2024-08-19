@@ -5,7 +5,7 @@ float d_to_r(int degree)
     return (degree * (PI / 180));
 }
 
-void draw_ray_screen(t_data *data, float length, int x)
+void draw_ray_screen(t_data *data, float length, float x)
 {
     float y;
     int color;
@@ -14,8 +14,8 @@ void draw_ray_screen(t_data *data, float length, int x)
     //     length = 0;
     // else
     // length = (HEIGHT / data->height);
+    length -= (data->pixel / 3);
     length = HEIGHT - (length * (HEIGHT / data->height));
-    length = length / 2;
     // printf("length: %f\n", length);
     if (length < 0)
         length = 0;
@@ -54,10 +54,10 @@ void draw_ray(t_data *data)
         x = data->rx;
         length = 0;
         while(y >= 0 && y <= data->height && x >= 0 && x <= data->width
-            && data->map_s->map[(int)(y + 1) / data->pixel][(int)(x + 1) / data->pixel]
-            && data->map_s->map[(int)(y + 1) / data->pixel][(int)(x + 1) / data->pixel] != '1')
+            && data->map_s->map[(int)y / data->pixel][(int)x / data->pixel]
+            && data->map_s->map[(int)y / data->pixel][(int)x / data->pixel] != '1')
         {
-            length++;
+            length += 2;
             my_mlx_pixel_put(data, x, y, 0xb9fba5, 0);
             x += cos(d_to_r(data->r_angle));
             y -= sin(d_to_r(data->r_angle));

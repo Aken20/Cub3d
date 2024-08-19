@@ -15,7 +15,7 @@ t_data *ft_init(char *file)
     data->map_s = malloc(sizeof(t_map));
     data->img_s = malloc(sizeof(t_imgs));
     data->pixel = 10;
-    data->speed = 5;
+    data->speed = 3;
     data->map_s->map_height = 0;
     data->map_s->map_width = 0;
     data->img_s->celing = 0xADEAF8;
