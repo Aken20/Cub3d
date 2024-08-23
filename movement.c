@@ -58,9 +58,9 @@ int ft_hocks(int keycode, t_data *data)
     if (keycode == ESC)
         ft_quit_game(data);
     if (keycode == D)
-        data->angle -= 3;
+        data->angle -= 0.5;
     if (keycode == A)
-        data->angle += 3;
+        data->angle += 0.5;
     if (keycode == W)
         return (ft_up(data));
     if (keycode == S)

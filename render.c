@@ -16,6 +16,22 @@ void my_mlx_pixel_put(t_data *data, int x, int y, int color, int i)
     }
 }
 
+// int my_mlx_pixel_get(t_data *data, int x, int y, int color, int i)
+// {
+//     char *dst;
+
+//     if (!i)
+//     {
+//         dst = data->img_s->addr + (y * data->img_s->line_length + x * (data->img_s->bits_per_pixel / 8));
+//         *(unsigned int*)dst = color;
+//     }
+//     else 
+//     {
+//         dst = data->img_s->s_addr + (y * data->img_s->s_line_length + x * (data->img_s->s_bits_per_pixel / 8));
+//         *(unsigned int*)dst = color;
+//     }
+// }
+
 void ft_draw_player(t_data *data)
 {
     int y;
@@ -94,5 +110,6 @@ int ft_render(t_data *data)
     draw_screen(data);
     mlx_put_image_to_window(data->mlx, data->win, data->img_s->screen, 0, 0);
     mlx_put_image_to_window(data->mlx, data->win, data->img_s->mini_map, 0, 0);
+    // sleep(2);
     return 0;
 }

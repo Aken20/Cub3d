@@ -70,9 +70,13 @@ typedef struct s_data
 	int		speed;
 	int		px;
 	int		py;
-	int		angle;
+	float	angle;
 	int		rx;
 	int		ry;
+	float	vx;
+	float	vy;
+	float	hx;
+	float	hy;
 	double	r_angle;
 }				t_data;
 
