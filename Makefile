@@ -1,7 +1,7 @@
 NAME = Cub3D
 TEST_NAME = test_cub3d
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror 
 AR = ar -rcs
 RM = rm -f
 

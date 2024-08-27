@@ -3,6 +3,8 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+#include <stdarg.h>
+#include <stdlib.h>
 # include "libft/libft.h"
 # include "printf/ft_printf.h"
 # include "get_next_line/get_next_line.h"
@@ -31,6 +33,15 @@ typedef struct s_imgs
 typedef struct s_map
 {
 	char	**map;
+	char	**file;
+	char	*south_txture;
+	char	*north_txture;
+	char	*east_txture;
+	char	*west_txture;
+	char	*floor_color;
+	char	*ceiling_color;
+	int 	floor;
+	int 	ceiling;
 	int		p_x;
 	int		p_y;
 	int		p_s;
@@ -45,8 +56,11 @@ typedef struct s_vars {
 	int			l;
 	int			m;
 	int			n;
+	int			x;
+	int			y;
 	int			fd;
 	char 		*line;
+	char 		**splitted;
 	char		*tmp;
 }               t_vars;
 
@@ -65,7 +79,7 @@ typedef struct s_data
 
 // Function prototypes
 void	init_struct(t_map *map, t_vars *vars);
-void	exit_error(char *str);
+void	exit_error(char *str, t_map *map, t_vars *vars);
 void	check_map_extention(char *map_file);
 void	fill_the_map(t_map *map_data, int i, char *map_file);
 void	read_map(t_map *map_data, char *map_file);
