@@ -29,25 +29,15 @@
 # define HEIGHT 720
 # define PI 3.14159265359
 
-typedef struct s_imgs
+
+typedef struct s_img
 {
-	void	*W_Wall;
-	void	*E_Wall;
-	void	*N_Wall;
-    void	*S_Wall;
-    int     celing;
-    int     floor;
+	void	*img;
 	char	*addr;
-	void	*mini_map;
     int 	bits_per_pixel;
     int 	line_length;
     int 	endian;
-	void	*screen;
-	char	*s_addr;
-    int 	s_bits_per_pixel;
-    int 	s_line_length;
-    int 	s_endian;
-}				t_imgs;
+}				t_img;
 
 typedef struct s_map
 {
@@ -56,23 +46,28 @@ typedef struct s_map
     int     map_height;
 	int		px;
 	int		py;
+	int		pixel;
+	int		speed;
+	float	angle;
+	float	rx;
+	float	ry;
 }				t_map;
 
 typedef struct s_data
 {
 	t_map	*map_s;
-	t_imgs	*img_s;
+	t_img	*mini_map;
+	t_img	*screen;
+	t_img	*W_Wall;
+	t_img	*E_Wall;
+	t_img	*N_Wall;
+	t_img	*S_Wall;
 	void	*win;
 	void	*mlx;
 	int		width;
 	int		height;
-	int		pixel;
-	int		speed;
-	int		px;
-	int		py;
-	float	angle;
-	float	rx;
-	float	ry;
+    int     celing;
+    int     floor;
 	float	vx;
 	float	vy;
 	float	hx;
@@ -89,6 +84,6 @@ int ft_quit_game(t_data *data);
 void draw_ray(t_data *data);
 float d_to_r(int degree);
 void draw_ray(t_data *data);
-void my_mlx_pixel_put(t_data *data, int x, int y, int color, int i);
+void my_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 #endif

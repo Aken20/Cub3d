@@ -53,17 +53,17 @@ void ft_player_find(t_data *data)
             if (data->map_s->map[i][j] == 'N' || data->map_s->map[i][j] == 'S'
                 || data->map_s->map[i][j] == 'W' || data->map_s->map[i][j] == 'E')
             {
-                data->px = (j * data->pixel) + (data->pixel / 3);
-                data->py = (i * data->pixel) + (data->pixel / 3);
+                data->map_s->px = (j * data->map_s->pixel) + (data->map_s->pixel / 3);
+                data->map_s->py = (i * data->map_s->pixel) + (data->map_s->pixel / 3);
                 c = data->map_s->map[i][j];
                 if (c == 'N')
-                    data->angle = 90;
+                    data->map_s->angle = 90;
                 else if (c == 'W')
-                    data->angle = 180;
+                    data->map_s->angle = 180;
                 else if (c == 'S')
-                    data->angle = 270;
+                    data->map_s->angle = 270;
                 else if (c == 'E')
-                    data->angle = 0;
+                    data->map_s->angle = 0;
             }
     }
 }

@@ -3,7 +3,8 @@
 void    ft_free_data(t_data *data)
 {
     free(data->map_s);
-    free(data->img_s);
+    free(data->mini_map);
+    free(data->screen);
     free(data);
 }
 
@@ -13,23 +14,24 @@ t_data *ft_init(char *file)
 
     data = malloc(sizeof(t_data));
     data->map_s = malloc(sizeof(t_map));
-    data->img_s = malloc(sizeof(t_imgs));
-    data->pixel = 10;
-    data->speed = 3;
+    data->mini_map = malloc(sizeof(t_img));
+    data->screen = malloc(sizeof(t_img));
+    data->map_s->pixel = 10;
+    data->map_s->speed = 3;
     data->map_s->map_height = 0;
     data->map_s->map_width = 0;
-    data->img_s->celing = 0xADEAF8;
-    data->img_s->floor = 0x4C585B;
+    data->celing = 0xADEAF8;
+    data->floor = 0x4C585B;
     ft_read_map(data, file);
     ft_player_find(data);
-    data->width = (data->map_s->map_width) * data->pixel;
-    data->height = (data->map_s->map_height) * data->pixel;
+    data->width = (data->map_s->map_width) * data->map_s->pixel;
+    data->height = (data->map_s->map_height) * data->map_s->pixel;
     data->mlx = mlx_init();
     data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Cub3d");
-    data->img_s->mini_map = mlx_new_image(data->mlx, data->width, data->height);
-    data->img_s->screen = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-    data->img_s->addr = mlx_get_data_addr(data->img_s->mini_map, &data->img_s->bits_per_pixel, &data->img_s->line_length, &data->img_s->endian);
-    data->img_s->s_addr = mlx_get_data_addr(data->img_s->screen, &data->img_s->s_bits_per_pixel, &data->img_s->s_line_length, &data->img_s->s_endian);
+    data->mini_map->img = mlx_new_image(data->mlx, data->width, data->height);
+    data->screen->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+    data->mini_map->addr = mlx_get_data_addr(data->mini_map->img, &data->mini_map->bits_per_pixel, &data->mini_map->line_length, &data->mini_map->endian);
+    data->screen->addr = mlx_get_data_addr(data->screen->img, &data->screen->bits_per_pixel, &data->screen->line_length, &data->screen->endian);
     return (data);
 }
 
