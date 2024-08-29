@@ -71,8 +71,8 @@ typedef struct s_data
 	int		px;
 	int		py;
 	float	angle;
-	int		rx;
-	int		ry;
+	float	rx;
+	float	ry;
 	float	vx;
 	float	vy;
 	float	hx;

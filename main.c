@@ -14,7 +14,7 @@ t_data *ft_init(char *file)
     data = malloc(sizeof(t_data));
     data->map_s = malloc(sizeof(t_map));
     data->img_s = malloc(sizeof(t_imgs));
-    data->pixel = 30;
+    data->pixel = 10;
     data->speed = 3;
     data->map_s->map_height = 0;
     data->map_s->map_width = 0;
@@ -22,8 +22,8 @@ t_data *ft_init(char *file)
     data->img_s->floor = 0x4C585B;
     ft_read_map(data, file);
     ft_player_find(data);
-    data->width = (data->map_s->map_width - 1) * data->pixel;
-    data->height = (data->map_s->map_height - 1) * data->pixel;
+    data->width = (data->map_s->map_width) * data->pixel;
+    data->height = (data->map_s->map_height) * data->pixel;
     data->mlx = mlx_init();
     data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Cub3d");
     data->img_s->mini_map = mlx_new_image(data->mlx, data->width, data->height);
