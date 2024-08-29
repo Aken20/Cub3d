@@ -193,19 +193,19 @@ void draw_ray_screen(t_data *data, int length, float x)
 void draw_ray(t_data *data)
 {
     float length = 0;
-    float fov;
+    // float fov;
     int k = 0;
-    float r;
+    // float r;
 
-    fov = 60;
+    // fov = 60;
     data->map_s->rx = data->map_s->px + data->map_s->pixel / 6;
     data->map_s->ry = data->map_s->py + data->map_s->pixel / 6;
-    r = fov / WIDTH;
+    // r = fov / WIDTH;
     data->r_angle = data->map_s->angle + (fov / 2);
-    while (fov > 0)
-    {
-        data->r_angle -= r;
+    // while (fov > 0)
+    // {
+        // data->r_angle -= r;
         draw_ray_screen(data, length, k++);
-        fov -= r;
-    }
+    //     fov -= r;
+    // }
 }
