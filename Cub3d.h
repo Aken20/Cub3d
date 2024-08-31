@@ -42,9 +42,8 @@ typedef struct s_map
 	char	*ceiling_color;
 	int 	floor;
 	int 	ceiling;
-	int		p_x;
-	int		p_y;
-	int		p_s;
+	int		width;
+	int		height;
 	int		x;
 	int		y;
 }				t_map;

@@ -79,24 +79,24 @@ char	*ft_g_strjoin(char *s1, char *s2)
 	return (free(s1), sjn);
 }
 
-char	*ft_strchr(const char *s, int c)
-{
-	char	*c_s;
+// char	*ft_strchr(const char *s, int c)
+// {
+// 	char	*c_s;
 
-	while (*s)
-	{
-		if (*s != (char)c)
-			++s;
-		else
-		{
-			c_s = (char *) s;
-			return (c_s);
-		}
-	}
-	if (*s == (char)c)
-	{
-		c_s = (char *) s;
-		return (c_s);
-	}
-	return (NULL);
-}
+// 	while (*s)
+// 	{
+// 		if (*s != (char)c)
+// 			++s;
+// 		else
+// 		{
+// 			c_s = (char *) s;
+// 			return (c_s);
+// 		}
+// 	}
+// 	if (*s == (char)c)
+// 	{
+// 		c_s = (char *) s;
+// 		return (c_s);
+// 	}
+// 	return (NULL);
+// }
