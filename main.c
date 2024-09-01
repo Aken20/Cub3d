@@ -49,7 +49,8 @@ void free_all_2d(int count, ...)
                 free((*ptr)[j]);
                 j++;
             }
-            free(*ptr);
+            if (*ptr)
+                free(*ptr);
             *ptr = NULL;
         }
     }
@@ -217,29 +218,55 @@ int define_texture(char **splitted, t_map *map_data)
     return (4);
 }
 
+    // checking how many NO, SO, WE, EA if there is more than one then it is an error
+void check_duplicated_textures(t_map *map_data)
+{
+    t_vars vars;
+
+    vars.x = -1;
+    vars.counter = 0;
+    while (map_data->file[++vars.x])
+    {
+        if (map_data->file[vars.x][0] == 'N' || map_data->file[vars.x][0] == 'S'
+            || map_data->file[vars.x][0] == 'W' || map_data->file[vars.x][0] == 'E')
+        {
+            vars.splitted = ft_split(map_data->file[vars.x], ' ');
+            if (!vars.splitted[0] ||  !vars.splitted[1])
+                exit_error("(invalid texture)", map_data, NULL);
+            vars.counter++;
+            free(vars.splitted);
+        }
+        if (vars.counter > 4)
+            exit_error("(found duplicated texture)", map_data, NULL);
+    }
+}
+
+
 void defining_textures(t_map *map_data)
 {
-     t_vars vars;
+    t_vars  vars;
+    int     txturecounter;
 
-     vars.x = -1;
-     vars.y = -1;
-     int txturecounter = 0;
-     while (map_data->file[++vars.x] && txturecounter != 4)
-     {
+    vars.x = -1;
+    txturecounter = 0;
+    check_duplicated_textures(map_data);
+    while (map_data->file[++vars.x] && txturecounter != 4)
+    {
         if (map_data->file[vars.x][0] == '1' || map_data->file[vars.x][0] == '0')
-             exit_error("(Map data is not at the end of the file)", map_data, NULL);
+                exit_error("(wrong map position or undefined character)", map_data, NULL);
         vars.splitted = ft_split(map_data->file[vars.x], ' ');
         if (ft_strcmp(vars.splitted[0], "NO") == 0 || ft_strcmp(vars.splitted[0], "SO") == 0
             || ft_strcmp(vars.splitted[0], "WE") == 0 || ft_strcmp(vars.splitted[0], "EA") == 0)
         {
             txturecounter += define_texture(vars.splitted, map_data);
             free(vars.splitted);
-        } else if (!ft_strncmp(vars.splitted[0], "C", 1) || !ft_strncmp(vars.splitted[0], "F", 1))
-            exit_error("(Undefined character(s))", map_data, NULL);
-     }
+        } else if (ft_strcmp(vars.splitted[0], "C") != 0 && ft_strcmp(vars.splitted[0], "F") != 0)
+            exit_error("(Undefined character)", map_data, NULL);
+    }
     if (txturecounter != 4)
         exit_error("(Invalid texture or no texture found)", map_data, NULL);
-     
+   
+
     printf("\n\n\n----------------------\n\n\n");
     printf("north:%s\n", map_data->north_txture);
 
@@ -262,25 +289,48 @@ int define_colors(char **splitted, t_map *map_data)
     return (0);
 }
 
+void check_duplicated_colors(t_map *map_data)
+{
+    // checking how many Fs or Cs if there is more than one then it is an error
+    t_vars vars;
+
+    vars.x = -1;
+    vars.counter = 0;
+    while (map_data->file[++vars.x])
+    {
+        if (map_data->file[vars.x][0] == 'F' || map_data->file[vars.x][0] == 'C')
+        {
+            vars.splitted = ft_split(map_data->file[vars.x], ' ');
+            if (!vars.splitted[0] ||  !vars.splitted[1])
+                exit_error("(invalid color)", map_data, NULL);
+            vars.counter++;
+            free(vars.splitted);
+        }
+        if (vars.counter > 2)
+            exit_error("(found duplicated color)", map_data, NULL);
+    }
+}
+
 void defining_colors(t_map *map_data)
 {
     t_vars vars;
 
     vars.x = -1;
-    vars.y = -1;
-    int iscolorfound = 0;
-    while (map_data->file[++vars.x] && iscolorfound != 2)
+    vars.iscolorfound = 0;
+    check_duplicated_colors(map_data);
+    while (map_data->file[++vars.x] && vars.iscolorfound != 2)
     {
-        if ((map_data->file[vars.x][0] == 'C' || map_data->file[vars.x][0] == 'F') && map_data->file[vars.x][1] == ' ')
+        if ((map_data->file[vars.x][0] == 'C' || map_data->file[vars.x][0] == 'F') 
+            && (map_data->file[vars.x][1] == ' ' && map_data->file[vars.x][2] != ' '))
         {
             vars.splitted = ft_split(map_data->file[vars.x], ' ');
-            iscolorfound += define_colors(vars.splitted, map_data);
+            vars.iscolorfound += define_colors(vars.splitted, map_data);
             free(vars.splitted);
         }
         else if ((map_data->file[vars.x][0] == '1' || map_data->file[vars.x][0] == '0'))
-                exit_error("(Invalid color or no color found)", map_data, NULL);
+            exit_error("(Invalid color or no color found)", map_data, NULL);
     }
-    if (iscolorfound != 2)
+    if (vars.iscolorfound != 2)
         exit_error("(Invalid color or no color found)", map_data, NULL);
 }
 
@@ -376,8 +426,6 @@ void parsing_the_map(t_map *map_data)
         {
             if (map_data->map[vars.y][vars.x] == '0')
             {
-                // printf("y:%d x:%d\n", vars.y, vars.x);
-                // printf("map_data[vars.y - 1][vars.x]:%c\n", map_data->map[vars.y - 1][vars.x]);
                 if (vars.y == 0 || vars.x == 0)
                     exit_error("(Invalid map)", map_data, NULL);
                 if ((map_data->map[vars.y - 1][vars.x] != '1' && map_data->map[vars.y - 1][vars.x] != '0') 
@@ -390,21 +438,45 @@ void parsing_the_map(t_map *map_data)
     }
 }
 
-void convert_white_spaces(t_map *map_data)
+int	ft_isspace(char c)
+{
+	if (c == ' ' || c == '\f' || c == '\n' || c == '\r' || c == '\t' || c == '\v')
+		return (1);
+	return (0);
+}
+
+void	check_white_spaces(t_map *map_data)
+{
+	t_vars	vars;
+
+	vars.x = -1;
+	vars.y = -1;
+	while (map_data->file[++vars.y])
+	{
+		vars.x = -1;
+		while (map_data->file[vars.y][++vars.x])
+		{
+			if (ft_isspace(map_data->file[vars.y][vars.x]) &&
+				map_data->file[vars.y][vars.x] != ' ')
+			exit_error("(Invalid white spaces)", map_data, NULL);
+		}
+	}
+}
+
+void check_unwanted_chars(t_map *map_data)
 {
     t_vars vars;
 
-    vars.x = -1;
     vars.y = -1;
     while (map_data->file[++vars.y])
     {
-        vars.x = -1;
-        while (map_data->file[vars.y][++vars.x])
-        {
-            if (map_data->file[vars.y][vars.x] >= 9 && map_data->file[vars.y][vars.x] <= 13)
-                map_data->file[vars.y][vars.x] = ' ';
-        }
+        if (ft_strncmp(map_data->file[vars.y], "NO", 2) != 0 && ft_strncmp(map_data->file[vars.y], "SO", 2) != 0
+            && ft_strncmp(map_data->file[vars.y], "WE", 2) != 0 && ft_strncmp(map_data->file[vars.y], "EA", 2) != 0
+            && ft_strncmp(map_data->file[vars.y], "C", 1) != 0 && ft_strncmp(map_data->file[vars.y], "F", 1) != 0
+            && map_data->file[vars.y][0] != '1' && map_data->file[vars.y][0] != ' ')
+            exit_error("(Invalid file data)", map_data, NULL);
     }
+
 }
 
 int main(int ac, char **av)
@@ -420,7 +492,8 @@ int main(int ac, char **av)
     init_struct(&map, &vars);
     check_map_extention(av[1]);
     reading_the_file(&map, av[1]);
-    convert_white_spaces(&map);
+    check_white_spaces(&map);
+    check_unwanted_chars(&map);
     defining_textures(&map);
     defining_colors(&map);
     // parsing_testures(&map);

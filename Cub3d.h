@@ -58,6 +58,8 @@ typedef struct s_vars {
 	int			x;
 	int			y;
 	int			fd;
+	int			counter;
+	int 		iscolorfound;
 	char 		*line;
 	char 		**splitted;
 	char		*tmp;
