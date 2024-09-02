@@ -39,8 +39,6 @@ void ft_draw_player(t_data *data)
     {
         while (x < pixel)
         {
-            printf("x: %d, y: %d\n", x, y);
-            printf("px: %d, py: %d\n", data->map_s->px, data->map_s->py);
             my_mlx_pixel_put(data->mini_map, data->map_s->px + x, data->map_s->py + y, 0x0000fa);
             x++;
         }
