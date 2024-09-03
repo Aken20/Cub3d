@@ -56,7 +56,7 @@ static void draw_minimap(t_data *data)
     y = 0;
     while (y < data->height)
     {
-        while (x < data->width && data->map_s->map[y / data->map_s->pixel][x / data->map_s->pixel])
+        while (x <= data->width && data->map_s->map[y / data->map_s->pixel][x / data->map_s->pixel])
         {
             if (data->map_s->map[y / data->map_s->pixel][x / data->map_s->pixel] == '1')
                 my_mlx_pixel_put(data->mini_map, x, y, 0x80FF33);
@@ -69,6 +69,10 @@ static void draw_minimap(t_data *data)
         x = 0;
         y++;
     }
+    x = 0;
+    while (y > 0 && x <= data->width)
+    {
+        my_mlx_pixel_put(data->mini_map, x++, y, 0x000000);}
     ft_draw_player(data);
 }
 

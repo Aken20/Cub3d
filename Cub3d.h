@@ -48,9 +48,9 @@ typedef struct s_map
 	int		py;
 	int		pixel;
 	int		speed;
-	float	angle;
-	float	rx;
-	float	ry;
+	double	angle;
+	int		rx;
+	int		ry;
 }				t_map;
 
 typedef struct s_data

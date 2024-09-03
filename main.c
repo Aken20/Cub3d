@@ -16,7 +16,7 @@ t_data *ft_init(char *file)
     data->map_s = malloc(sizeof(t_map));
     data->mini_map = malloc(sizeof(t_img));
     data->screen = malloc(sizeof(t_img));
-    data->map_s->pixel = 30;
+    data->map_s->pixel = 10;
     data->map_s->speed = 3;
     data->map_s->map_height = 0;
     data->map_s->map_width = 0;
