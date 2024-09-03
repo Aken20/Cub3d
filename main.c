@@ -78,9 +78,7 @@ void free_vars_stuct(t_vars *vars)
 {
     if (!vars)
         return;
-    printf("hena ----------------------------------------\n");
     free_all(2, &vars->line, &vars->tmp);
-    printf("hena ----------------------------------------\n");
     free_all_2d(1, &vars->splitted);
 }
 
@@ -92,6 +90,13 @@ void exit_error(char *str, t_map *map, t_vars *vars)
     exit(1);
 }
 
+
+void  init_vars(t_vars *vars)
+{
+    vars->line = NULL;
+    vars->tmp = NULL;
+    vars->splitted = NULL;
+}
 
 void init_struct(t_map *map, t_vars *vars)
 {
@@ -131,19 +136,19 @@ void check_map_extention(char *map_file)
         exit_error("(Invalid file extension)", NULL, NULL);
 }
 
-void fill_the_file(t_map *map_data, int i, char *map_file)
+void fill_the_file(t_map *map_data, int len, char *map_file)
 {
     t_vars vars;
 
     vars.fd = open(map_file, O_RDONLY);
     if (vars.fd < 0)
         exit_error("(Invalid file descriptor)", map_data, NULL);
-    map_data->file = (char **)malloc(sizeof(char *) * (i + 1));
+    map_data->file = (char **)malloc(sizeof(char *) * (len + 1));
     if (!map_data->file)
         exit_error("(Malloc failed)", map_data, NULL);
     vars.line = get_next_line(vars.fd);
     if (vars.line == NULL)
-        exit_error("(empty map !!!)", map_data, NULL);
+        exit_error("(empty map !!)", NULL, NULL);
     vars.i = 0;
     while (vars.line)
     {
@@ -171,10 +176,13 @@ void reading_the_file(t_map *map_data, char *map_file)
 {
     t_vars vars;
 
+    init_struct(map_data , &vars);
     vars.fd = open(map_file, O_RDONLY);
     if (vars.fd < 0)
-        exit_error("(Invalid file descriptor)", map_data, &vars);
+        exit_error("(Invalid file descriptor)", NULL, NULL);
     vars.line = get_next_line(vars.fd);
+    if (vars.line == NULL)
+        exit_error("(empty map !!!)", NULL, NULL);
     vars.i = -1;
     while (vars.line)
     {
@@ -182,7 +190,13 @@ void reading_the_file(t_map *map_data, char *map_file)
         free(vars.line);
         vars.line = get_next_line(vars.fd);
     }
-    free(vars.line);
+    if (vars.line)
+    {
+        free(vars.line);
+        vars.line = NULL;
+    }
+    if (vars.line)
+        free(vars.line);
     close(vars.fd);
     fill_the_file(map_data, vars.i, map_file);
 }
@@ -218,7 +232,6 @@ int define_texture(char **splitted, t_map *map_data)
     return (4);
 }
 
-    // checking how many NO, SO, WE, EA if there is more than one then it is an error
 void check_duplicated_textures(t_map *map_data)
 {
     t_vars vars;
@@ -291,7 +304,6 @@ int define_colors(char **splitted, t_map *map_data)
 
 void check_duplicated_colors(t_map *map_data)
 {
-    // checking how many Fs or Cs if there is more than one then it is an error
     t_vars vars;
 
     vars.x = -1;
@@ -310,6 +322,92 @@ void check_duplicated_colors(t_map *map_data)
             exit_error("(found duplicated color)", map_data, NULL);
     }
 }
+
+void    checking_commas(t_map *map_data, char *color)
+{
+    t_vars vars;
+
+    vars.i = -1;
+    vars.c = 0;
+    vars.counter = 0;
+    vars.len = ft_strlen(color);
+    printf("color :%s\n", color);
+    if (!color)
+        exit_error("(Invalid color code)", map_data, NULL);
+    while (color[++vars.i]) 
+    {
+        printf("color[vars.i]:%c\n", color[vars.i]);
+        printf("counter:%d\n", vars.counter);
+        if (color[0] == ',')
+            exit_error("(unexpected comma (color code))", map_data, NULL);
+        if (color[vars.len - 1] == ',')
+            exit_error("(Invalid color code)", map_data, NULL);
+        if (color[vars.i] == ',')
+        {
+            if (color[vars.i + 1] == ',')
+                exit_error("(found commas next to each other)", map_data, NULL);
+            vars.counter++;
+        }
+    }
+    if (vars.counter != 2)
+        exit_error("(invalid color code)", map_data, NULL);
+}
+
+
+
+void    convert_the_color(t_map *map, char **splitted_color, char colortype)
+{
+    t_vars vars;
+
+    init_vars(&vars);
+    vars.i = -1;
+    while (splitted_color[++vars.i])
+    {
+        if (ft_atoi(splitted_color[vars.i]) > 255 || ft_atoi(splitted_color[vars.i]) < 0)
+        {
+            free(splitted_color);
+            exit_error("(valid code per decimal place is between 0 and 255 )", map, &vars);
+        } 
+    }
+    map->red = ft_atoi(splitted_color[0]);
+    map->green = ft_atoi(splitted_color[1]);
+    map->blue = ft_atoi(splitted_color[2]);
+    if (colortype == 'f')
+        map->floor = (map->red << 16) | (map->green << 8) | map->blue;
+    if (colortype == 'c')
+        map->ceiling = (map->red << 16) | (map->green << 8) | map->blue;
+}
+
+
+void converting_colors(t_map *map_data, char *color, char colortype)
+{
+    t_vars vars;
+
+    init_vars(&vars);
+    vars.i = -1;
+    vars.splitted = ft_split(color, ',');
+    if (!vars.splitted)
+        exit_error("(color code is missing)", map_data, &vars);
+    while (vars.splitted[++vars.i])
+    {
+        vars.j = -1;
+        while (vars.splitted[vars.i][++vars.j])
+        {
+            if (!ft_isdigit(vars.splitted[vars.i][vars.j]))
+                exit_error("(color code is not a number)", map_data, &vars);
+        }
+    }
+    convert_the_color(map_data, vars.splitted, colortype);
+}
+
+void    parsing_colors(t_map *map_data)
+{
+    checking_commas(map_data, map_data->floor_color);
+    checking_commas(map_data, map_data->ceiling_color);
+    converting_colors(map_data, map_data->floor_color, 'f');
+    converting_colors(map_data, map_data->ceiling_color, 'c');
+}
+
 
 void defining_colors(t_map *map_data)
 {
@@ -338,7 +436,6 @@ void parsing_textures(t_map *map_data)
 {
     t_vars vars;
 
-    // parsing the textures by try opeining them and check if they are valid
     vars.fd = open(map_data->north_txture, O_RDONLY);
     if (vars.fd < 0)
         exit_error("(Invalid file descriptor north)", map_data, NULL);
@@ -356,7 +453,6 @@ void parsing_textures(t_map *map_data)
         exit_error("(Invalid file descriptor)", map_data, NULL);
     close(vars.fd);
 }
-
 
 
 void parsing_testures(t_map *map_data)
@@ -410,12 +506,42 @@ void extracting_the_map(t_map *map_data)
 }
 
 
-
-
-
-void parsing_the_map(t_map *map_data)
+void    parse_view(t_map *map_data)
 {
     t_vars vars;
+
+    init_vars(&vars);
+    vars.y = -1;
+    while (map_data->map[++vars.y])
+    {
+        vars.x = -1;
+        while (map_data->map[vars.y][++vars.x])
+        {
+            if (map_data->map[vars.y][vars.x] == 'N' || map_data->map[vars.y][vars.x] == 'S'
+                || map_data->map[vars.y][vars.x] == 'W' || map_data->map[vars.y][vars.x] == 'E')
+            {
+                if (vars.y == 0 || vars.x == 0 || vars.y == map_data->height - 1)
+                    exit_error("(Invalid view position)", map_data, NULL);
+                if ((map_data->map[vars.y - 1][vars.x] != '1' && map_data->map[vars.y - 1][vars.x] != '0') 
+                    || (map_data->map[vars.y + 1][vars.x] != '1' && map_data->map[vars.y + 1][vars.x] != '0')
+                    || (map_data->map[vars.y][vars.x - 1] != '1' && map_data->map[vars.y][vars.x - 1] != '0')
+                    || (map_data->map[vars.y][vars.x + 1] != '1' && map_data->map[vars.y][vars.x + 1] != '0'))
+                    exit_error("(Invalid view position)", map_data, NULL);
+            }
+        }
+    }
+}
+
+int   valid_view_char(char c)
+{
+    if (c != 'N' && c != 'S' && c != 'W' && c != 'E')
+        return (0);
+    return (1);
+}
+
+void check_surrounding(t_map *map_data)
+{
+        t_vars vars;
 
     vars.x = -1;
     vars.y = -1;
@@ -426,16 +552,54 @@ void parsing_the_map(t_map *map_data)
         {
             if (map_data->map[vars.y][vars.x] == '0')
             {
-                if (vars.y == 0 || vars.x == 0)
+                if (vars.y == 0 || vars.x == 0 || vars.y == map_data->height - 1)
                     exit_error("(Invalid map)", map_data, NULL);
-                if ((map_data->map[vars.y - 1][vars.x] != '1' && map_data->map[vars.y - 1][vars.x] != '0') 
-                    || (map_data->map[vars.y + 1][vars.x] != '1' && map_data->map[vars.y + 1][vars.x] != '0')
-                    || (map_data->map[vars.y][vars.x - 1] != '1' && map_data->map[vars.y][vars.x - 1] != '0')
-                    || (map_data->map[vars.y][vars.x + 1] != '1' && map_data->map[vars.y][vars.x + 1] != '0'))
+                if ((map_data->map[vars.y - 1][vars.x] != '1' && map_data->map[vars.y - 1][vars.x] != '0' && !valid_view_char(map_data->map[vars.y - 1][vars.x])) 
+                    || (map_data->map[vars.y + 1][vars.x] != '1' && map_data->map[vars.y + 1][vars.x] != '0' && !valid_view_char(map_data->map[vars.y + 1][vars.x]))
+                    || (map_data->map[vars.y][vars.x - 1] != '1' && map_data->map[vars.y][vars.x - 1] != '0' && !valid_view_char(map_data->map[vars.y][vars.x - 1]))
+                    || (map_data->map[vars.y][vars.x + 1] != '1' && map_data->map[vars.y][vars.x + 1] != '0' && !valid_view_char(map_data->map[vars.y][vars.x + 1])))
                     exit_error("(Invalid map)", map_data, NULL);
             }
         }
     }
+}
+
+void check_duplicated_view_char(t_map *map_data)
+{
+    t_vars vars;
+
+    vars.y = -1;
+    vars.isviewfound = 0;
+    while (map_data->map[++vars.y])
+    {
+        vars.x = -1;
+        while (map_data->map[vars.y][++vars.x])
+        {
+            if (map_data->map[vars.y][vars.x] == 'N' || map_data->map[vars.y][vars.x] == 'S'
+                || map_data->map[vars.y][vars.x] == 'W' || map_data->map[vars.y][vars.x] == 'E')
+            {
+                vars.isviewfound++;
+                if (vars.isviewfound > 1)
+                    exit_error("(Found duplicated view)", map_data, NULL);
+            }
+            else if (map_data->map[vars.y][vars.x] != '0' && map_data->map[vars.y][vars.x] != '1'
+                && map_data->map[vars.y][vars.x] != ' ')
+            {
+                exit_error("(undefined character)", map_data, NULL);
+            }
+        }
+    }
+    if (vars.isviewfound != 1)
+        exit_error("(No view found)", map_data, NULL);
+}
+
+
+
+void parsing_the_map(t_map *map_data)
+{
+    check_surrounding(map_data);
+    check_duplicated_view_char(map_data);
+    parse_view(map_data);
 }
 
 int	ft_isspace(char c)
@@ -470,13 +634,18 @@ void check_unwanted_chars(t_map *map_data)
     vars.y = -1;
     while (map_data->file[++vars.y])
     {
-        if (ft_strncmp(map_data->file[vars.y], "NO", 2) != 0 && ft_strncmp(map_data->file[vars.y], "SO", 2) != 0
+        vars.x = 0;
+        while (map_data->file[vars.y][vars.x] == ' ')
+            vars.x++;
+        if (map_data->file[vars.y][vars.x] != '\0')
+        {
+            if (ft_strncmp(map_data->file[vars.y], "NO", 2) != 0 && ft_strncmp(map_data->file[vars.y], "SO", 2) != 0
             && ft_strncmp(map_data->file[vars.y], "WE", 2) != 0 && ft_strncmp(map_data->file[vars.y], "EA", 2) != 0
             && ft_strncmp(map_data->file[vars.y], "C", 1) != 0 && ft_strncmp(map_data->file[vars.y], "F", 1) != 0
-            && map_data->file[vars.y][0] != '1' && map_data->file[vars.y][0] != ' ')
+            && map_data->file[vars.y][vars.x] != '1')
             exit_error("(Invalid file data)", map_data, NULL);
+        }
     }
-
 }
 
 int main(int ac, char **av)
@@ -496,6 +665,7 @@ int main(int ac, char **av)
     check_unwanted_chars(&map);
     defining_textures(&map);
     defining_colors(&map);
+    parsing_colors(&map);
     // parsing_testures(&map);
     extracting_the_map(&map);
     parsing_the_map(&map);

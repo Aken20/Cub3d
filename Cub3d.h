@@ -5,6 +5,7 @@
 # include <stdlib.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include <errno.h> 
 # include "libft/libft.h"
 # include "printf/ft_printf.h"
 # include "get_next_line/get_next_line.h"
@@ -40,12 +41,17 @@ typedef struct s_map
 	char	*west_txture;
 	char	*floor_color;
 	char	*ceiling_color;
+	int		red;
+	int		green;
+	int		blue;
 	int 	floor;
 	int 	ceiling;
 	int		width;
 	int		height;
-	int		x;
 	int		y;
+	int		x;
+	int		p_y;
+	int		p_x;
 }				t_map;
 
 typedef struct s_vars {
@@ -53,13 +59,16 @@ typedef struct s_vars {
 	int			j;
 	int			k;
 	int			l;
+	int			len;
 	int			m;
 	int			n;
 	int			x;
+	int			c;
 	int			y;
 	int			fd;
 	int			counter;
 	int 		iscolorfound;
+	int 		isviewfound;
 	char 		*line;
 	char 		**splitted;
 	char		*tmp;
