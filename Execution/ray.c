@@ -213,9 +213,13 @@ void draw_ray(t_data *data)
     data->map_s->ry = data->map_s->py + data->map_s->pixel / 6;
     r = fov / WIDTH;
     data->r_angle = data->map_s->angle + (fov / 2);
+    if (data->r_angle > 360)
+        data->r_angle -= 360;
     while (fov > 0)
     {
         data->r_angle -= r;
+        if (data->r_angle < 0)
+            data->r_angle += 360;
         draw_ray_screen(data, length, k++);
         fov -= r;
     }

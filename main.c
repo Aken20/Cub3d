@@ -18,11 +18,11 @@ t_data *ft_init(t_map *map)
     data->map_s = map;
     data->map_s->pixel = 10;
     data->map_s->speed = 3;
-    data->celing = 0xADEAF8;
-    data->floor = 0x4C585B;
+    data->map_s->ceiling = 0xADEAF8;
+    data->map_s->floor = 0x4C585B;
     ft_player_find(data);
     get_width(data);
-    data->width = (data->map_s->height) * data->map_s->pixel;
+    data->width = (data->map_s->width) * data->map_s->pixel;
     data->height = (data->map_s->height) * data->map_s->pixel;
     data->mlx = mlx_init();
     data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Cub3d");
