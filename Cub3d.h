@@ -87,33 +87,70 @@ typedef struct s_data
 	int		y;
 }				t_data;
 
-// Function prototypes
+
+// main ---- file name: main.c ----
+
+void extracting_the_map(t_map *map_data);
+
+
+// parsing ----- file name: preparing_file_data ----
 void	init_struct(t_map *map, t_vars *vars);
 void	exit_error(char *str, t_map *map, t_vars *vars);
 void	check_map_extention(char *map_file);
-void	fill_the_map(t_map *map_data, int i, char *map_file);
-void	read_map(t_map *map_data, char *map_file);
-void	parse_the_map(t_map *map_data);
+void	fill_the_file(t_map *map_data, int len, char *map_file);
+void	reading_the_file(t_map *map_data, char *map_file);
+void 	init_vars(t_vars *vars);
 
-// Other functions
-int		ft_collectable_count(char **map);
-int		ft_check_map(t_data *img);
-int		ft_valid_path(t_data *img, int x, int y);
-void	ft_read_map(t_data *img, t_map *map, char *file);
-int		ft_firstline(char *map);
-int		ft_lastline(char *map, int len);
-void	ft_up(t_map *map_s, t_data *img);
-void	ft_down(t_map *map_s, t_data *img);
-void	ft_left(t_map *map_s, t_data *img);
-void	ft_right(t_map *map_s, t_data *img);
-int		ft_quit_game(t_data *img);
-int		ft_check_sides(char **map, int len);
-int		ft_exits(char **map);
-void	ft_handle(t_data *img, char c1, char c2, int i);
-int		ft_is_valid(char **map, int y, int x);
-void	*ft_allocate(t_data *img, char *file);
-void	ft_free_all(t_data *img, int k);
-int		ft_exit_count(char **map);
-void	ft_check_read(t_data *img, char *s, int fd);
+// parsing ----- file name: free_va_arg ----
+void	free_all(int count, ...);
+void	free_all_2d(int count, ...);
+void	free_textures(t_map *map);
+void	free_map_stuct(t_map *map);
+void	free_vars_stuct(t_vars *vars);
+
+// parsing ----- file name: space_chars_check ----
+
+void	check_white_spaces(t_map *map_data);
+void    check_only_spaces_map(t_map *map_data);
+void	check_unwanted_chars(t_map *map_data);
+int     ft_isspace(char c);
+
+
+// parsing ----- file name: parsing_textures ----
+void	defining_textures(t_map *map_data);
+void	parsing_textures(t_map *map_data);
+void	check_duplicated_textures(t_map *map_data);
+int		define_texture(char **splitted, t_map *map_data);
+
+
+// parsing ----- file name: parsing_colors ----
+void	defining_colors(t_map *map_data);
+void	check_duplicated_colors(t_map *map_data);
+void	parsing_colors(t_map *map_data);
+int		define_colors(char **splitted, t_map *map_data);
+
+// parsing ----- file name: converting_colors ----
+
+void	converting_colors(t_map *map_data, char *color, char c);
+void    convert_the_color(t_map *map, char **splitted_color, char colortype);
+void    checking_commas(t_map *map_data, char *color);
+
+// parsing ----- file name: parsing_map ----
+void	parsing_the_map(t_map *map_data);
+void	check_surrounding(t_map *map_data);
+void	check_duplicated_view_char(t_map *map_data);
+void	parse_view(t_map *map_data);
+int		valid_view_char(char c);
+
+
+// parsing ----- file name: parsing_utils ----
+
+void exit_error(char *str, t_map *map, t_vars *vars);
+void getting_the_height(t_map *map_data);
+int ft_strcmp(const char *s1, const char *s2);
+
+// ----- end of parsing -----
+
+
 
 #endif

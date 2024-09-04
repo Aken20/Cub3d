@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Cub3d.h"
+#include "cub3d.h"
 
 void test_init_struct()
 {
