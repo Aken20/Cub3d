@@ -1,4 +1,4 @@
-#include "Cub3d.h"
+#include "../Cub3d.h"
 
 float d_to_r(float degree)
 {
@@ -18,9 +18,8 @@ int wall_hit(float x, float y, t_data *data)
 		return (0);
 	x_m = floor (x / data->map_s->pixel);
 	y_m = floor (y / data->map_s->pixel);
-	if (y_m < 0 || x_m < 0 || y_m >= data->map_s->map_height || x_m >= (int)ft_strlen(data->map_s->map[y_m]))
+	if (y_m < 0 || x_m < 0 || y_m >= data->map_s->height || x_m >= (int)ft_strlen(data->map_s->map[y_m]))
 		return (0);
-    // printf("%c\n", data->map_s->map[y_m][x_m]);
 	if (data->map_s->map[y_m] && x_m < (int)ft_strlen(data->map_s->map[y_m]))
 		if (data->map_s->map[y_m][x_m] != '1')
             return (1);
@@ -36,7 +35,7 @@ int wall_hit_2(float x, float y, t_data *data)
 		return (0);
 	x_m = floor (x / data->map_s->pixel);
 	y_m = floor (y / data->map_s->pixel);
-	if (y_m < 0 || x_m < 0 || y_m >= data->map_s->map_height || x_m >= (int)ft_strlen(data->map_s->map[y_m]))
+	if (y_m < 0 || x_m < 0 || y_m >= data->map_s->height || x_m >= (int)ft_strlen(data->map_s->map[y_m]))
 		return (0);
 	if (data->map_s->map[y_m] && x_m < (int)ft_strlen(data->map_s->map[y_m]))
         return (1);
@@ -115,7 +114,7 @@ float get_vert_dest(t_data *data)
     yo = -yo;
     while (wall_hit(data->vx - 0.0001, data->vy, data) && wall_hit(data->vx, data->vy, data))
     {
-        my_mlx_pixel_put(data->mini_map, data->vx, data->vy, 0x0000fa);
+        // my_mlx_pixel_put(data->mini_map, data->vx, data->vy, 0x0000fa);
         data->vx += xo;
         data->vy += yo;
     }
@@ -143,7 +142,7 @@ float get_hor_dest(t_data *data)
     data->hx = (data->map_s->rx + (data->map_s->ry - data->hy) / tan(d_to_r(data->r_angle)));
     while (wall_hit(data->hx, data->hy - 0.0001, data) && wall_hit(data->hx, data->hy, data))
     {
-        my_mlx_pixel_put(data->mini_map, data->hx, data->hy, 0xff0000);
+        // my_mlx_pixel_put(data->mini_map, data->hx, data->hy, 0xff0000);
         data->hx += xo;
         data->hy += yo;
     }

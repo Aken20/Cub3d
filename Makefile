@@ -1,10 +1,26 @@
-NAME = Cub3d
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
+NAME = Cub3D
+TEST_NAME = test_cub3d
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 AR = ar -rcs
 RM = rm -f
 
-FILES = main map render movement ray
+FILES = main \
+		./Execution/map \
+		./Execution/movement \
+		./Execution/ray \
+		./Execution/render \
+		./parsing/converting_colors \
+		./parsing/free_va_arg \
+		./parsing/parsing_colors \
+		./parsing/parsing_map \
+		./parsing/parsing_textures \
+		./parsing/parsing_utils \
+		./parsing/preparing_file_data \
+		./parsing/space_chars_check \
+
+
+TEST_FILES = main_test
 
 PRINTF = printf/printf.a
 LIBFT = libft/libft.a
@@ -23,17 +39,21 @@ ifeq ($(shell uname), Darwin)
 endif
 
 SRCS = $(addsuffix .c, $(FILES))
+TEST_SRCS = $(addsuffix .c, $(TEST_FILES))
 BSRCS = $(addsuffix _bonus.c, $(BFILES))
 
 OBJS = $(addsuffix .o, $(FILES))
+TEST_OBJS = $(addsuffix .o, $(TEST_FILES))
 BOBJS = $(addsuffix _bonus.o, $(BFILES))
 
 all: $(NAME)
 
 $(PRINTF):
 	make -C printf
+
 $(LIBFT):
 	make -C libft
+
 $(MLX):
 	make -C $(MLX_DIR)
 
@@ -58,4 +78,4 @@ re:
 	make fclean
 	make all
 
-.PHONY: bonus all clean fclean re
+.PHONY: test all clean fclean re

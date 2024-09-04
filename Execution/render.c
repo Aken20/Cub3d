@@ -1,9 +1,11 @@
-#include "Cub3d.h"
+#include "../Cub3d.h"
 
 void my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
     char *dst;
 
+    if (x < 0 || y < 0 || x > WIDTH || y > HEIGHT)
+        return ;
     dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
     *(unsigned int*)dst = color;
 }
@@ -56,8 +58,9 @@ static void draw_minimap(t_data *data)
     y = 0;
     while (y < data->height)
     {
-        while (x <= data->width && data->map_s->map[y / data->map_s->pixel][x / data->map_s->pixel])
+        while (x < data->width && data->map_s->map[y / data->map_s->pixel][x / data->map_s->pixel])
         {
+            // printf("x: %d, y: %d\n", x, y);
             if (data->map_s->map[y / data->map_s->pixel][x / data->map_s->pixel] == '1')
                 my_mlx_pixel_put(data->mini_map, x, y, 0x80FF33);
             else
@@ -69,10 +72,6 @@ static void draw_minimap(t_data *data)
         x = 0;
         y++;
     }
-    // x = 0;
-    // while (y > 0 && x <= data->width)
-    // {
-    //     my_mlx_pixel_put(data->mini_map, x++, y, 0x000000);}
     ft_draw_player(data);
 }
 
@@ -88,9 +87,9 @@ static void draw_screen(t_data *data)
         while (x < WIDTH)
         {
             if (y < HEIGHT / 2)
-                my_mlx_pixel_put(data->screen, x, y, data->celing);
+                my_mlx_pixel_put(data->screen, x, y, data->map_s->ceiling);
             else
-                my_mlx_pixel_put(data->screen, x, y, data->floor);
+                my_mlx_pixel_put(data->screen, x, y, data->map_s->floor);
             x++;
         }
         x = 0;
@@ -106,6 +105,5 @@ int ft_render(t_data *data)
     draw_screen(data);
     mlx_put_image_to_window(data->mlx, data->win, data->screen->img, 0, 0);
     mlx_put_image_to_window(data->mlx, data->win, data->mini_map->img, 0, 0);
-    // sleep(2);
     return 0;
 }
