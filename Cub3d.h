@@ -82,7 +82,7 @@ void ft_player_find(t_data *data);
 bool ft_check_collision(t_data *data, int x, int y, int direction);
 int ft_quit_game(t_data *data);
 void draw_ray(t_data *data);
-float d_to_r(int degree);
+float d_to_r(float degree);
 void draw_ray(t_data *data);
 void my_mlx_pixel_put(t_img *img, int x, int y, int color);
 

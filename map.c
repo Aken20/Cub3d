@@ -21,8 +21,6 @@ void ft_read_map(t_data *img, char *file)
         free(line);
         line = get_next_line(fd);
     }
-    // img->map_s->map_height--;
-    // printf("map_width: %d, map_height: %d\n", img->map_s->map_width, img->map_s->map_height);
     close(fd);
     fd = open(file, O_RDONLY);
     if (fd < 0 || img->map_s->map_height <= 1)
