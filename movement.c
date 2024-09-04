@@ -4,21 +4,26 @@ bool ft_check_collision(t_data *data, int x, int y, int direction)
 {
     int pixel;
     int speed;
+    int move_x;
+    int move_y;
 
     pixel = data->map_s->pixel;
     speed = data->map_s->speed;
 
+
     // printf("x: %f, y: %f\n", (y + (sin(d_to_r(data->map_s->angle)) * speed)) / pixel, (x - (cos(d_to_r(data->map_s->angle)) * speed)) / pixel);
     if (direction == 1)
     {
-        if (data->map_s->map[(int)(y - ((int)sin(d_to_r(data->map_s->angle) * speed))) / pixel][(int)(x + ((int)cos(d_to_r(data->map_s->angle) * speed))) / pixel]
-            && data->map_s->map[(int)(y - ((int)sin(d_to_r(data->map_s->angle) * speed))) / pixel][(int)(x + ((int)cos(d_to_r(data->map_s->angle) * speed))) / pixel] != '1')
+        move_x = roundf(x + (pixel / 3) + cos(d_to_r(data->map_s->angle)) * speed) / pixel;
+        move_y = roundf(y - (pixel / 3) - sin(d_to_r(data->map_s->angle)) * speed) / pixel;
+        if (data->map_s->map[move_y][move_x] && data->map_s->map[move_y][move_x] != '1')
             return true;
     }
     else if (direction == 2)
     {
-        if (data->map_s->map[(int)(y + ((int)sin(d_to_r(data->map_s->angle) * speed))) / pixel][(int)(x - ((int)cos(d_to_r(data->map_s->angle) * speed))) / pixel]
-            && data->map_s->map[(int)(y + ((int)sin(d_to_r(data->map_s->angle) * speed))) / pixel][(int)(x - ((int)cos(d_to_r(data->map_s->angle) * speed))) / pixel] != '1')
+        move_x = roundf(x - (pixel / 3) - cos(d_to_r(data->map_s->angle)) * speed) / pixel;
+        move_y = roundf(y + (pixel / 3) + sin(d_to_r(data->map_s->angle)) * speed) / pixel;
+        if (data->map_s->map[move_y][move_x] && data->map_s->map[move_y][move_x] != '1')
             return true;
     }
     return false;

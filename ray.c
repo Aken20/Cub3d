@@ -114,8 +114,8 @@ float get_vert_dest(t_data *data)
     else
         xo *= -1;
     data->vy = data->map_s->ry + (data->map_s->rx - data->vx) * tan(d_to_r(data->r_angle));
-    if ((yo < 0 && (data->r_angle >= 0 && data->r_angle <= 180))
-        || (yo > 0 && !(data->r_angle >= 0 && data->r_angle <= 180)))
+    if ((yo < 0 && (data->r_angle > 0 && data->r_angle < 180))
+        || (yo > 0 && !(data->r_angle > 0 && data->r_angle < 180)))
         yo *= -1;
     yo = -yo;
     while (wall_hit(data->vx - 0.0001, data->vy, data) && wall_hit(data->vx, data->vy, data))
@@ -135,14 +135,14 @@ int get_hor_dest(t_data *data)
 {
     float yo, xo;
 
-    if (data->r_angle == 0 || data->r_angle == 180)
+    if (data->r_angle == 0 || data->r_angle == 180 || data->r_angle == 360)
         return 100000;
     data->hx = data->map_s->rx;
     data->hy = data->map_s->ry;
     yo = data->map_s->pixel;
     xo = data->map_s->pixel / tan(d_to_r(data->r_angle));
-    if ((xo > 0 && data->r_angle >= 90 && data->r_angle <= 270)
-        || (xo < 0 && !(data->r_angle >= 90 && data->r_angle <= 270)))
+    if ((xo > 0 && data->r_angle > 90 && data->r_angle < 270)
+        || (xo < 0 && !(data->r_angle > 90 && data->r_angle < 270)))
         xo *= -1;
     data->hy = floor(data->map_s->ry / data->map_s->pixel) * data->map_s->pixel;
     if (!(data->r_angle > 0 && data->r_angle < 180))
@@ -176,8 +176,8 @@ void draw_ray_screen(t_data *data, float length, float x)
     // else
     // printf("hor: %f, vert: %f, angle %f\n", get_hor_dest(data), get_vert_dest(data), data->r_angle);
     color = 0xff00fa;
-    h_dist = get_hor_dest(data);
-    v_dist = get_vert_dest(data);
+    h_dist = roundf(get_hor_dest(data) * 100) / 100;
+    v_dist = roundf(get_vert_dest(data) * 100) / 100;
     if (h_dist < v_dist)
         length = h_dist, color = 0xff0000, fill_vector(data, 0);
     else if (v_dist > 0)
@@ -185,6 +185,8 @@ void draw_ray_screen(t_data *data, float length, float x)
     else if (h_dist > 0)
         length = h_dist, color = 0xff0000, fill_vector(data, 0);
     length *= cos(d_to_r( data->map_s->angle - data->r_angle));
+    if (data->r_angle > 330 || data->r_angle < 30)
+        printf("h_dist: %d, v_dist: %d, angle: %f\n", h_dist, v_dist, data->r_angle);
     // else
     //     length = 0;
     // printf("hx: %f, hy: %f\n", data->hx, data->hy);
