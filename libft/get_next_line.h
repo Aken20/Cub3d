@@ -6,7 +6,7 @@
 /*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 20:58:27 by ahibrahi          #+#    #+#             */
-/*   Updated: 2024/01/22 07:36:30 by ahibrahi         ###   ########.fr       */
+/*   Updated: 2024/07/29 00:26:47 by ahibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include "../libft/libft.h"
+# include "libft.h"
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 7024
+#  define BUFFER_SIZE 1
 # endif
 
 char	*get_next_line(int fd);

@@ -6,25 +6,11 @@
 /*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 21:00:19 by ahibrahi          #+#    #+#             */
-/*   Updated: 2024/01/22 07:36:47 by ahibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/04 17:16:44 by ahibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-// void	*ft_bzero(void *s, int n)
-// {
-// 	char	*c_s;
-
-// 	c_s = (char *) s;
-// 	while (n > 0)
-// 	{
-// 		*c_s = 0;
-// 		--n;
-// 		++c_s;
-// 	}
-// 	return (c_s);
-// }
 
 char	*ft_g_strdup(char *s, int k)
 {

@@ -89,13 +89,13 @@ int	mlx_int_get_col_name(char *str,int size)
 int	mlx_int_get_text_rgb(char *name, char *end)
 {
   int	i;
-  char	buff[1];
+  char	buff[64];
 
   if (*name == '#')
     return (strtol(name+1,0,16));
   if (end)
     {
-      snprintf(buff, 1, "%s %s", name, end);
+      snprintf(buff, 64, "%s %s", name, end);
       name = buff;
     }
   i = 0;
