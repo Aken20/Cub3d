@@ -1,4 +1,4 @@
-NAME = Cub3D
+NAME = Cub3d
 TEST_NAME = test_cub3d
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3

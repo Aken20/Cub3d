@@ -60,7 +60,7 @@ typedef struct s_map
 	int		py;
 	int		pixel;
 	int		speed;
-	double	angle;
+	float	angle;
 	int		rx;
 	int		ry;
 	char	**file;
@@ -116,7 +116,7 @@ typedef struct s_data
 	float	vy;
 	float	hx;
 	float	hy;
-	double	r_angle;
+	float	r_angle;
 }				t_data;
 
 // main ---- file name: main.c ----

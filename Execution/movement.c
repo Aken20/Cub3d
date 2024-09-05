@@ -10,20 +10,34 @@ bool ft_check_collision(t_data *data, int x, int y, int direction)
     pixel = data->map_s->pixel;
     speed = data->map_s->speed;
 
-
-    // printf("x: %f, y: %f\n", (y + (sin(d_to_r(data->map_s->angle)) * speed)) / pixel, (x - (cos(d_to_r(data->map_s->angle)) * speed)) / pixel);
     if (direction == 1)
     {
-        move_x = roundf(x + (pixel / 3) + cos(d_to_r(data->map_s->angle)) * speed) / pixel;
-        move_y = roundf(y - (pixel / 3) - sin(d_to_r(data->map_s->angle)) * speed) / pixel;
-        if (data->map_s->map[move_y][move_x] && data->map_s->map[move_y][move_x] != '1')
+        if (cos(d_to_r(data->map_s->angle)) > 0)
+            move_x = (x + (pixel / 6) + cos(d_to_r(data->map_s->angle)) * speed) / pixel;
+        else
+            move_x = (x - (pixel / 6) + cos(d_to_r(data->map_s->angle)) * speed) / pixel;
+        if (sin(d_to_r(data->map_s->angle)) > 0)
+            move_y = (y - (pixel / 6) - sin(d_to_r(data->map_s->angle)) * speed) / pixel;
+        else
+            move_y = (y + (pixel / 6) - sin(d_to_r(data->map_s->angle)) * speed) / pixel;
+        printf("x: %d, y: %d\n", move_x, move_y);
+        if (move_y >= 0 && move_x >= 0 && move_y < data->map_s->height && move_x < (int)ft_strlen(data->map_s->map[move_y])
+            && data->map_s->map[move_y][move_x] && data->map_s->map[move_y][move_x] != '1')
             return true;
     }
     else if (direction == 2)
     {
-        move_x = roundf(x - (pixel / 3) - cos(d_to_r(data->map_s->angle)) * speed) / pixel;
-        move_y = roundf(y + (pixel / 3) + sin(d_to_r(data->map_s->angle)) * speed) / pixel;
-        if (data->map_s->map[move_y][move_x] && data->map_s->map[move_y][move_x] != '1')
+        if (cos(d_to_r(data->map_s->angle)) > 0)
+            move_x = (x - (pixel / 6) - cos(d_to_r(data->map_s->angle)) * speed) / pixel;
+        else
+            move_x = (x + (pixel / 6) - cos(d_to_r(data->map_s->angle)) * speed) / pixel;
+        if (sin(d_to_r(data->map_s->angle)) > 0)
+            move_y = (y + (pixel / 6) + sin(d_to_r(data->map_s->angle)) * speed) / pixel;
+        else
+            move_y = (y - (pixel / 6) + sin(d_to_r(data->map_s->angle)) * speed) / pixel;
+        printf("x: %d, y: %d\n", move_x, move_y);
+        if (move_y >= 0 && move_x >= 0 && move_y < data->map_s->height && move_x < (int)ft_strlen(data->map_s->map[move_y])
+            && data->map_s->map[move_y][move_x] && data->map_s->map[move_y][move_x] != '1')
             return true;
     }
     return false;

@@ -17,7 +17,7 @@ t_data *ft_init(t_map *map)
     data->screen = malloc(sizeof(t_img));
     data->map_s = map;
     data->map_s->pixel = 10;
-    data->map_s->speed = 3;
+    data->map_s->speed = 2;
     data->map_s->ceiling = 0xADEAF8;
     data->map_s->floor = 0x4C585B;
     ft_player_find(data);

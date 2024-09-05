@@ -186,9 +186,9 @@ void draw_ray_screen(t_data *data, float length, float x)
         length = v_dist, color = get_color(data, 1), fill_vector(data, 1);
     length *= cos(d_to_r(data->r_angle - data->map_s->angle));
     if (length < 0)
-        length = 0;
-    if (length > HEIGHT)
-        length = 0;
+    {    length = 0;}
+    else if (length > HEIGHT)
+    {    length = 0;}
 	length = (data->map_s->pixel / length) * ((WIDTH / 2) / tan(d_to_r(60) / 2));
     end = (HEIGHT / 2) + ((int)length / 2);
 	start = (HEIGHT / 2) - ((int)length / 2);
