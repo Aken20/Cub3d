@@ -5,10 +5,10 @@ void    get_width(t_data *data)
     int i;
 
     i = 0;
-    while (data->map_s->map[i])
+    while (data->map->map[i])
     {
-        if (data->map_s->width < (int)ft_strlen(data->map_s->map[i]))
-            data->map_s->width = (int)ft_strlen(data->map_s->map[i]);
+        if (data->map->width < (int)ft_strlen(data->map->map[i]))
+            data->map->width = (int)ft_strlen(data->map->map[i]);
         i++;
     }
 }
@@ -20,24 +20,24 @@ void ft_player_find(t_data *data)
     char c;
 
     i = -1;
-    while (data->map_s->map[++i])
+    while (data->map->map[++i])
     {
         j = -1;
-        while (data->map_s->map[i][++j])
-            if (data->map_s->map[i][j] == 'N' || data->map_s->map[i][j] == 'S'
-                || data->map_s->map[i][j] == 'W' || data->map_s->map[i][j] == 'E')
+        while (data->map->map[i][++j])
+            if (data->map->map[i][j] == 'N' || data->map->map[i][j] == 'S'
+                || data->map->map[i][j] == 'W' || data->map->map[i][j] == 'E')
             {
-                data->map_s->px = (j * data->map_s->pixel) + (data->map_s->pixel / 3);
-                data->map_s->py = (i * data->map_s->pixel) + (data->map_s->pixel / 3);
-                c = data->map_s->map[i][j];
+                data->map->px = (j * data->map->pixel) + (data->map->pixel / 3);
+                data->map->py = (i * data->map->pixel) + (data->map->pixel / 3);
+                c = data->map->map[i][j];
                 if (c == 'N')
-                    data->map_s->angle = 90;
+                    data->map->angle = 90;
                 else if (c == 'W')
-                    data->map_s->angle = 180;
+                    data->map->angle = 180;
                 else if (c == 'S')
-                    data->map_s->angle = 270;
+                    data->map->angle = 270;
                 else if (c == 'E')
-                    data->map_s->angle = 0;
+                    data->map->angle = 0;
             }
     }
 }

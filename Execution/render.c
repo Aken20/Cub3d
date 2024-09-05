@@ -10,21 +10,17 @@ void my_mlx_pixel_put(t_img *img, int x, int y, int color)
     *(unsigned int*)dst = color;
 }
 
-// int my_mlx_pixel_get(t_data *data, int x, int y, int color, int i)
-// {
-//     char *dst;
+int my_mlx_pixel_get(t_img *img, int x, int y)
+{
+    char *dst;
+    int color = 0;
 
-//     if (!i)
-//     {
-//         dst = data->img_s->addr + (y * data->img_s->line_length + x * (data->img_s->bits_per_pixel / 8));
-//         *(unsigned int*)dst = color;
-//     }
-//     else 
-//     {
-//         dst = data->img_s->s_addr + (y * data->img_s->s_line_length + x * (data->img_s->s_bits_per_pixel / 8));
-//         *(unsigned int*)dst = color;
-//     }
-// }
+    if (x < 0 || y < 0 || x >= img->width || y >= img->height)
+        return (color);
+    dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+    color = (*(unsigned int*)dst);
+    return (color);
+}
 
 void ft_draw_player(t_data *data)
 {
@@ -32,7 +28,7 @@ void ft_draw_player(t_data *data)
     int x;
     int pixel;
 
-    pixel = data->map_s->pixel / 3;
+    pixel = data->map->pixel / 3;
     y = 0;
     x = 0;
 
@@ -41,7 +37,7 @@ void ft_draw_player(t_data *data)
     {
         while (x < pixel)
         {
-            my_mlx_pixel_put(data->mini_map, data->map_s->px + x, data->map_s->py + y, 0x0000fa);
+            my_mlx_pixel_put(data->mini_map, data->map->px + x, data->map->py + y, 0x0000fa);
             x++;
         }
         x = 0;
@@ -58,14 +54,14 @@ static void draw_minimap(t_data *data)
     y = 0;
     while (y < data->height)
     {
-        while (x < data->width && data->map_s->map[y / data->map_s->pixel][x / data->map_s->pixel])
+        while (x < data->width && data->map->map[y / data->map->pixel][x / data->map->pixel])
         {
             // printf("x: %d, y: %d\n", x, y);
-            if (data->map_s->map[y / data->map_s->pixel][x / data->map_s->pixel] == '1')
+            if (data->map->map[y / data->map->pixel][x / data->map->pixel] == '1')
                 my_mlx_pixel_put(data->mini_map, x, y, 0x80FF33);
             else
                 my_mlx_pixel_put(data->mini_map, x, y, 0xc8c8cc);
-            if (x % data->map_s->pixel < 1 || y % data->map_s->pixel < 1 || !data->map_s->map[y / data->map_s->pixel][x / data->map_s->pixel])
+            if (x % data->map->pixel < 1 || y % data->map->pixel < 1 || !data->map->map[y / data->map->pixel][x / data->map->pixel])
                 my_mlx_pixel_put(data->mini_map, x, y, 0x000000);
             x++;
         }
@@ -87,9 +83,9 @@ static void draw_screen(t_data *data)
         while (x < WIDTH)
         {
             if (y < HEIGHT / 2)
-                my_mlx_pixel_put(data->screen, x, y, data->map_s->ceiling);
+                my_mlx_pixel_put(data->screen, x, y, data->map->ceiling);
             else
-                my_mlx_pixel_put(data->screen, x, y, data->map_s->floor);
+                my_mlx_pixel_put(data->screen, x, y, data->map->floor);
             x++;
         }
         x = 0;

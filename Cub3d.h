@@ -41,6 +41,8 @@
 
 typedef struct s_img
 {
+	int		width;
+	int		height;
 	void	*img;
 	char	*addr;
     int 	bits_per_pixel;
@@ -101,7 +103,7 @@ typedef struct s_vars {
 
 typedef struct s_data
 {
-	t_map	*map_s;
+	t_map	*map;
 	t_img	*mini_map;
 	t_img	*screen;
 	t_img	*W_Wall;
@@ -135,6 +137,7 @@ void draw_ray(t_data *data);
 float d_to_r(float degree);
 void draw_ray(t_data *data);
 void my_mlx_pixel_put(t_img *img, int x, int y, int color);
+int my_mlx_pixel_get(t_img *img, int x, int y);
 
 
 // parsing ----- file name: preparing_file_data ----
