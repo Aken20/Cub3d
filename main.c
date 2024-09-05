@@ -32,7 +32,6 @@ void    open_textures(t_data *data)
     data->S_Wall->img = mlx_xpm_file_to_image(data->mlx, data->map->south_txture, &(data->S_Wall->width), &(data->S_Wall->height));
     if (!data->W_Wall->img || !data->E_Wall->img || !data->N_Wall->img || !data->S_Wall->img || !data->mini_map->img || !data->screen->img)
         exit_error("(Malloc failed)", data->map, NULL);
-    // printf("ll: (%d)\n", my_mlx_pixel_get(data->E_Wall, 10, 10));
 }
 
 t_data *ft_init(t_map *map)
@@ -44,9 +43,7 @@ t_data *ft_init(t_map *map)
     data->screen = malloc(sizeof(t_img));
     data->map = map;
     data->map->pixel = 10;
-    data->map->speed = 3;
-    data->map->ceiling = 0xADEAF8;
-    data->map->floor = 0x4C585B;
+    data->map->speed = 2;
     ft_player_find(data);
     get_width(data);
     data->width = (data->map->width) * data->map->pixel;
