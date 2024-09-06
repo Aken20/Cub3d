@@ -19,6 +19,8 @@
 
 # ifdef __linux__
 	# define ESC 65307
+	# define RA 65363
+	# define LA 65361
 	# define W 119
 	# define S 115
 	# define D 100
@@ -27,6 +29,8 @@
 
 # ifdef __APPLE__
 	# define ESC 53
+	# define RA 124
+	# define LA 123
 	# define W 13
 	# define S 1
 	# define D 2
@@ -53,18 +57,18 @@ typedef struct s_img
 typedef struct s_map
 {
 	char	**map;
-	int		px;
 	int		p_x; // for testing
 	int		p_y; // for testing
 	int		p_s; // for testing
 	int		x; // for testing
 	int		y; // for testing
-	int		py;
+	float	px;
+	float	py;
 	int		pixel;
 	int		speed;
 	float	angle;
-	int		rx;
-	int		ry;
+	float	rx;
+	float	ry;
 	char	**file;
 	char	*south_txture;
 	char	*north_txture;
@@ -110,6 +114,8 @@ typedef struct s_data
 	t_img	*E_Wall;
 	t_img	*N_Wall;
 	t_img	*S_Wall;
+    float start;
+    float end;
 	void	*win;
 	void	*mlx;
 	int		width;
@@ -131,7 +137,7 @@ int ft_hocks(int keycode, t_data *data);
 int ft_render(t_data *data);
 void get_width(t_data *data);
 void ft_player_find(t_data *data);
-bool ft_check_collision(t_data *data, int x, int y, int direction);
+bool ft_check_collision(t_data *data, int move_x, int move_y);
 int ft_quit_game(t_data *data);
 void draw_ray(t_data *data);
 float d_to_r(float degree);

@@ -149,74 +149,48 @@ float get_hor_dest(t_data *data)
     return sqrt(pow(data->map->rx - data->hx, 2) + pow(data->map->ry - data->hy, 2));
 }
 
-int     get_color(t_data *data, bool is_vert, float start, float end, int k, int line_height)
+static void draw_wall(t_data *data, bool is_vert, int k, int line_height, t_img *img)
 {
-    int x;
-    int   y;
+    float   x;
+    float   y;
     float y_step;
     int color;
 
     y = 0;
+    color = 0;
+    y_step = (float)img->height / line_height;
+    if (is_vert)
+        x = ((float)((int)data->vy % data->map->pixel) / (data->map->pixel)) * img->width;
+    else
+        x = ((float)((int)data->hx % data->map->pixel) / (data->map->pixel)) * img->width;
+    while(data->start < data->end)
+    {
+        color = my_mlx_pixel_get(img, x, y);
+        my_mlx_pixel_put(data->screen, k, data->start++, color);
+        y += y_step;
+    }
+}
+
+void     draw_textures(t_data *data, bool is_vert, int k, int line_height)
+{
     if (is_vert)
     {
         if (data->r_angle > 90 && data->r_angle < 270)
-        {
-            x = ((float)((int)data->vy % data->map->pixel) / (data->map->pixel)) * data->W_Wall->width;
-            y_step = (float)data->W_Wall->height / line_height;
-            while(start < end)
-            {
-                color = my_mlx_pixel_get(data->W_Wall, x, y);
-                my_mlx_pixel_put(data->screen, k, start++, color);
-                y += y_step;
-            }
-        }
+            draw_wall(data, is_vert, k, line_height, data->W_Wall);
         else
-        {
-            x = ((float)((int)data->vy % data->map->pixel) / (data->map->pixel)) * data->E_Wall->width;
-            y_step = (float)data->E_Wall->height / line_height;
-            while(start < end)
-            {
-                // printf(" x: %d, y: %d\n", x, y);
-                color = my_mlx_pixel_get(data->E_Wall, x, y);
-                my_mlx_pixel_put(data->screen, k, start++, color);
-                y += y_step;
-            }
-        }
+            draw_wall(data, is_vert, k, line_height, data->E_Wall);
     }
     else
     {
         if (data->r_angle > 0 && data->r_angle < 180)
-        {
-            x = ((float)((int)data->hx % data->map->pixel) / (data->map->pixel)) * data->N_Wall->width;
-            y_step = (float)data->N_Wall->height / line_height;
-            while(start < end)
-            {
-                color = my_mlx_pixel_get(data->N_Wall, x, y);
-                // printf("x: %d, y: %d, color: %d\n", x, y, color);
-                my_mlx_pixel_put(data->screen, k, start++, color);
-                y += y_step;
-            }
-        }
+            draw_wall(data, is_vert, k, line_height, data->N_Wall);
         else
-        {
-            x = ((float)((int)data->hx % data->map->pixel) / (data->map->pixel)) * data->S_Wall->width;
-            y_step = (float)data->S_Wall->height / line_height;
-            while(start < end)
-            {
-                color = my_mlx_pixel_get(data->S_Wall, x, y);
-                my_mlx_pixel_put(data->screen, k, start++, color);
-                y += y_step;
-            }
-        }
-        // if ((int)data->r_angle == (int)data->map->angle)
-        //     printf("x: %d, y: %d, color: %d\n", x, y, color);
+            draw_wall(data, is_vert, k, line_height, data->S_Wall);
     }
-    return (color);
 }
+
 void draw_ray_screen(t_data *data, float length, float x)
 {
-    float start;
-    float end;
     float h_dist;
     float v_dist;
     bool is_vert = false;
@@ -228,29 +202,26 @@ void draw_ray_screen(t_data *data, float length, float x)
         length = h_dist;
         is_vert = 0;
         // if ((int)data->r_angle == (int)data->map->angle)
-            fill_vector(data, is_vert);
+        //     fill_vector(data, is_vert);
     }
     else
     {
         length = v_dist;
         is_vert = 1;
         // if ((int)data->r_angle == (int)data->map->angle)
-            fill_vector(data, is_vert);
+        //     fill_vector(data, is_vert);
     }
     length *= cos(d_to_r(data->r_angle - data->map->angle));
+    length *= 2;
     int line_height = (data->map->pixel / length) * ((WIDTH / 2) / tan(d_to_r(60) / 2));
-    if (length < 0)
-    length = 0;
-    if (length > HEIGHT)
-        length = 0;
 	length = (data->map->pixel / length) * ((WIDTH / 2) / tan(d_to_r(60) / 2));
-    end = (HEIGHT / 2) + ((int)length / 2);
-	start = (HEIGHT / 2) - ((int)length / 2);
-	if (end > HEIGHT)
-		end = HEIGHT;
-	if (start < 0)
-		start = 0;
-    get_color(data, is_vert, start, end, x, line_height);
+    data->end = (HEIGHT / 2) + ((int)length / 2);
+	data->start = (HEIGHT / 2) - ((int)length / 2);
+	if (data->end > HEIGHT)
+		data->end = HEIGHT;
+	if (data->start < 0)
+		data->start = 0;
+    draw_textures(data, is_vert, x, line_height);
 }
 
 void draw_ray(t_data *data)

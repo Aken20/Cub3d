@@ -1,0 +1,15 @@
+
+
+NO ./texture/1.xpm
+SO ./texture/2.xpm 
+WE texture/3.xpm
+EA ./texture/4.xpm
+
+F 98,0,55
+C 000,000,000
+
+1111111111
+1000100001
+100000E011
+1000000011
+1111111111

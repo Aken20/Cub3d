@@ -1,12 +1,12 @@
 
+C 000,000,000
 
 NO ./texture/1.xpm
 SO ./texture/2.xpm 
 WE texture/3.xpm
 EA ./texture/4.xpm
 
-F 98,0,55
-C 000,000,33
+F 0,0,55
 
   111 11  1 1 1 1 1 
     11111

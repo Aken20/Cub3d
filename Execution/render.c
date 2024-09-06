@@ -45,31 +45,31 @@ void ft_draw_player(t_data *data)
     }
 }
 
-static void draw_minimap(t_data *data)
-{
-    int x;
-    int y;
+// static void draw_minimap(t_data *data)
+// {
+//     int x;
+//     int y;
 
-    x = 0;
-    y = 0;
-    while (y < data->height)
-    {
-        while (x < data->width && data->map->map[y / data->map->pixel][x / data->map->pixel])
-        {
-            // printf("x: %d, y: %d\n", x, y);
-            if (data->map->map[y / data->map->pixel][x / data->map->pixel] == '1')
-                my_mlx_pixel_put(data->mini_map, x, y, 0x80FF33);
-            else
-                my_mlx_pixel_put(data->mini_map, x, y, 0xc8c8cc);
-            if (x % data->map->pixel < 1 || y % data->map->pixel < 1 || !data->map->map[y / data->map->pixel][x / data->map->pixel])
-                my_mlx_pixel_put(data->mini_map, x, y, 0x000000);
-            x++;
-        }
-        x = 0;
-        y++;
-    }
-    ft_draw_player(data);
-}
+//     x = 0;
+//     y = 0;
+//     while (y < data->height)
+//     {
+//         while (x < data->width && data->map->map[y / data->map->pixel][x / data->map->pixel])
+//         {
+//             // printf("x: %d, y: %d\n", x, y);
+//             if (data->map->map[y / data->map->pixel][x / data->map->pixel] == '1')
+//                 my_mlx_pixel_put(data->mini_map, x, y, 0x80FF33);
+//             else
+//                 my_mlx_pixel_put(data->mini_map, x, y, 0xc8c8cc);
+//             if (x % data->map->pixel < 1 || y % data->map->pixel < 1 || !data->map->map[y / data->map->pixel][x / data->map->pixel])
+//                 my_mlx_pixel_put(data->mini_map, x, y, 0x000000);
+//             x++;
+//         }
+//         x = 0;
+//         y++;
+//     }
+//     ft_draw_player(data);
+// }
 
 static void draw_screen(t_data *data)
 {
@@ -97,9 +97,9 @@ static void draw_screen(t_data *data)
 int ft_render(t_data *data)
 {
     mlx_clear_window(data->mlx, data->win);
-    draw_minimap(data);
+    // draw_minimap(data);
     draw_screen(data);
     mlx_put_image_to_window(data->mlx, data->win, data->screen->img, 0, 0);
-    mlx_put_image_to_window(data->mlx, data->win, data->mini_map->img, 0, 0);
+    // mlx_put_image_to_window(data->mlx, data->win, data->mini_map->img, 0, 0);
     return 0;
 }
