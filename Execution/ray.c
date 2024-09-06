@@ -112,7 +112,7 @@ float get_vert_dest(t_data *data)
         || (yo > 0 && !(data->r_angle > 0 && data->r_angle < 180)))
         yo *= -1;
     yo = -yo;
-    while (wall_hit(data->vx - 0.0001, data->vy, data) && wall_hit(data->vx, data->vy, data))
+    while (wall_hit(data->vx - 1, data->vy, data) && wall_hit(data->vx, data->vy, data))
     {
         // my_mlx_pixel_put(data->mini_map, data->vx, data->vy, 0x0000fa);
         data->vx += xo;
@@ -140,7 +140,7 @@ float get_hor_dest(t_data *data)
     else
         yo = -yo;
     data->hx = (data->map->rx + (data->map->ry - data->hy) / tan(d_to_r(data->r_angle)));
-    while (wall_hit(data->hx, data->hy - 0.0001, data) && wall_hit(data->hx, data->hy, data))
+    while (wall_hit(data->hx, data->hy - 1, data) && wall_hit(data->hx, data->hy, data))
     {
         // my_mlx_pixel_put(data->mini_map, data->hx, data->hy, 0xff0000);
         data->hx += xo;

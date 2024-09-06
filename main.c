@@ -40,8 +40,8 @@ t_data *ft_init(t_map *map)
 
     data = malloc(sizeof(t_data));
     data->map = map;
-    data->map->pixel = 64;
-    data->map->speed = 7;
+    data->map->pixel = 800;
+    data->map->speed = 400;
     ft_player_find(data);
     get_width(data);
     data->width = (data->map->width) * data->map->pixel;
