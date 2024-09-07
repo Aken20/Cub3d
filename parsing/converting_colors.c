@@ -52,7 +52,6 @@ void    convert_the_color(t_map *map, char **splitted_color, char colortype)
         map->ceiling = (map->red << 16) | (map->green << 8) | map->blue;
 }
 
-`
 void converting_colors(t_map *map_data, char *color, char colortype)
 {
     t_vars vars;
