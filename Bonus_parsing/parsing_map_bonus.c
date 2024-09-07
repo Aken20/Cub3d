@@ -1,5 +1,12 @@
 # include "../Cub3d_bonus.h"
 
+int   valid_view_char(char c)
+{
+    if (c != 'N' && c != 'S' && c != 'W' && c != 'E'
+    && c != 'D' && c != 'U' && c != '1' && c != '0')
+        return (0);
+    return (1);
+}
 
 void    parse_view(t_map *map_data)
 {
@@ -19,10 +26,10 @@ void    parse_view(t_map *map_data)
                     exit_error("(Invalid view position)", map_data, NULL);
                 if (vars.x > (int)ft_strlen(map_data->map[vars.y - 1]) || vars.x > (int)ft_strlen(map_data->map[vars.y + 1]))
                     exit_error("(Invalid view position)", map_data, NULL);
-                if ((map_data->map[vars.y - 1][vars.x] != '1' && map_data->map[vars.y - 1][vars.x] != '0') 
-                    || (map_data->map[vars.y + 1][vars.x] != '1' && map_data->map[vars.y + 1][vars.x] != '0')
-                    || (map_data->map[vars.y][vars.x - 1] != '1' && map_data->map[vars.y][vars.x - 1] != '0')
-                    || (map_data->map[vars.y][vars.x + 1] != '1' && map_data->map[vars.y][vars.x + 1] != '0'))
+                if (!valid_view_char(map_data->map[vars.y - 1][vars.x])
+                    ||!valid_view_char(map_data->map[vars.y + 1][vars.x])
+                    ||!valid_view_char(map_data->map[vars.y][vars.x - 1])
+                    ||!valid_view_char(map_data->map[vars.y][vars.x + 1]))
                     exit_error("(Invalid view position)", map_data, NULL);
             }
         }
@@ -49,7 +56,8 @@ void check_duplicated_view_char(t_map *map_data)
                     exit_error("(Found duplicated view)", map_data, NULL);
             }
             else if (map_data->map[vars.y][vars.x] != '0' && map_data->map[vars.y][vars.x] != '1'
-                && map_data->map[vars.y][vars.x] != ' ')
+                && map_data->map[vars.y][vars.x] != ' ' && map_data->map[vars.y][vars.x] != 'D'
+                && map_data->map[vars.y][vars.x] != 'U')
             {
                 exit_error("(undefined character)", map_data, NULL);
             }
@@ -59,13 +67,6 @@ void check_duplicated_view_char(t_map *map_data)
         exit_error("(No view found)", map_data, NULL);
 }
 
-
-int   valid_view_char(char c)
-{
-    if (c != 'N' && c != 'S' && c != 'W' && c != 'E')
-        return (0);
-    return (1);
-}
 void check_surrounding(t_map *map_data)
 {
     t_vars vars;
@@ -83,10 +84,10 @@ void check_surrounding(t_map *map_data)
                     exit_error("(Invalid map)", map_data, NULL);
                 if ((vars.x > (int)ft_strlen(map_data->map[vars.y - 1]) || vars.x > (int)ft_strlen(map_data->map[vars.y + 1])))
                     exit_error("(Invalid map)", map_data, NULL);
-                if ((map_data->map[vars.y - 1][vars.x] != '1' && map_data->map[vars.y - 1][vars.x] != '0' && !valid_view_char(map_data->map[vars.y - 1][vars.x]))
-                    || (map_data->map[vars.y + 1][vars.x] != '1' && map_data->map[vars.y + 1][vars.x] != '0' && !valid_view_char(map_data->map[vars.y + 1][vars.x]))
-                    || (map_data->map[vars.y][vars.x - 1] != '1' && map_data->map[vars.y][vars.x - 1] != '0' && !valid_view_char(map_data->map[vars.y][vars.x - 1]))
-                    || (map_data->map[vars.y][vars.x + 1] != '1' && map_data->map[vars.y][vars.x + 1] != '0' && !valid_view_char(map_data->map[vars.y][vars.x + 1])))
+                if (!valid_view_char(map_data->map[vars.y - 1][vars.x])
+                    ||!valid_view_char(map_data->map[vars.y + 1][vars.x])
+                    ||!valid_view_char(map_data->map[vars.y][vars.x - 1])
+                    ||!valid_view_char(map_data->map[vars.y][vars.x + 1]))
                     exit_error("(Invalid map)", map_data, NULL);
             }
         }

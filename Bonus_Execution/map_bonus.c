@@ -38,6 +38,7 @@ void ft_player_find(t_data *data)
                     data->map->angle = 270;
                 else if (c == 'E')
                     data->map->angle = 0;
+                data->map->map[i][j] = '0';
             }
     }
 }

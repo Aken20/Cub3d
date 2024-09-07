@@ -21,6 +21,7 @@
 	# define ESC 65307
 	# define RA 65363
 	# define LA 65361
+	# define SP 32
 	# define W 119
 	# define S 115
 	# define D 100
@@ -31,6 +32,7 @@
 	# define ESC 53
 	# define RA 124
 	# define LA 123
+	# define SP 32
 	# define W 13
 	# define S 1
 	# define D 2
@@ -110,6 +112,7 @@ typedef struct s_data
 	t_map	*map;
 	t_img	*mini_map;
 	t_img	*screen;
+	t_img	*door[4];
 	t_img	*W_Wall;
 	t_img	*E_Wall;
 	t_img	*N_Wall;

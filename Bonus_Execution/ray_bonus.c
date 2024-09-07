@@ -21,7 +21,7 @@ int wall_hit(float x, float y, t_data *data)
 	if (y_m < 0 || x_m < 0 || y_m >= data->map->height || x_m >= (int)ft_strlen(data->map->map[y_m]))
 		return (0);
 	if (data->map->map[y_m] && x_m < (int)ft_strlen(data->map->map[y_m]))
-		if (data->map->map[y_m][x_m] != '1')
+		if (data->map->map[y_m][x_m] != '1' && data->map->map[y_m][x_m] != 'D' && data->map->map[y_m][x_m] != 'U')
             return (1);
 	return (0);
 }
@@ -166,6 +166,7 @@ static void draw_wall(t_data *data, bool is_vert, int k, int line_height, t_img 
     while(data->start < data->end)
     {
         color = my_mlx_pixel_get(img, x, y);
+        // if (img->width == 64 && color == 0x838170)
         my_mlx_pixel_put(data->screen, k, data->start++, color);
         y += y_step;
     }
@@ -173,16 +174,31 @@ static void draw_wall(t_data *data, bool is_vert, int k, int line_height, t_img 
 
 void     draw_textures(t_data *data, bool is_vert, int k, int line_height)
 {
+	int  x_m;
+	int  y_m;
+
     if (is_vert)
     {
-        if (data->r_angle > 90 && data->r_angle < 270)
+        x_m = floor ((int)data->vx / data->map->pixel);
+        y_m = floor ((int)data->vy / data->map->pixel);
+        if (data->map->map[y_m][x_m] == 'D' || data->map->map[y_m][x_m - 1] == 'D')
+            draw_wall(data, is_vert, k, line_height, data->door[0]);
+        else if (data->map->map[y_m][x_m] == 'U' || data->map->map[y_m][x_m - 1] == 'U')
+            draw_wall(data, is_vert, k, line_height, data->door[3]);
+        else if (data->r_angle > 90 && data->r_angle < 270)
             draw_wall(data, is_vert, k, line_height, data->W_Wall);
         else
             draw_wall(data, is_vert, k, line_height, data->E_Wall);
     }
     else
     {
-        if (data->r_angle > 0 && data->r_angle < 180)
+        x_m = floor ((int)data->hx / data->map->pixel);
+        y_m = floor ((int)data->hy / data->map->pixel);
+        if (data->map->map[y_m - 1][x_m] == 'D' || data->map->map[y_m][x_m] == 'D')
+            draw_wall(data, is_vert, k, line_height, data->door[0]);
+        else if (data->map->map[y_m - 1][x_m] == 'U' || data->map->map[y_m][x_m] == 'U')
+            draw_wall(data, is_vert, k, line_height, data->door[3]);
+        else if (data->r_angle > 0 && data->r_angle < 180)
             draw_wall(data, is_vert, k, line_height, data->N_Wall);
         else
             draw_wall(data, is_vert, k, line_height, data->S_Wall);
