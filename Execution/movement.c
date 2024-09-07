@@ -1,13 +1,5 @@
 #include "../Cub3d.h"
 
-// bool ft_check_collision(t_data *data, int move_x, int move_y)
-// {
-//     if (move_y >= 0 && move_x >= 0 && move_y < data->map->height && move_x < (int)ft_strlen(data->map->map[move_y])
-//         && data->map->map[move_y][move_x] && data->map->map[move_y][move_x] != '1')
-//         return true;
-//     return false;
-// }
-
 static int ft_up(t_data *data)
 {
     int speed;
