@@ -218,19 +218,25 @@ void     draw_textures(t_data *data, bool is_vert, int k, int line_height)
         if (data->map->map[y_m - 1][x_m] == 'D' || data->map->map[y_m][x_m] == 'D'
             || data->map->map[y_m - 1][x_m] == 'U' || data->map->map[y_m][x_m] == 'U')
         {
-            if (data->door_flag >= 1 && data->door_flag <= 30)
+            if (data->door_flag > 45000)
+                data->door_flag = 0;
+            if (data->door_flag <= 0)
+                draw_wall(data, is_vert, k, line_height, data->door[0]);
+            else if(data->door_flag > 25000 && data->door_flag < 30000)
+                draw_wall(data, is_vert, k, line_height, data->door[3]);
+            if (data->door_flag >= 1 && data->door_flag <= 10000)
                 draw_wall(data, is_vert, k, line_height, data->door[0]), data->door_flag++;
-            else if (data->door_flag >= 31 && data->door_flag <= 60)
+            else if (data->door_flag >= 10000 && data->door_flag <= 15000)
                 draw_wall(data, is_vert, k, line_height, data->door[1]), data->door_flag++;
-            else if (data->door_flag >= 61 && data->door_flag <= 90)
+            else if (data->door_flag >= 15000 && data->door_flag <= 20000)
                 draw_wall(data, is_vert, k, line_height, data->door[2]), data->door_flag++;
-            else if (data->door_flag >= 100 && data->door_flag <= 130)
+            else if (data->door_flag >= 20000 && data->door_flag <= 25000)
                 draw_wall(data, is_vert, k, line_height, data->door[3]), data->door_flag++;
-            else if (data->door_flag >= 131 && data->door_flag <= 160)
+            else if (data->door_flag >= 30000 && data->door_flag <= 35000)
                 draw_wall(data, is_vert, k, line_height, data->door[2]), data->door_flag++;
-            else if (data->door_flag >= 161 && data->door_flag <= 190)
+            else if (data->door_flag >= 35000 && data->door_flag <= 40000)
                 draw_wall(data, is_vert, k, line_height, data->door[1]), data->door_flag++;
-            else if (data->door_flag >= 191 && data->door_flag <= 220)
+            else if (data->door_flag >= 40000 && data->door_flag <= 45000)
                 draw_wall(data, is_vert, k, line_height, data->door[0]), data->door_flag++;
         }
         else if (data->r_angle > 0 && data->r_angle < 180)
