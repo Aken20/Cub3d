@@ -1,4 +1,5 @@
 NAME = cub3d
+BONUS_NAME = cub3d_bonus
 TEST_NAME = test_cub3d
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
@@ -19,6 +20,19 @@ FILES = main \
 		./parsing/preparing_file_data \
 		./parsing/space_chars_check \
 
+BONUS_FILES = main_bonus \
+		./Bonus_Execution/map_bonus \
+		./Bonus_Execution/movement_bonus \
+		./Bonus_Execution/ray_bonus \
+		./Bonus_Execution/render_bonus \
+		./Bonus_parsing/converting_colors_bonus \
+		./Bonus_parsing/free_va_arg_bonus \
+		./Bonus_parsing/parsing_colors_bonus \
+		./Bonus_parsing/parsing_map_bonus \
+		./Bonus_parsing/parsing_textures_bonus \
+		./Bonus_parsing/parsing_utils_bonus \
+		./Bonus_parsing/preparing_file_data_bonus \
+		./Bonus_parsing/space_chars_check_bonus \
 
 TEST_FILES = main_test
 
@@ -40,13 +54,18 @@ endif
 
 SRCS = $(addsuffix .c, $(FILES))
 TEST_SRCS = $(addsuffix .c, $(TEST_FILES))
-BSRCS = $(addsuffix _bonus.c, $(BFILES))
+BSRCS = $(addsuffix .c, $(BONUS_FILES))
 
 OBJS = $(addsuffix .o, $(FILES))
 TEST_OBJS = $(addsuffix .o, $(TEST_FILES))
-BOBJS = $(addsuffix _bonus.o, $(BFILES))
+BOBJS = $(addsuffix .o, $(BONUS_FILES))
+
+%.o: %.c
+	$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
 
 all: $(NAME)
+
+bonus: $(BONUS_NAME)
 
 $(PRINTF):
 	make -C printf
@@ -60,8 +79,9 @@ $(MLX):
 $(NAME): $(OBJS) $(PRINTF) $(LIBFT) $(MLX)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(GNL) $(MLX) $(MLX_FLAGS) -o $(NAME)
 
-%.o: %.c
-	$(CC) $(CFLAGS) $(OBJ_FLAGS) -c $< -o $@
+$(BONUS_NAME): $(BOBJS) $(PRINTF) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) $(BOBJS) $(LIBFT) $(PRINTF) $(GNL) $(MLX) $(MLX_FLAGS) -o $(BONUS_NAME)
+
 
 clean:
 	# make clean -C get_next_line
@@ -72,7 +92,7 @@ clean:
 
 fclean:
 	make clean
-	$(RM) $(NAME) $(NAME)_bonus $(PRINTF) $(MLX) $(LIBFT)
+	$(RM) $(NAME) $(BONUS_NAME) $(PRINTF) $(MLX) $(LIBFT)
 
 re:
 	make fclean

@@ -1,4 +1,4 @@
-#include "../Cub3d.h"
+# include "../Cub3d_bonus.h"
 
 void    get_width(t_data *data)
 {

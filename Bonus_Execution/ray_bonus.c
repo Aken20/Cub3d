@@ -1,4 +1,4 @@
-#include "../Cub3d.h"
+# include "../Cub3d_bonus.h"
 
 float d_to_r(float degree)
 {

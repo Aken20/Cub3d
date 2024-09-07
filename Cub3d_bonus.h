@@ -108,6 +108,7 @@ typedef struct s_vars {
 typedef struct s_data
 {
 	t_map	*map;
+	t_img	*mini_map;
 	t_img	*screen;
 	t_img	*W_Wall;
 	t_img	*E_Wall;
@@ -133,6 +134,7 @@ void extracting_the_map(t_map *map_data);
 // Exution ---- file name: execution.c ----
 
 int ft_hocks(int keycode, t_data *data);
+int ft_mouse_hocks(int x, int y, t_data *data);
 int ft_render(t_data *data);
 void get_width(t_data *data);
 void ft_player_find(t_data *data);
@@ -140,6 +142,7 @@ bool ft_check_collision(t_data *data, int move_x, int move_y);
 int ft_quit_game(t_data *data);
 void draw_ray(t_data *data);
 float d_to_r(float degree);
+void draw_ray(t_data *data);
 void my_mlx_pixel_put(t_img *img, int x, int y, int color);
 int my_mlx_pixel_get(t_img *img, int x, int y);
 

@@ -1,4 +1,4 @@
-#include "../Cub3d.h"
+# include "../Cub3d_bonus.h"
 
 // bool ft_check_collision(t_data *data, int move_x, int move_y)
 // {

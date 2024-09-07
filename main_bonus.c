@@ -1,18 +1,22 @@
-# include "Cub3d.h"
+# include "Cub3d_bonus.h"
 
 void    ft_free_data(t_data *data)
 {
+    // free(data->map);
+    // free(data->mini_map);
     free_all(5, &(data->W_Wall), &(data->E_Wall), &(data->N_Wall), &(data->S_Wall), &(data->screen));
     free(data);
 }
 
 void    open_textures(t_data *data)
 {
+    // data->mini_map = malloc(sizeof(t_img));
     data->screen = malloc(sizeof(t_img));
     data->W_Wall = malloc(sizeof(t_img));
     data->E_Wall = malloc(sizeof(t_img));
     data->N_Wall = malloc(sizeof(t_img));
     data->S_Wall = malloc(sizeof(t_img));
+    // data->mini_map->img = mlx_new_image(data->mlx, data->width, data->height);
     data->screen->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
     data->W_Wall->width = 800;
     data->W_Wall->height = 800;
@@ -45,6 +49,7 @@ t_data *ft_init(t_map *map)
     data->mlx = mlx_init();
     data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Cub3d");
     open_textures(data);
+    // data->mini_map->addr = mlx_get_data_addr(data->mini_map->img, &data->mini_map->bits_per_pixel, &data->mini_map->line_length, &data->mini_map->endian);
     data->screen->addr = mlx_get_data_addr(data->screen->img, &data->screen->bits_per_pixel, &data->screen->line_length, &data->screen->endian);
     data->E_Wall->addr = mlx_get_data_addr(data->E_Wall->img, &data->E_Wall->bits_per_pixel, &data->E_Wall->line_length, &data->E_Wall->endian);
     data->W_Wall->addr = mlx_get_data_addr(data->W_Wall->img, &data->W_Wall->bits_per_pixel, &data->W_Wall->line_length, &data->W_Wall->endian);
@@ -110,9 +115,12 @@ int main(int ac, char **av)
     }
     parsing(&map, &vars, av);
     data = ft_init(&map);
+    ft_render(data);
     mlx_loop_hook(data->mlx, ft_render, data);
     mlx_hook(data->win, 2, 1L<<0, ft_hocks, data);
+    mlx_hook(data->win, 6, 1L<<6, ft_mouse_hocks, data);
     mlx_hook(data->win, 17, 1L<<0, ft_quit_game, data);
     mlx_loop(data->mlx);
+    // printf("PERFECTOO😘\n");
     return 0;
 }
