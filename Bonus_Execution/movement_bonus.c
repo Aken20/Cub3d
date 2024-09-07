@@ -110,29 +110,48 @@ static int ft_right(t_data *data)
 
 void handel_door(t_data *data)
 {
-    int pixel;
     int move_x;
     int move_y;
 
-    pixel = data->map->pixel;
-    move_x = data->map->rx / pixel;
-    move_y = data->map->ry / pixel;
-    while (move_y >= 0 && move_x >= 0 && move_y < data->map->height
+    move_x = (data->map->rx / data->map->pixel);
+    move_y = (data->map->ry / data->map->pixel);
+    if (data->r_angle >= 50 && data->r_angle < 130)
+    {
+        move_x += 0;
+        move_y += -1;
+    }
+    else if (data->r_angle >= 130 && data->r_angle < 210)
+    {
+        move_x += -1;
+        move_y += 0;
+    }
+    else if (data->r_angle >= 210 && data->r_angle < 290)
+    {
+        move_x += 0;
+        move_y += 1;
+    }
+    else
+    {
+        move_x += 1;
+        move_y += 0;
+    }
+    if (move_y >= 0 && move_x >= 0 && move_y < data->map->height
             && move_x < (int)ft_strlen(data->map->map[move_y]) && data->map->map[move_y][move_x]
             && data->map->map[move_y][move_x] != '1' && data->map->map[move_y][move_x] != ' ')
     {
         if (data->map->map[move_y][move_x] == 'D')
-        {
-            data->map->map[move_y][move_x] = 'U';
-            return ;
-        }
+            data->map->map[move_y][move_x] = 'U', data->door_flag = 1;
         else if (data->map->map[move_y][move_x] == 'U')
-        {
-            data->map->map[move_y][move_x] = 'D';
-            return ;
-        }
-        move_x += (cos(d_to_r(data->map->angle)) * (pixel / 1.5)) / pixel;
-        move_y -= (sin(d_to_r(data->map->angle)) * (pixel / 1.5)) / pixel;
+            data->map->map[move_y][move_x] = 'D', data->door_flag = 30000;
+    }
+    else if (move_y >= 0 && move_x >= 0 && move_y < data->map->height
+            && move_x < (int)ft_strlen(data->map->map[move_y]) && data->map->map[move_y][move_x]
+            && data->map->map[move_y][move_x] != '1' && data->map->map[move_y][move_x] != ' ')
+    {
+        if (data->map->map[move_y][move_x] == 'D')
+            data->map->map[move_y][move_x] = 'U', data->door_flag = 1;
+        else if (data->map->map[move_y][move_x] == 'U')
+            data->map->map[move_y][move_x] = 'D', data->door_flag = 30000;
     }
 }
 

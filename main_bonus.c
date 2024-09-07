@@ -53,6 +53,7 @@ t_data *ft_init(t_map *map)
     data->mlx = mlx_init();
     data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Cub3d");
     open_textures(data);
+    data->door_flag = 0;
     data->door[0]->addr = mlx_get_data_addr(data->door[0]->img, &data->door[0]->bits_per_pixel, &data->door[0]->line_length, &data->door[0]->endian);
     data->door[1]->addr = mlx_get_data_addr(data->door[1]->img, &data->door[1]->bits_per_pixel, &data->door[1]->line_length, &data->door[1]->endian);
     data->door[2]->addr = mlx_get_data_addr(data->door[2]->img, &data->door[2]->bits_per_pixel, &data->door[2]->line_length, &data->door[2]->endian);

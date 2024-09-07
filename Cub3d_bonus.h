@@ -32,7 +32,7 @@
 	# define ESC 53
 	# define RA 124
 	# define LA 123
-	# define SP 32
+	# define SP 49
 	# define W 13
 	# define S 1
 	# define D 2
@@ -122,6 +122,7 @@ typedef struct s_data
 	void	*win;
 	void	*mlx;
 	int		width;
+	int		door_flag;
 	int		height;
 	float	vx;
 	float	vy;
