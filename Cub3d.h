@@ -134,6 +134,7 @@ void extracting_the_map(t_map *map_data);
 // Exution ---- file name: execution.c ----
 
 int ft_hocks(int keycode, t_data *data);
+int ft_mouse_hocks(int x, int y, t_data *data);
 int ft_render(t_data *data);
 void get_width(t_data *data);
 void ft_player_find(t_data *data);

@@ -108,8 +108,32 @@ static int ft_right(t_data *data)
     return 0;
 }
 
+int ft_mouse_hocks(int x, int y, t_data *data)
+{
+    static int previous_x;
+
+    if (x > previous_x)
+    {
+        previous_x = x;
+        data->map->angle -= ((y * 0) + 3);
+        if (data->map->angle < 0)
+            data->map->angle += 360;
+    }
+    else
+    {
+        previous_x = x;
+        data->map->angle += 3;
+        if (data->map->angle > 360)
+            data->map->angle -= 360;
+    }
+    if (x == ESC)
+        ft_quit_game(data);
+    return (0);
+}
+
 int ft_hocks(int keycode, t_data *data)
 {
+    // printf("keycode: %d\n", keycode);
     if (keycode == ESC)
         ft_quit_game(data);
     if (keycode == RA)

@@ -4,7 +4,7 @@ void    ft_free_data(t_data *data)
 {
     // free(data->map);
     // free(data->mini_map);
-    free(data->screen);
+    free_all(5, &(data->W_Wall), &(data->E_Wall), &(data->N_Wall), &(data->S_Wall), &(data->screen));
     free(data);
 }
 
@@ -118,8 +118,9 @@ int main(int ac, char **av)
     ft_render(data);
     mlx_loop_hook(data->mlx, ft_render, data);
     mlx_hook(data->win, 2, 1L<<0, ft_hocks, data);
+    mlx_hook(data->win, 6, 1L<<6, ft_mouse_hocks, data);
     mlx_hook(data->win, 17, 1L<<0, ft_quit_game, data);
     mlx_loop(data->mlx);
-    printf("PERFECTOO😘\n");
+    // printf("PERFECTOO😘\n");
     return 0;
 }
