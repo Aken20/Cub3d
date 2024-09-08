@@ -43,7 +43,8 @@ void    open_textures(t_data *data)
     data->E_Wall->img = mlx_xpm_file_to_image(data->mlx, data->map->east_txture, &(data->E_Wall->width), &(data->E_Wall->height));
     data->N_Wall->img = mlx_xpm_file_to_image(data->mlx, data->map->north_txture, &(data->N_Wall->width), &(data->N_Wall->height));
     data->S_Wall->img = mlx_xpm_file_to_image(data->mlx, data->map->south_txture, &(data->S_Wall->width), &(data->S_Wall->height));
-    if (!data->W_Wall->img || !data->E_Wall->img || !data->N_Wall->img || !data->S_Wall->img || !data->screen->img)
+    if (!data->W_Wall->img || !data->E_Wall->img || !data->N_Wall->img || !data->S_Wall->img || !data->screen->img
+        || !data->door[0]->img|| !data->door[1]->img|| !data->door[2]->img|| !data->door[3]->img)
         exit_error("(Malloc failed)", data->map, NULL);
 }
 

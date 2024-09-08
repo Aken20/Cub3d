@@ -1,5 +1,27 @@
 # include "../Cub3d_bonus.h"
 
+void parsing_door_textures(t_map *map_data)
+{
+    t_vars vars;
+
+    vars.fd = open("texture/door_1.xpm", O_RDONLY);
+    if (vars.fd < 0)
+        exit_error("(Invalid door texture)", map_data, NULL);
+    close(vars.fd);
+    vars.fd = open("texture/door_2.xpm", O_RDONLY);
+    if (vars.fd < 0)
+        exit_error("(Invalid door texture)", map_data, NULL);
+    close(vars.fd);
+    vars.fd = open("texture/door_3.xpm", O_RDONLY);
+    if (vars.fd < 0)
+        exit_error("(Invalid door texture)", map_data, NULL);
+    close(vars.fd);
+    vars.fd = open("texture/door_4.xpm", O_RDONLY);
+    if (vars.fd < 0)
+        exit_error("(Invalid door texture)", map_data, NULL);
+    close(vars.fd);
+}
+
 void parsing_textures(t_map *map_data)
 {
     t_vars vars;
@@ -20,6 +42,7 @@ void parsing_textures(t_map *map_data)
     if (vars.fd < 0)
         exit_error("(Invalid file descriptor east)", map_data, NULL);
     close(vars.fd);
+    parsing_door_textures(map_data);
 }
 
 int define_texture(char **splitted, t_map *map_data)

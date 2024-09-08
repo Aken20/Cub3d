@@ -7,6 +7,7 @@ void    ft_free_data(t_data *data)
     free(data->E_Wall);
     free(data->N_Wall);
     free(data->S_Wall);
+    mlx_destroy_window(data->mlx, data->win);
     free(data);
 }
 
