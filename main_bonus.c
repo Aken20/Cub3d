@@ -18,6 +18,7 @@ void    ft_free_data(t_data *data)
 void    open_textures(t_data *data)
 {
     data->screen = malloc(sizeof(t_img));
+    // data->mini_map = malloc(sizeof(t_img));
     data->door[0] = malloc(sizeof(t_img));
     data->door[1] = malloc(sizeof(t_img));
     data->door[2] = malloc(sizeof(t_img));
@@ -27,14 +28,7 @@ void    open_textures(t_data *data)
     data->N_Wall = malloc(sizeof(t_img));
     data->S_Wall = malloc(sizeof(t_img));
     data->screen->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-    data->W_Wall->width = 800;
-    data->W_Wall->height = 800;
-    data->E_Wall->width = 800;
-    data->E_Wall->height = 800;
-    data->N_Wall->width = 800;
-    data->N_Wall->height = 800;
-    data->S_Wall->width = 800;
-    data->S_Wall->height = 800;
+    // data->mini_map->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
     data->door[0]->img = mlx_xpm_file_to_image(data->mlx, "texture/door_1.xpm", &(data->door[0]->width), &(data->door[0]->height));
     data->door[1]->img = mlx_xpm_file_to_image(data->mlx, "texture/door_2.xpm", &(data->door[1]->width), &(data->door[1]->height));
     data->door[2]->img = mlx_xpm_file_to_image(data->mlx, "texture/door_3.xpm", &(data->door[2]->width), &(data->door[2]->height));
@@ -58,8 +52,8 @@ t_data *ft_init(t_map *map)
     data->map->speed = 400;
     ft_player_find(data);
     get_width(data);
-    data->width = (data->map->width) * data->map->pixel;
-    data->height = (data->map->height) * data->map->pixel;
+    data->width = data->map->width * 2;
+    data->height = data->map->height * 2;
     data->mlx = mlx_init();
     data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Cub3d");
     open_textures(data);
@@ -69,6 +63,7 @@ t_data *ft_init(t_map *map)
     data->door[2]->addr = mlx_get_data_addr(data->door[2]->img, &data->door[2]->bits_per_pixel, &data->door[2]->line_length, &data->door[2]->endian);
     data->door[3]->addr = mlx_get_data_addr(data->door[3]->img, &data->door[3]->bits_per_pixel, &data->door[3]->line_length, &data->door[3]->endian);
     data->screen->addr = mlx_get_data_addr(data->screen->img, &data->screen->bits_per_pixel, &data->screen->line_length, &data->screen->endian);
+    // data->mini_map->addr = mlx_get_data_addr(data->mini_map->img, &data->mini_map->bits_per_pixel, &data->mini_map->line_length, &data->mini_map->endian);
     data->E_Wall->addr = mlx_get_data_addr(data->E_Wall->img, &data->E_Wall->bits_per_pixel, &data->E_Wall->line_length, &data->E_Wall->endian);
     data->W_Wall->addr = mlx_get_data_addr(data->W_Wall->img, &data->W_Wall->bits_per_pixel, &data->W_Wall->line_length, &data->W_Wall->endian);
     data->N_Wall->addr = mlx_get_data_addr(data->N_Wall->img, &data->N_Wall->bits_per_pixel, &data->N_Wall->line_length, &data->N_Wall->endian);

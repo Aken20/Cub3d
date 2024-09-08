@@ -1,7 +1,7 @@
 
 C 000,12,12
 
-SO ./texture/1.xpm
+SO ./texture/frame_00_delay-0.02s.xpm
 NO ./texture/winners.xpm 
 WE ./texture/jhon.xpm
 EA ./texture/chelsea.xpm

@@ -84,7 +84,6 @@ $(BONUS_NAME): $(BOBJS) $(PRINTF) $(LIBFT) $(MLX)
 
 
 clean:
-	# make clean -C get_next_line
 	make clean -C printf
 	make clean -C libft
 	make clean -C $(MLX_DIR)

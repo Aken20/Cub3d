@@ -166,7 +166,6 @@ static void draw_wall(t_data *data, bool is_vert, int k, int line_height, t_img 
     while(data->start < data->end)
     {
         color = my_mlx_pixel_get(img, x, y);
-        // if (img->width == 64 && color == 0x838170)
         my_mlx_pixel_put(data->screen, k, data->start++, color);
         y += y_step;
     }
