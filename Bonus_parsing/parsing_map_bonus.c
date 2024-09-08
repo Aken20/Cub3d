@@ -2,8 +2,8 @@
 
 int   valid_view_char(char c)
 {
-    if (c != 'N' && c != 'S' && c != 'W' && c != 'E'
-    && c != 'D' && c != 'U' && c != '1' && c != '0')
+    if (c != 'N' && c != 'S' && c != 'W' && c != 'E' && c != 'D'
+        && c != 'U' && c != '1' && c != '0' && c != 'F')
         return (0);
     return (1);
 }
@@ -57,7 +57,7 @@ void check_duplicated_view_char(t_map *map_data)
             }
             else if (map_data->map[vars.y][vars.x] != '0' && map_data->map[vars.y][vars.x] != '1'
                 && map_data->map[vars.y][vars.x] != ' ' && map_data->map[vars.y][vars.x] != 'D'
-                && map_data->map[vars.y][vars.x] != 'U')
+                && map_data->map[vars.y][vars.x] != 'U' && map_data->map[vars.y][vars.x] != 'F')
             {
                 exit_error("(undefined character)", map_data, NULL);
             }

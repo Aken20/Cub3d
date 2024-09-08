@@ -113,6 +113,7 @@ typedef struct s_data
 	t_img	*mini_map;
 	t_img	*screen;
 	t_img	*door[4];
+	t_img	*flame[3];
 	t_img	*W_Wall;
 	t_img	*E_Wall;
 	t_img	*N_Wall;
@@ -123,6 +124,7 @@ typedef struct s_data
 	void	*mlx;
 	int		width;
 	int		door_flag;
+	int		flame_flag;
 	int		height;
 	float	vx;
 	float	vy;

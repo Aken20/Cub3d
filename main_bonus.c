@@ -23,6 +23,9 @@ void    open_textures(t_data *data)
     data->door[1] = malloc(sizeof(t_img));
     data->door[2] = malloc(sizeof(t_img));
     data->door[3] = malloc(sizeof(t_img));
+    data->flame[0] = malloc(sizeof(t_img));
+    data->flame[1] = malloc(sizeof(t_img));
+    data->flame[2] = malloc(sizeof(t_img));
     data->W_Wall = malloc(sizeof(t_img));
     data->E_Wall = malloc(sizeof(t_img));
     data->N_Wall = malloc(sizeof(t_img));
@@ -33,12 +36,15 @@ void    open_textures(t_data *data)
     data->door[1]->img = mlx_xpm_file_to_image(data->mlx, "texture/door_2.xpm", &(data->door[1]->width), &(data->door[1]->height));
     data->door[2]->img = mlx_xpm_file_to_image(data->mlx, "texture/door_3.xpm", &(data->door[2]->width), &(data->door[2]->height));
     data->door[3]->img = mlx_xpm_file_to_image(data->mlx, "texture/door_4.xpm", &(data->door[3]->width), &(data->door[3]->height));
+    data->flame[0]->img = mlx_xpm_file_to_image(data->mlx, "texture/flame_1.xpm", &(data->flame[0]->width), &(data->flame[0]->height));
+    data->flame[1]->img = mlx_xpm_file_to_image(data->mlx, "texture/flame_2.xpm", &(data->flame[1]->width), &(data->flame[1]->height));
+    data->flame[2]->img = mlx_xpm_file_to_image(data->mlx, "texture/flame_3.xpm", &(data->flame[2]->width), &(data->flame[2]->height));
     data->W_Wall->img = mlx_xpm_file_to_image(data->mlx, data->map->west_txture, &(data->W_Wall->width), &(data->W_Wall->height));
     data->E_Wall->img = mlx_xpm_file_to_image(data->mlx, data->map->east_txture, &(data->E_Wall->width), &(data->E_Wall->height));
     data->N_Wall->img = mlx_xpm_file_to_image(data->mlx, data->map->north_txture, &(data->N_Wall->width), &(data->N_Wall->height));
     data->S_Wall->img = mlx_xpm_file_to_image(data->mlx, data->map->south_txture, &(data->S_Wall->width), &(data->S_Wall->height));
     if (!data->W_Wall->img || !data->E_Wall->img || !data->N_Wall->img || !data->S_Wall->img || !data->screen->img
-        || !data->door[0]->img|| !data->door[1]->img|| !data->door[2]->img|| !data->door[3]->img)
+        || !data->door[0]->img || !data->door[1]->img || !data->door[2]->img || !data->door[3]->img || !data->flame[0]->img || !data->flame[1]->img || !data->flame[2]->img)
         exit_error("(Malloc failed)", data->map, NULL);
 }
 
@@ -58,10 +64,14 @@ t_data *ft_init(t_map *map)
     data->win = mlx_new_window(data->mlx, WIDTH, HEIGHT, "Cub3d");
     open_textures(data);
     data->door_flag = 0;
+    data->flame_flag = 0;
     data->door[0]->addr = mlx_get_data_addr(data->door[0]->img, &data->door[0]->bits_per_pixel, &data->door[0]->line_length, &data->door[0]->endian);
     data->door[1]->addr = mlx_get_data_addr(data->door[1]->img, &data->door[1]->bits_per_pixel, &data->door[1]->line_length, &data->door[1]->endian);
     data->door[2]->addr = mlx_get_data_addr(data->door[2]->img, &data->door[2]->bits_per_pixel, &data->door[2]->line_length, &data->door[2]->endian);
     data->door[3]->addr = mlx_get_data_addr(data->door[3]->img, &data->door[3]->bits_per_pixel, &data->door[3]->line_length, &data->door[3]->endian);
+    data->flame[0]->addr = mlx_get_data_addr(data->flame[0]->img, &data->flame[0]->bits_per_pixel, &data->flame[0]->line_length, &data->flame[0]->endian);
+    data->flame[1]->addr = mlx_get_data_addr(data->flame[1]->img, &data->flame[1]->bits_per_pixel, &data->flame[1]->line_length, &data->flame[1]->endian);
+    data->flame[2]->addr = mlx_get_data_addr(data->flame[2]->img, &data->flame[2]->bits_per_pixel, &data->flame[2]->line_length, &data->flame[2]->endian);
     data->screen->addr = mlx_get_data_addr(data->screen->img, &data->screen->bits_per_pixel, &data->screen->line_length, &data->screen->endian);
     // data->mini_map->addr = mlx_get_data_addr(data->mini_map->img, &data->mini_map->bits_per_pixel, &data->mini_map->line_length, &data->mini_map->endian);
     data->E_Wall->addr = mlx_get_data_addr(data->E_Wall->img, &data->E_Wall->bits_per_pixel, &data->E_Wall->line_length, &data->E_Wall->endian);

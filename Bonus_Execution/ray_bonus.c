@@ -21,7 +21,8 @@ int wall_hit(float x, float y, t_data *data)
 	if (y_m < 0 || x_m < 0 || y_m >= data->map->height || x_m >= (int)ft_strlen(data->map->map[y_m]))
 		return (0);
 	if (data->map->map[y_m] && x_m < (int)ft_strlen(data->map->map[y_m]))
-		if (data->map->map[y_m][x_m] != '1' && data->map->map[y_m][x_m] != 'D' && data->map->map[y_m][x_m] != 'U')
+		if (data->map->map[y_m][x_m] != '1' && data->map->map[y_m][x_m] != 'D'
+            && data->map->map[y_m][x_m] != 'U' && data->map->map[y_m][x_m] != 'F')
             return (1);
 	return (0);
 }
@@ -181,6 +182,17 @@ void     draw_textures(t_data *data, bool is_vert, int k, int line_height)
     {
         x_m = floor ((int)data->vx / data->map->pixel);
         y_m = floor ((int)data->vy / data->map->pixel);
+        if (data->map->map[y_m][x_m] == 'F' || data->map->map[y_m][x_m - 1] == 'F')
+        {
+            if (data->flame_flag > 20000)
+                data->flame_flag = 0;
+            if (data->flame_flag >= 0 && data->flame_flag <= 10000)
+                draw_wall(data, is_vert, k, line_height, data->flame[0]), data->flame_flag++;
+            else if (data->flame_flag >= 10000 && data->flame_flag <= 15000)
+                draw_wall(data, is_vert, k, line_height, data->flame[1]), data->flame_flag++;
+            else if (data->flame_flag >= 15000 && data->flame_flag <= 20000)
+                draw_wall(data, is_vert, k, line_height, data->flame[2]), data->flame_flag++;
+        }
         if (data->map->map[y_m][x_m] == 'D' || data->map->map[y_m][x_m - 1] == 'D'
             || data->map->map[y_m][x_m] == 'U' || data->map->map[y_m][x_m - 1] == 'U')
         {
@@ -214,6 +226,17 @@ void     draw_textures(t_data *data, bool is_vert, int k, int line_height)
     {
         x_m = floor ((int)data->hx / data->map->pixel);
         y_m = floor ((int)data->hy / data->map->pixel);
+        if (data->map->map[y_m - 1][x_m] == 'F' || data->map->map[y_m][x_m] == 'F')
+        {
+            if (data->flame_flag > 20000)
+                data->flame_flag = 0;
+            if (data->flame_flag >= 0 && data->flame_flag <= 10000)
+                draw_wall(data, is_vert, k, line_height, data->flame[0]), data->flame_flag++;
+            else if (data->flame_flag >= 10000 && data->flame_flag <= 15000)
+                draw_wall(data, is_vert, k, line_height, data->flame[1]), data->flame_flag++;
+            else if (data->flame_flag >= 15000 && data->flame_flag <= 20000)
+                draw_wall(data, is_vert, k, line_height, data->flame[2]), data->flame_flag++;
+        }
         if (data->map->map[y_m - 1][x_m] == 'D' || data->map->map[y_m][x_m] == 'D'
             || data->map->map[y_m - 1][x_m] == 'U' || data->map->map[y_m][x_m] == 'U')
         {

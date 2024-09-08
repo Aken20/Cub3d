@@ -1,5 +1,23 @@
 # include "../Cub3d_bonus.h"
 
+void parsing_flame_textures(t_map *map_data)
+{
+    t_vars vars;
+
+    vars.fd = open("texture/flame_1.xpm", O_RDONLY);
+    if (vars.fd < 0)
+        exit_error("(Invalid flame animation texture)", map_data, NULL);
+    close(vars.fd);
+    vars.fd = open("texture/flame_2.xpm", O_RDONLY);
+    if (vars.fd < 0)
+        exit_error("(Invalid flame animation texture)", map_data, NULL);
+    close(vars.fd);
+    vars.fd = open("texture/flame_3.xpm", O_RDONLY);
+    if (vars.fd < 0)
+        exit_error("(Invalid flame animation texture)", map_data, NULL);
+    close(vars.fd);
+}
+
 void parsing_door_textures(t_map *map_data)
 {
     t_vars vars;
