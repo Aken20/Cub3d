@@ -153,8 +153,7 @@ void	reading_the_file(t_map *map_data, char *map_file);
 void 	init_vars(t_vars *vars);
 
 // parsing ----- file name: free_va_arg ----
-void	free_all(int count, ...);
-void	free_all_2d(int count, ...);
+void	free_2d(char ***ptr);
 void	free_textures(t_map *map);
 void	free_map_stuct(t_map *map);
 void	free_vars_stuct(t_vars *vars);

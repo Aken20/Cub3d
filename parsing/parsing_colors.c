@@ -1,6 +1,5 @@
 #include "../Cub3d.h"
 
-
 void    parsing_colors(t_map *map_data)
 {
     checking_commas(map_data, map_data->floor_color);
@@ -40,14 +39,12 @@ void check_duplicated_colors(t_map *map_data)
             if (!vars.splitted[0] ||  !vars.splitted[1])
                 exit_error("(invalid color)", map_data, NULL);
             vars.counter++;
-            free(vars.splitted);
+            free_2d(&vars.splitted);
         }
         if (vars.counter > 2)
             exit_error("(found duplicated color)", map_data, NULL);
     }
 }
-
-
 
 void defining_colors(t_map *map_data)
 {
@@ -63,7 +60,7 @@ void defining_colors(t_map *map_data)
         {
             vars.splitted = ft_split(map_data->file[vars.x], ' ');
             vars.iscolorfound += define_colors(vars.splitted, map_data);
-            free(vars.splitted);
+            free_2d(&vars.splitted);
         }
         else if ((map_data->file[vars.x][0] == '1' || map_data->file[vars.x][0] == '0'))
             exit_error("(Invalid color or no color found)", map_data, NULL);

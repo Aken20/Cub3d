@@ -1,6 +1,5 @@
 # include "../Cub3d_bonus.h"
 
-
 void parsing_textures(t_map *map_data)
 {
     t_vars vars;
@@ -67,7 +66,7 @@ void check_duplicated_textures(t_map *map_data)
             if (!vars.splitted[0] ||  !vars.splitted[1])
                 exit_error("(invalid texture)", map_data, NULL);
             vars.counter++;
-            free(vars.splitted);
+            free_2d(&vars.splitted);
         }
         if (vars.counter > 4)
             exit_error("(found duplicated texture)", map_data, NULL);
@@ -95,14 +94,14 @@ void defining_textures(t_map *map_data)
             || ft_strcmp(vars.splitted[0], "WE") == 0 || ft_strcmp(vars.splitted[0], "EA") == 0)
             {
                 txturecounter += define_texture(vars.splitted, map_data);
-                free(vars.splitted);
+                free_2d(&vars.splitted);
                 vars.splitted = NULL;
             } else if (ft_strcmp(vars.splitted[0], "C") != 0 && ft_strcmp(vars.splitted[0], "F") != 0)
                 exit_error("(Undefined character)", map_data, NULL);
         }
         if (vars.splitted)
         {
-            free(vars.splitted);
+            free_2d(&vars.splitted);
             vars.splitted = NULL;
         }
     }

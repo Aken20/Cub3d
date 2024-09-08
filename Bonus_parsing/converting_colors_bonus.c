@@ -1,6 +1,5 @@
 # include "../Cub3d_bonus.h"
 
-
 void    checking_commas(t_map *map_data, char *color)
 {
     t_vars vars;
@@ -39,7 +38,7 @@ void    convert_the_color(t_map *map, char **splitted_color, char colortype)
     {
         if (ft_atoi(splitted_color[vars.i]) > 255 || ft_atoi(splitted_color[vars.i]) < 0)
         {
-            free(splitted_color);
+            free_2d(&(splitted_color));
             exit_error("(valid code per decimal place is between 0 and 255 )", map, &vars);
         } 
     }
@@ -72,5 +71,5 @@ void converting_colors(t_map *map_data, char *color, char colortype)
         }
     }
     convert_the_color(map_data, vars.splitted, colortype);
+    free_2d(&vars.splitted);
 }
-

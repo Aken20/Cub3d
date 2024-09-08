@@ -2,7 +2,11 @@
 
 void    ft_free_data(t_data *data)
 {
-    free_all(5, &(data->W_Wall), &(data->E_Wall), &(data->N_Wall), &(data->S_Wall), &(data->screen));
+    free(data->screen);
+    free(data->W_Wall);
+    free(data->E_Wall);
+    free(data->N_Wall);
+    free(data->S_Wall);
     free(data);
 }
 
