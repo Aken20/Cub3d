@@ -140,6 +140,9 @@ bool ft_check_collision(t_data *data, int move_x, int move_y);
 int ft_quit_game(t_data *data);
 void draw_ray(t_data *data);
 float d_to_r(float degree);
+void	open_textures(t_data *data);
+void	get_img_address(t_data *data);
+void	ft_free_data(t_data *data);
 void my_mlx_pixel_put(t_img *img, int x, int y, int color);
 int my_mlx_pixel_get(t_img *img, int x, int y);
 

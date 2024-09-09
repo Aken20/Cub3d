@@ -1,5 +1,11 @@
 #include "../Cub3d.h"
 
+int	ft_quit_game(t_data *data)
+{
+	ft_free_data(data);
+	exit(0);
+}
+
 void    get_width(t_data *data)
 {
     int i;

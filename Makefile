@@ -8,6 +8,7 @@ RM = rm -f
 
 FILES = main \
 		./Execution/map \
+		./Execution/textures \
 		./Execution/movement \
 		./Execution/ray \
 		./Execution/render \
