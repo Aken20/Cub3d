@@ -3,6 +3,8 @@
 void    ft_free_data(t_data *data)
 {
     free(data->screen);
+    free(data->mini_map);
+    free(data->mini_map_frame);
     free(data->W_Wall);
     free(data->E_Wall);
     free(data->N_Wall);
@@ -11,6 +13,9 @@ void    ft_free_data(t_data *data)
     free(data->door[1]);
     free(data->door[2]);
     free(data->door[3]);
+    free(data->flame[0]);
+    free(data->flame[1]);
+    free(data->flame[2]);
     mlx_destroy_window(data->mlx, data->win);
     free(data);
 }
@@ -18,7 +23,8 @@ void    ft_free_data(t_data *data)
 void    open_textures(t_data *data)
 {
     data->screen = malloc(sizeof(t_img));
-    // data->mini_map = malloc(sizeof(t_img));
+    data->mini_map = malloc(sizeof(t_img));
+    data->mini_map_frame = malloc(sizeof(t_img));
     data->door[0] = malloc(sizeof(t_img));
     data->door[1] = malloc(sizeof(t_img));
     data->door[2] = malloc(sizeof(t_img));
@@ -30,8 +36,13 @@ void    open_textures(t_data *data)
     data->E_Wall = malloc(sizeof(t_img));
     data->N_Wall = malloc(sizeof(t_img));
     data->S_Wall = malloc(sizeof(t_img));
+    if (!data->W_Wall || !data->E_Wall || !data->N_Wall || !data->S_Wall || !data->screen
+        || !data->door[0] || !data->door[1] || !data->door[2] || !data->door[3] || !data->flame[0]
+        || !data->flame[1] || !data->flame[2] || !data->mini_map_frame)
+        exit_error("(Malloc failed)", data->map, NULL);
     data->screen->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
-    // data->mini_map->img = mlx_new_image(data->mlx, WIDTH, HEIGHT);
+    data->mini_map->img = mlx_new_image(data->mlx, 200, 200);
+    data->mini_map_frame->img = mlx_xpm_file_to_image(data->mlx, "texture/mini_map_frame.xpm", &(data->door[0]->width), &(data->door[0]->height));
     data->door[0]->img = mlx_xpm_file_to_image(data->mlx, "texture/door_1.xpm", &(data->door[0]->width), &(data->door[0]->height));
     data->door[1]->img = mlx_xpm_file_to_image(data->mlx, "texture/door_2.xpm", &(data->door[1]->width), &(data->door[1]->height));
     data->door[2]->img = mlx_xpm_file_to_image(data->mlx, "texture/door_3.xpm", &(data->door[2]->width), &(data->door[2]->height));
@@ -44,8 +55,9 @@ void    open_textures(t_data *data)
     data->N_Wall->img = mlx_xpm_file_to_image(data->mlx, data->map->north_txture, &(data->N_Wall->width), &(data->N_Wall->height));
     data->S_Wall->img = mlx_xpm_file_to_image(data->mlx, data->map->south_txture, &(data->S_Wall->width), &(data->S_Wall->height));
     if (!data->W_Wall->img || !data->E_Wall->img || !data->N_Wall->img || !data->S_Wall->img || !data->screen->img
-        || !data->door[0]->img || !data->door[1]->img || !data->door[2]->img || !data->door[3]->img || !data->flame[0]->img || !data->flame[1]->img || !data->flame[2]->img)
-        exit_error("(Malloc failed)", data->map, NULL);
+        || !data->door[0]->img || !data->door[1]->img || !data->door[2]->img || !data->door[3]->img || !data->flame[0]->img
+            || !data->flame[1]->img || !data->flame[2]->img || !data->mini_map_frame->img)
+        exit_error("(opening textures failed)", data->map, NULL);
 }
 
 t_data *ft_init(t_map *map)
@@ -53,9 +65,16 @@ t_data *ft_init(t_map *map)
     t_data *data;
 
     data = malloc(sizeof(t_data));
+	data->keys.up = false;
+	data->keys.down = false;
+	data->keys.left = false;
+	data->keys.right = false;
+	data->keys.rotate_left = false;
+	data->keys.rotate_right = false;
     data->map = map;
     data->map->pixel = 800;
-    data->map->speed = 400;
+    data->mini_map_scale = 20;
+    data->map->speed = 200;
     ft_player_find(data);
     get_width(data);
     data->width = data->map->width * 2;
@@ -73,7 +92,8 @@ t_data *ft_init(t_map *map)
     data->flame[1]->addr = mlx_get_data_addr(data->flame[1]->img, &data->flame[1]->bits_per_pixel, &data->flame[1]->line_length, &data->flame[1]->endian);
     data->flame[2]->addr = mlx_get_data_addr(data->flame[2]->img, &data->flame[2]->bits_per_pixel, &data->flame[2]->line_length, &data->flame[2]->endian);
     data->screen->addr = mlx_get_data_addr(data->screen->img, &data->screen->bits_per_pixel, &data->screen->line_length, &data->screen->endian);
-    // data->mini_map->addr = mlx_get_data_addr(data->mini_map->img, &data->mini_map->bits_per_pixel, &data->mini_map->line_length, &data->mini_map->endian);
+    data->mini_map->addr = mlx_get_data_addr(data->mini_map->img, &data->mini_map->bits_per_pixel, &data->mini_map->line_length, &data->mini_map->endian);
+    data->mini_map_frame->addr = mlx_get_data_addr(data->mini_map_frame->img, &data->mini_map_frame->bits_per_pixel, &data->mini_map_frame->line_length, &data->mini_map_frame->endian);
     data->E_Wall->addr = mlx_get_data_addr(data->E_Wall->img, &data->E_Wall->bits_per_pixel, &data->E_Wall->line_length, &data->E_Wall->endian);
     data->W_Wall->addr = mlx_get_data_addr(data->W_Wall->img, &data->W_Wall->bits_per_pixel, &data->W_Wall->line_length, &data->W_Wall->endian);
     data->N_Wall->addr = mlx_get_data_addr(data->N_Wall->img, &data->N_Wall->bits_per_pixel, &data->N_Wall->line_length, &data->N_Wall->endian);
@@ -139,7 +159,8 @@ int main(int ac, char **av)
     parsing(&map, &vars, av);
     data = ft_init(&map);
     mlx_loop_hook(data->mlx, ft_render, data);
-    mlx_hook(data->win, 2, 1L<<0, ft_hocks, data);
+    mlx_hook(data->win, 2, 1L<<0, key_press, data);
+    mlx_hook(data->win, 3, 1L<<1, key_release, data);
     mlx_hook(data->win, 6, 1L<<6, ft_mouse_hocks, data);
     mlx_hook(data->win, 17, 1L<<0, ft_quit_game, data);
     mlx_loop(data->mlx);

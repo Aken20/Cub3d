@@ -67,7 +67,7 @@ void check_duplicated_view_char(t_map *map_data)
         exit_error("(No view found)", map_data, NULL);
 }
 
-void check_surrounding(t_map *map_data)
+void check_surrounding(t_map *map_data, char c)
 {
     t_vars vars;
 
@@ -78,7 +78,7 @@ void check_surrounding(t_map *map_data)
         vars.x = -1;
         while (map_data->map[vars.y][++vars.x])
         {
-            if (map_data->map[vars.y][vars.x] == '0')
+            if (map_data->map[vars.y][vars.x] == c)
             {
                 if (vars.y == 0 || vars.x == 0 || vars.y == map_data->height - 1)
                     exit_error("(Invalid map)", map_data, NULL);
@@ -96,7 +96,10 @@ void check_surrounding(t_map *map_data)
 
 void parsing_the_map(t_map *map_data)
 {
-    check_surrounding(map_data);
+    check_surrounding(map_data, '0');
+    check_surrounding(map_data, 'D');
+    check_surrounding(map_data, 'U');
+    check_surrounding(map_data, 'F');
     check_duplicated_view_char(map_data);
     parse_view(map_data);
 }

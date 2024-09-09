@@ -43,17 +43,39 @@ int wall_hit_2(float x, float y, t_data *data)
 	return (0);
 }
 
+int wall_hit_3(float x, float y, t_data *data)
+{
+	int  x_m;
+	int  y_m;
+
+	if (x < 0 || y < 0)
+		return (0);
+	x_m = floor (x / data->mini_map_scale);
+	y_m = floor (y / data->mini_map_scale);
+	if (y_m < 0 || x_m < 0 || y_m >= data->map->height || x_m >= (int)ft_strlen(data->map->map[y_m]))
+		return (0);
+	if (data->map->map[y_m] && x_m < (int)ft_strlen(data->map->map[y_m]))
+        return (1);
+	return (0);
+}
+
 void fill_vector(t_data *data, bool is_vert)
 {
     float yo, xo, x, y;
+    int x_m, y_m;
     float p;
 
-    x = data->map->rx;
-    y = data->map->ry;
+    x = (data->map->rx / data->map->pixel) * data->mini_map_scale;
+    y = (data->map->ry / data->map->pixel) * data->mini_map_scale;
+    x_m = 0;
+    y_m = 0;
+    // printf("x_m: %d, y_m: %d\n", x_m, y_m);
+    // printf("x: %f, y: %f\n", x, y);
+    return ;
     if (is_vert)
     {
-        yo = data->map->pixel * tan(d_to_r(data->r_angle));
-        xo = data->map->pixel;
+        yo = data->mini_map_scale * tan(d_to_r(data->r_angle));
+        xo = data->mini_map_scale;
         if (!(data->r_angle > 90 && data->r_angle < 270))
             p = 1;
         else
@@ -64,17 +86,23 @@ void fill_vector(t_data *data, bool is_vert)
         yo = -yo;
         while(wall_hit_2(x - p, y, data) && ((int)(y) != (int)data->vy || (int)(x) != (int)data->vx))
         {
-            my_mlx_pixel_put(data->mini_map, x, y, 0xF6F633);
+            my_mlx_pixel_put(data->mini_map, x_m, y_m, 0xF6F633);
             if ((int)(x) != (int)data->vx)
-                x += xo / (data->map->pixel * 10);
+            {
+                x += xo / (data->mini_map_scale * 10);
+                x_m += xo / (data->mini_map_scale * 10);
+            }
             if ((int)(y) != (int)data->vy)
-                y += yo / (data->map->pixel * 10);
+            {
+                y += yo / (data->mini_map_scale * 10);
+                y_m += yo / (data->mini_map_scale * 10);
+            }
         }
     }
     else
     {
-        yo = data->map->pixel;
-        xo = data->map->pixel / tan(d_to_r(data->r_angle));
+        yo = data->mini_map_scale * tan(d_to_r(data->r_angle));
+        xo = data->mini_map_scale;
         if ((xo > 0 && data->r_angle > 90 && data->r_angle < 270)
             || (xo < 0 && !(data->r_angle > 90 && data->r_angle < 270)))
             xo *= -1;
@@ -178,23 +206,26 @@ void     draw_textures(t_data *data, bool is_vert, int k, int line_height)
 	int  x_m;
 	int  y_m;
 
+    data->flame_flag++;
     if (is_vert)
     {
         x_m = floor ((int)data->vx / data->map->pixel);
         y_m = floor ((int)data->vy / data->map->pixel);
-        if (data->map->map[y_m][x_m] == 'F' || data->map->map[y_m][x_m - 1] == 'F')
+        if ((y_m < data->map->height && x_m < (int)ft_strlen(data->map->map[y_m]) && x_m - 1 < (int)ft_strlen(data->map->map[y_m]))
+            && (data->map->map[y_m][x_m] == 'F' || data->map->map[y_m][x_m - 1] == 'F'))
         {
             if (data->flame_flag > 20000)
                 data->flame_flag = 0;
             if (data->flame_flag >= 0 && data->flame_flag <= 10000)
-                draw_wall(data, is_vert, k, line_height, data->flame[0]), data->flame_flag++;
+                draw_wall(data, is_vert, k, line_height, data->flame[0]);
             else if (data->flame_flag >= 10000 && data->flame_flag <= 15000)
-                draw_wall(data, is_vert, k, line_height, data->flame[1]), data->flame_flag++;
+                draw_wall(data, is_vert, k, line_height, data->flame[1]);
             else if (data->flame_flag >= 15000 && data->flame_flag <= 20000)
-                draw_wall(data, is_vert, k, line_height, data->flame[2]), data->flame_flag++;
+                draw_wall(data, is_vert, k, line_height, data->flame[2]);
         }
-        if (data->map->map[y_m][x_m] == 'D' || data->map->map[y_m][x_m - 1] == 'D'
-            || data->map->map[y_m][x_m] == 'U' || data->map->map[y_m][x_m - 1] == 'U')
+        if ((y_m < data->map->height && x_m < (int)ft_strlen(data->map->map[y_m]) && x_m - 1 < (int)ft_strlen(data->map->map[y_m]))
+            && (data->map->map[y_m][x_m] == 'D' || data->map->map[y_m][x_m - 1] == 'D'
+            || data->map->map[y_m][x_m] == 'U' || data->map->map[y_m][x_m - 1] == 'U'))
         {
             if (data->door_flag > 45000)
                 data->door_flag = 0;
@@ -226,19 +257,21 @@ void     draw_textures(t_data *data, bool is_vert, int k, int line_height)
     {
         x_m = floor ((int)data->hx / data->map->pixel);
         y_m = floor ((int)data->hy / data->map->pixel);
-        if (data->map->map[y_m - 1][x_m] == 'F' || data->map->map[y_m][x_m] == 'F')
+        if ((y_m < data->map->height && x_m < (int)ft_strlen(data->map->map[y_m]) && y_m - 1 < data->map->height
+            && x_m < (int)ft_strlen(data->map->map[y_m - 1])) && (data->map->map[y_m - 1][x_m] == 'F' || data->map->map[y_m][x_m] == 'F'))
         {
             if (data->flame_flag > 20000)
                 data->flame_flag = 0;
             if (data->flame_flag >= 0 && data->flame_flag <= 10000)
-                draw_wall(data, is_vert, k, line_height, data->flame[0]), data->flame_flag++;
+                draw_wall(data, is_vert, k, line_height, data->flame[0]);
             else if (data->flame_flag >= 10000 && data->flame_flag <= 15000)
-                draw_wall(data, is_vert, k, line_height, data->flame[1]), data->flame_flag++;
+                draw_wall(data, is_vert, k, line_height, data->flame[1]);
             else if (data->flame_flag >= 15000 && data->flame_flag <= 20000)
-                draw_wall(data, is_vert, k, line_height, data->flame[2]), data->flame_flag++;
+                draw_wall(data, is_vert, k, line_height, data->flame[2]);
         }
-        if (data->map->map[y_m - 1][x_m] == 'D' || data->map->map[y_m][x_m] == 'D'
-            || data->map->map[y_m - 1][x_m] == 'U' || data->map->map[y_m][x_m] == 'U')
+        if ((y_m < data->map->height && x_m < (int)ft_strlen(data->map->map[y_m]) && y_m - 1 < data->map->height
+            && x_m < (int)ft_strlen(data->map->map[y_m - 1])) && (data->map->map[y_m - 1][x_m] == 'D' || data->map->map[y_m][x_m] == 'D'
+            || data->map->map[y_m - 1][x_m] == 'U' || data->map->map[y_m][x_m] == 'U'))
         {
             if (data->door_flag > 45000)
                 data->door_flag = 0;
@@ -291,7 +324,7 @@ void draw_ray_screen(t_data *data, float length, float x)
         //     fill_vector(data, is_vert);
     }
     length *= cos(d_to_r(data->r_angle - data->map->angle));
-    length *= 2;
+    length *= 1.6;
     int line_height = (data->map->pixel / length) * ((WIDTH / 2) / tan(d_to_r(60) / 2));
 	length = (data->map->pixel / length) * ((WIDTH / 2) / tan(d_to_r(60) / 2));
     data->end = (HEIGHT / 2) + ((int)length / 2);

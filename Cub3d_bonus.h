@@ -45,6 +45,16 @@
 # define PI 3.14159265359
 
 
+typedef struct s_keys
+{
+	bool		up;
+	bool		down;
+	bool		left;
+	bool		right;
+	bool		rotate_left;
+	bool		rotate_right;
+}				t_keys;
+
 typedef struct s_img
 {
 	int		width;
@@ -111,6 +121,7 @@ typedef struct s_data
 {
 	t_map	*map;
 	t_img	*mini_map;
+	t_img	*mini_map_frame;
 	t_img	*screen;
 	t_img	*door[4];
 	t_img	*flame[3];
@@ -120,12 +131,14 @@ typedef struct s_data
 	t_img	*S_Wall;
     float start;
     float end;
+	t_keys	keys;
 	void	*win;
 	void	*mlx;
 	int		width;
+	int		height;
+	int		mini_map_scale;
 	int		door_flag;
 	int		flame_flag;
-	int		height;
 	float	vx;
 	float	vy;
 	float	hx;
@@ -139,12 +152,14 @@ void extracting_the_map(t_map *map_data);
 
 // Exution ---- file name: execution.c ----
 
-int ft_hocks(int keycode, t_data *data);
+int ft_hocks(t_data *data);
 int ft_mouse_hocks(int x, int y, t_data *data);
 int ft_render(t_data *data);
 void get_width(t_data *data);
 void ft_player_find(t_data *data);
-bool ft_check_collision(t_data *data, int move_x, int move_y);
+// bool ft_check_collision(t_data *data, int move_x, int move_y);
+int key_press(int keycode, t_data *data);
+int key_release(int keycode, t_data *data);
 int ft_quit_game(t_data *data);
 void draw_ray(t_data *data);
 float d_to_r(float degree);
@@ -196,7 +211,7 @@ void    checking_commas(t_map *map_data, char *color);
 
 // parsing ----- file name: parsing_map ----
 void	parsing_the_map(t_map *map_data);
-void	check_surrounding(t_map *map_data);
+void	check_surrounding(t_map *map_data, char c);
 void	check_duplicated_view_char(t_map *map_data);
 void	parse_view(t_map *map_data);
 int		valid_view_char(char c);

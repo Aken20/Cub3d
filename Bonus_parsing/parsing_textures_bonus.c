@@ -16,6 +16,10 @@ void parsing_flame_textures(t_map *map_data)
     if (vars.fd < 0)
         exit_error("(Invalid flame animation texture)", map_data, NULL);
     close(vars.fd);
+    vars.fd = open("texture/mini_map_frame.xpm", O_RDONLY);
+    if (vars.fd < 0)
+        exit_error("(Invalid map frame texture)", map_data, NULL);
+    close(vars.fd);
 }
 
 void parsing_door_textures(t_map *map_data)
@@ -38,6 +42,7 @@ void parsing_door_textures(t_map *map_data)
     if (vars.fd < 0)
         exit_error("(Invalid door texture)", map_data, NULL);
     close(vars.fd);
+    parsing_flame_textures(map_data);
 }
 
 void parsing_textures(t_map *map_data)

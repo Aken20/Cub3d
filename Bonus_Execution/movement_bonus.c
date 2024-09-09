@@ -178,33 +178,66 @@ int ft_mouse_hocks(int x, int y, t_data *data)
     return (0);
 }
 
-int ft_hocks(int keycode, t_data *data)
+int key_press(int keycode, t_data *data)
 {
-    // printf("keycode: %d\n", keycode);
     if (keycode == ESC)
         ft_quit_game(data);
     if (keycode == SP)
         handel_door(data);
+    if (keycode == W)
+        data->keys.up = true;
+    if (keycode == S)
+        data->keys.down = true;
+    if (keycode == A)
+        data->keys.left = true;
+    if (keycode == D)
+        data->keys.right = true;
     if (keycode == RA)
+        data->keys.rotate_right = true;
+    if (keycode == LA)
+        data->keys.rotate_left = true;
+    return 0;
+}
+
+int key_release(int keycode, t_data *data)
+{
+    if (keycode == W)
+        data->keys.up = false;
+    if (keycode == S)
+        data->keys.down = false;
+    if (keycode == A)
+        data->keys.left = false;
+    if (keycode == D)
+        data->keys.right = false;
+    if (keycode == RA)
+        data->keys.rotate_right = false;
+    if (keycode == LA)
+        data->keys.rotate_left = false;
+    return 0;
+}
+
+int ft_hocks(t_data *data)
+{
+    // printf("keycode: %d\n", keycode);
+    if (data->keys.up)
+        ft_up(data);
+    if (data->keys.down)
+        ft_down(data);
+    if (data->keys.left)
+        ft_left(data);
+    if (data->keys.right)
+        ft_right(data);
+    if (data->keys.rotate_right)
     {
         data->map->angle -= 3;
         if (data->map->angle < 0)
             data->map->angle += 360;
     }
-    if (keycode == LA)
+    if (data->keys.rotate_left)
     {
         data->map->angle += 3;
         if (data->map->angle > 360)
             data->map->angle -= 360;
     }
-    if (keycode == A)
-        ft_left(data);
-    if (keycode == D)
-        ft_right(data);
-    if (keycode == W)
-        ft_up(data);
-    if (keycode == S)
-        ft_down(data);
-    // ft_render(data);
     return 0;
 }
