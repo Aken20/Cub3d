@@ -23,6 +23,7 @@ void	get_width(t_data *data)
 			data->map->width = (int)ft_strlen(data->map->map[i]);
 		i++;
 	}
+	set_player_to_zero(data);
 }
 
 void	ft_player_find(t_data *data)
@@ -49,8 +50,25 @@ void	ft_player_find(t_data *data)
 					data->map->angle = 270;
 				else if (data->map->map[i][j] == 'E')
 					data->map->angle = 0;
-				data->map->map[i][j] = '0';
 			}
+		}
+	}
+}
+
+void	set_player_to_zero(t_data *data)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	while (data->map->map[++i])
+	{
+		j = -1;
+		while (data->map->map[i][++j])
+		{
+			if (data->map->map[i][j] == 'N' || data->map->map[i][j] == 'S'
+				|| data->map->map[i][j] == 'W' || data->map->map[i][j] == 'E')
+				data->map->map[i][j] = '0';
 		}
 	}
 }

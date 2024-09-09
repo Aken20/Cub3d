@@ -22,12 +22,13 @@ FILES = main \
 		./parsing/space_chars_check \
 
 BONUS_FILES = main_bonus \
-		./Bonus_Execution/textures \
+		./Bonus_Execution/textures_bonus \
 		./Bonus_Execution/ray_bonus \
 		./Bonus_Execution/map_bonus  \
 		./Bonus_Execution/render_bonus \
 		./Bonus_Execution/movement_bonus \
 		./Bonus_Execution/ray_bonus_helper \
+		./Bonus_Execution/ray_bonus_helper_2 \
 		./Bonus_Execution/render_bonus_helper \
 		./Bonus_Execution/movement_bonus_helper \
 		./Bonus_parsing/converting_colors_bonus \

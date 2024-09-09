@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Cub3d_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/09 22:59:58 by ahibrahi          #+#    #+#             */
+/*   Updated: 2024/09/10 02:14:34 by ahibrahi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -18,6 +30,8 @@
 # include "minilibx-linux/mlx.h"
 
 # ifdef __linux__
+	# define ZOOM_IN 24
+	# define ZOOM_OUT 27
 	# define ESC 65307
 	# define RA 65363
 	# define LA 65361
@@ -29,6 +43,8 @@
 # endif
 
 # ifdef __APPLE__
+	# define ZOOM_IN 24
+	# define ZOOM_OUT 27
 	# define ESC 53
 	# define RA 124
 	# define LA 123
@@ -48,6 +64,8 @@
 typedef struct s_keys
 {
 	bool		up;
+	bool		zoom_in;
+	bool		zoom_out;
 	bool		down;
 	bool		left;
 	bool		right;
@@ -61,10 +79,18 @@ typedef struct s_img
 	int		height;
 	void	*img;
 	char	*addr;
-    int 	bits_per_pixel;
-    int 	line_length;
-    int 	endian;
+    int		bits_per_pixel;
+    int		line_length;
+    int		endian;
 }				t_img;
+
+typedef struct s_ray
+{
+	float	x;
+	float	y;
+	float	distance;
+	float	angle;
+}				t_ray;
 
 typedef struct s_map
 {
@@ -91,8 +117,8 @@ typedef struct s_map
 	int		red;
 	int		green;
 	int		blue;
-	int 	floor;
-	int 	ceiling;
+	int		floor;
+	int		ceiling;
 	int		width;
 	int		height;
 }				t_map;
@@ -123,17 +149,19 @@ typedef struct s_data
 	t_img	*mini_map;
 	t_img	*mini_map_frame;
 	t_img	*screen;
-	t_img	*door[4];
+	t_img	*door[3];
 	t_img	*flame[3];
 	t_img	*W_Wall;
 	t_img	*E_Wall;
 	t_img	*N_Wall;
 	t_img	*S_Wall;
-    float start;
-    float end;
+	float	start;
+	float	end;
 	t_keys	keys;
 	void	*win;
 	void	*mlx;
+	int		line_height;
+	int		x_screen;
 	int		width;
 	int		height;
 	int		mini_map_scale;
@@ -153,6 +181,7 @@ void extracting_the_map(t_map *map_data);
 // Exution ---- file name: execution.c ----
 
 void ft_hocks(t_data *data);
+void	set_player_to_zero(t_data *data);
 int ft_mouse_hocks(int x, int y, t_data *data);
 int ft_render(t_data *data);
 void get_width(t_data *data);
@@ -168,13 +197,14 @@ int key_release(int keycode, t_data *data);
 void	ft_free_data(t_data *data);
 int ft_quit_game(t_data *data);
 void draw_ray(t_data *data);
+void	draw_wall(t_data *data, bool is_vert, int line_height, t_img *img);
 float d_to_r(float degree);
 int	wall_hit(float x, float y, t_data *data);
 int	wall_hit_2(float x, float y, t_data *data);
 float	get_vert_dest(t_data *data);
 float	get_hor_dest(t_data *data);
 void draw_ray(t_data *data);
-void	 draw_textures(t_data *data, bool is_vert, int k, int line_height);
+void	 draw_textures(t_data *data, bool is_vert, int line_height);
 void my_mlx_pixel_put(t_img *img, int x, int y, int color);
 int my_mlx_pixel_get(t_img *img, int x, int y);
 

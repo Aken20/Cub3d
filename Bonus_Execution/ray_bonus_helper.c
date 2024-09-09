@@ -6,7 +6,7 @@
 /*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 06:47:54 by ahibrahi          #+#    #+#             */
-/*   Updated: 2024/09/09 06:50:29 by ahibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/10 01:25:37 by ahibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,11 @@ int	wall_hit_2(float x, float y, t_data *data)
 	return (0);
 }
 
-void	draw_ray_screen(t_data *data, float length, float x)
+void	draw_ray_screen(t_data *data, float length)
 {
 	float	h_dist;
 	float	v_dist;
 	bool	is_vert;
-	int		line_height;
 
 	is_vert = false;
 	h_dist = roundf(get_hor_dest(data) * 100) / 100;
@@ -76,7 +75,7 @@ void	draw_ray_screen(t_data *data, float length, float x)
 		is_vert = 1;
 	}
 	length = (length * cos(d_to_r(data->r_angle - data->map->angle))) * 1.6;
-	line_height = (data->map->pixel / length)
+	data->line_height = (data->map->pixel / length)
 		* ((WIDTH / 2) / tan(d_to_r(60) / 2));
 	length = (data->map->pixel / length) * ((WIDTH / 2) / tan(d_to_r(60) / 2));
 	data->end = (HEIGHT / 2) + ((int)length / 2);
@@ -85,19 +84,18 @@ void	draw_ray_screen(t_data *data, float length, float x)
 		data->end = HEIGHT;
 	if (data->start < 0)
 		data->start = 0;
-	draw_textures(data, is_vert, x, line_height);
+	draw_textures(data, is_vert, data->line_height);
 }
 
 void	draw_ray(t_data *data)
 {
 	float	length;
 	float	fov;
-	int		k;
 	float	r;
 
 	fov = 60;
 	length = 0;
-	k = 0;
+	data->x_screen = 0;
 	data->map->rx = data->map->px + data->map->pixel / 6;
 	data->map->ry = data->map->py + data->map->pixel / 6;
 	r = fov / WIDTH;
@@ -109,7 +107,8 @@ void	draw_ray(t_data *data)
 		data->r_angle -= r;
 		if (data->r_angle < 0)
 			data->r_angle += 360;
-		draw_ray_screen(data, length, k++);
+		draw_ray_screen(data, length);
+		data->x_screen++;
 		fov -= r;
 	}
 }

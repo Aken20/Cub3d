@@ -6,7 +6,7 @@
 /*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 05:36:37 by ahibrahi          #+#    #+#             */
-/*   Updated: 2024/09/09 05:45:47 by ahibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/09 23:08:04 by ahibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_draw_cursor(t_data *data)
 	y = 0;
 	x = 0;
 	i = 0;
-	while (i < 20)
+	while (i < data->mini_map_scale)
 	{
 		my_mlx_pixel_put(data->mini_map, 100 + x, 100 + y, 0xa9b5fa);
 		x += cos(d_to_r(data->map->angle));
@@ -58,16 +58,16 @@ void	ft_draw_player(t_data *data)
 	int	y;
 	int	x;
 
-	y = 94;
-	x = 94;
-	while (y < 106)
+	x = 100 - (data->mini_map_scale / 2);
+	y = 100 - (data->mini_map_scale / 2);
+	while (y < (100 + (data->mini_map_scale / 2)))
 	{
-		while (x < 106)
+		while (x < (100 + (data->mini_map_scale / 2)))
 		{
 			my_mlx_pixel_put(data->mini_map, x, y, 0x0000fa);
 			x++;
 		}
-		x = 94;
+		x = 100 - (data->mini_map_scale / 2);
 		y++;
 	}
 	ft_draw_cursor(data);

@@ -6,7 +6,7 @@
 /*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 05:13:12 by ahibrahi          #+#    #+#             */
-/*   Updated: 2024/09/09 05:35:35 by ahibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/09 23:04:51 by ahibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,10 @@ static void	ft_right(t_data *data)
 
 void	ft_hocks(t_data *data)
 {
+	if (data->keys.zoom_in && data->mini_map_scale < 30)
+		data->mini_map_scale++;
+	if (data->keys.zoom_out && data->mini_map_scale > 2)
+		data->mini_map_scale--;
 	if (data->keys.up)
 		ft_up(data);
 	if (data->keys.down)

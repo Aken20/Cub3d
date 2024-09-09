@@ -24,7 +24,6 @@ void	ft_free_data(t_data *data)
 	free(data->door[0]);
 	free(data->door[1]);
 	free(data->door[2]);
-	free(data->door[3]);
 	free(data->flame[0]);
 	free(data->flame[1]);
 	free(data->flame[2]);
@@ -38,6 +37,8 @@ t_data	*ft_init(t_map *map)
 
 	data = malloc(sizeof(t_data));
 	data->keys.up = false;
+	data->keys.zoom_in = false;
+	data->keys.zoom_out = false;
 	data->keys.down = false;
 	data->keys.left = false;
 	data->keys.right = false;

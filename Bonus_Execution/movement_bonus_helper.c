@@ -6,7 +6,7 @@
 /*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 05:13:12 by ahibrahi          #+#    #+#             */
-/*   Updated: 2024/09/09 05:32:47 by ahibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/10 01:00:52 by ahibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,10 @@ int	key_press(int keycode, t_data *data)
 		ft_quit_game(data);
 	if (keycode == SP)
 		handel_door(data);
+	if (keycode == ZOOM_IN)
+		data->keys.zoom_in = true;
+	if (keycode == ZOOM_OUT)
+		data->keys.zoom_out = true;
 	if (keycode == W)
 		data->keys.up = true;
 	if (keycode == S)
@@ -56,6 +60,10 @@ int	key_press(int keycode, t_data *data)
 
 int	key_release(int keycode, t_data *data)
 {
+	if (keycode == ZOOM_IN)
+		data->keys.zoom_in = false;
+	if (keycode == ZOOM_OUT)
+		data->keys.zoom_out = false;
 	if (keycode == W)
 		data->keys.up = false;
 	if (keycode == S)
