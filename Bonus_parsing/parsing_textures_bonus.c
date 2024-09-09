@@ -1,6 +1,6 @@
 # include "../Cub3d_bonus.h"
 
-void parsing_flame_textures(t_map *map_data)
+void    parsing_flame_textures(t_map *map_data)
 {
     t_vars vars;
 

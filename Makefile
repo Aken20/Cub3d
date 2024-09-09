@@ -21,18 +21,22 @@ FILES = main \
 		./parsing/space_chars_check \
 
 BONUS_FILES = main_bonus \
-		./Bonus_Execution/map_bonus \
-		./Bonus_Execution/movement_bonus \
+		./Bonus_Execution/textures \
 		./Bonus_Execution/ray_bonus \
+		./Bonus_Execution/map_bonus  \
 		./Bonus_Execution/render_bonus \
+		./Bonus_Execution/movement_bonus \
+		./Bonus_Execution/ray_bonus_helper \
+		./Bonus_Execution/render_bonus_helper \
+		./Bonus_Execution/movement_bonus_helper \
 		./Bonus_parsing/converting_colors_bonus \
 		./Bonus_parsing/free_va_arg_bonus \
-		./Bonus_parsing/parsing_colors_bonus \
 		./Bonus_parsing/parsing_map_bonus \
-		./Bonus_parsing/parsing_textures_bonus \
 		./Bonus_parsing/parsing_utils_bonus \
-		./Bonus_parsing/preparing_file_data_bonus \
+		./Bonus_parsing/parsing_colors_bonus \
+		./Bonus_parsing/parsing_textures_bonus \
 		./Bonus_parsing/space_chars_check_bonus \
+		./Bonus_parsing/preparing_file_data_bonus \
 
 TEST_FILES = main_test
 
