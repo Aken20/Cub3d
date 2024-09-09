@@ -11,6 +11,7 @@ FILES = main \
 		./Execution/textures \
 		./Execution/movement \
 		./Execution/ray \
+		./Execution/ray_helper \
 		./Execution/render \
 		./parsing/converting_colors \
 		./parsing/free_va_arg \

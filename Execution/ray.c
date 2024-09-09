@@ -12,15 +12,6 @@
 
 #include "../Cub3d.h"
 
-float	d_to_r(float degree)
-{
-	while (degree < 0)
-		degree += 360;
-	while (degree > 360)
-		degree -= 360;
-	return (degree * (PI / 180));
-}
-
 int	wall_hit(float x, float y, t_data *data)
 {
 	int	x_m;
@@ -56,127 +47,29 @@ int	wall_hit_2(float x, float y, t_data *data)
 	return (0);
 }
 
-void	get_vert_dest_helper(t_data *data, float xo, float yo)
-{
-	while (wall_hit(data->vx - 1, data->vy, data)
-		&& wall_hit(data->vx, data->vy, data))
-	{
-		data->vx += xo;
-		data->vy += yo;
-	}
-}
-
-void	get_hor_dest_helper(t_data *data, float xo, float yo)
-{
-	while (wall_hit(data->hx, data->hy - 1, data)
-		&& wall_hit(data->hx, data->hy, data))
-	{
-		data->hx += xo;
-		data->hy += yo;
-	}
-}
-
-float	get_vert_dest(t_data *data)
-{
-	float	yo;
-	float	xo;
-
-	if (data->r_angle == 90 || data->r_angle == 270)
-		return (100000);
-	data->vx = data->map->rx;
-	data->vy = data->map->ry;
-	yo = data->map->pixel * tan(d_to_r(data->r_angle));
-	xo = data->map->pixel;
-	data->vx = floor(data->map->rx / data->map->pixel) * data->map->pixel;
-	if (!(data->r_angle > 90 && data->r_angle < 270))
-		data->vx += xo;
-	else
-		xo *= -1;
-	data->vy = (data->map->ry + (data->map->rx - data->vx)
-			* tan(d_to_r(data->r_angle)));
-	if ((yo < 0 && (data->r_angle > 0 && data->r_angle < 180))
-		|| (yo > 0 && !(data->r_angle > 0 && data->r_angle < 180)))
-		yo *= -1;
-	yo = -yo;
-	get_vert_dest_helper(data, xo, yo);
-	return (sqrt(pow(data->map->rx - data->vx, 2)
-			+ pow(data->map->ry - data->vy, 2)));
-}
-
-float	get_hor_dest(t_data *data)
-{
-	float	yo;
-	float	xo;
-
-	if (data->r_angle == 0 || data->r_angle == 180 || data->r_angle == 360)
-		return (100000);
-	data->hx = data->map->rx;
-	data->hy = data->map->ry;
-	yo = data->map->pixel;
-	xo = data->map->pixel / tan(d_to_r(data->r_angle));
-	if ((xo > 0 && data->r_angle > 90 && data->r_angle < 270)
-		|| (xo < 0 && !(data->r_angle > 90 && data->r_angle < 270)))
-		xo *= -1;
-	data->hy = floor(data->map->ry / data->map->pixel) * data->map->pixel;
-	if (!(data->r_angle > 0 && data->r_angle < 180))
-		data->hy += yo;
-	else
-		yo = -yo;
-	data->hx = (data->map->rx + (data->map->ry - data->hy)
-			/ tan(d_to_r(data->r_angle)));
-	get_hor_dest_helper(data, xo, yo);
-	return (sqrt(pow(data->map->rx - data->hx, 2)
-			+ pow(data->map->ry - data->hy, 2)));
-}
-
-void	draw_wall(t_data *data, bool is_vert, int k, int line_height, t_img *img)
-{
-	float	x;
-	float	y;
-	float	y_step;
-	int		color;
-
-	y = 0;
-	color = 0;
-	y_step = (float)img->height / line_height;
-	if (is_vert)
-		x = ((float)((int)data->vy % data->map->pixel)
-				/ (data->map->pixel)) * img->width;
-	else
-		x = ((float)((int)data->hx % data->map->pixel)
-				/ (data->map->pixel)) * img->width;
-	while (data->start < data->end)
-	{
-		color = my_mlx_pixel_get(img, x, y);
-		my_mlx_pixel_put(data->screen, k, data->start++, color);
-		y += y_step;
-	}
-}
-
-void	 draw_textures(t_data *data, bool is_vert, int k, int line_height)
+void	draw_textures(t_data *data, bool is_vert)
 {
 	if (is_vert)
 	{
 		if (data->r_angle > 90 && data->r_angle < 270)
-			draw_wall(data, is_vert, k, line_height, data->W_Wall);
+			draw_wall(data, is_vert, data->W_Wall);
 		else
-			draw_wall(data, is_vert, k, line_height, data->E_Wall);
+			draw_wall(data, is_vert, data->E_Wall);
 	}
 	else
 	{
 		if (data->r_angle > 0 && data->r_angle < 180)
-			draw_wall(data, is_vert, k, line_height, data->N_Wall);
+			draw_wall(data, is_vert, data->N_Wall);
 		else
-			draw_wall(data, is_vert, k, line_height, data->S_Wall);
+			draw_wall(data, is_vert, data->S_Wall);
 	}
 }
 
-void draw_ray_screen(t_data *data, float length, float x)
+void	draw_ray_screen(t_data *data, float length)
 {
 	float	h_dist;
 	float	v_dist;
 	bool	is_vert;
-	int		line_height;
 
 	is_vert = false;
 	h_dist = roundf(get_hor_dest(data) * 100) / 100;
@@ -188,9 +81,8 @@ void draw_ray_screen(t_data *data, float length, float x)
 		length = v_dist;
 		is_vert = 1;
 	}
-	length *= cos(d_to_r(data->r_angle - data->map->angle));
-	length *= 2;
-	line_height = (data->map->pixel / length)
+	length = (length * cos(d_to_r(data->r_angle - data->map->angle))) * 1.5;
+	data->line_height = (data->map->pixel / length)
 		* ((WIDTH / 2) / tan(d_to_r(60) / 2));
 	length = (data->map->pixel / length) * ((WIDTH / 2) / tan(d_to_r(60) / 2));
 	data->end = (HEIGHT / 2) + ((int)length / 2);
@@ -199,19 +91,18 @@ void draw_ray_screen(t_data *data, float length, float x)
 		data->end = HEIGHT;
 	if (data->start < 0)
 		data->start = 0;
-	draw_textures(data, is_vert, x, line_height);
+	draw_textures(data, is_vert);
 }
 
-void draw_ray(t_data *data)
+void	draw_ray(t_data *data)
 {
 	float	length;
 	float	fov;
-	int		k;
 	float	r;
 
 	fov = 60;
 	length = 0;
-	k = 0;
+	data->x_screen = 0;
 	data->map->rx = data->map->px + data->map->pixel / 6;
 	data->map->ry = data->map->py + data->map->pixel / 6;
 	r = fov / WIDTH;
@@ -223,7 +114,8 @@ void draw_ray(t_data *data)
 		data->r_angle -= r;
 		if (data->r_angle < 0)
 			data->r_angle += 360;
-		draw_ray_screen(data, length, k++);
+		draw_ray_screen(data, length);
+		data->x_screen++;
 		fov -= r;
 	}
 }

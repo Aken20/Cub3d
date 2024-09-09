@@ -35,6 +35,30 @@ int	my_mlx_pixel_get(t_img *img, int x, int y)
 	return (color);
 }
 
+void	draw_wall(t_data *data, bool is_vert, t_img *img)
+{
+	float	x;
+	float	y;
+	float	y_step;
+	int		color;
+
+	y = 0;
+	color = 0;
+	y_step = (float)img->height / data->line_height;
+	if (is_vert)
+		x = ((float)((int)data->vy % data->map->pixel)
+				/ (data->map->pixel)) * img->width;
+	else
+		x = ((float)((int)data->hx % data->map->pixel)
+				/ (data->map->pixel)) * img->width;
+	while (data->start < data->end)
+	{
+		color = my_mlx_pixel_get(img, x, y);
+		my_mlx_pixel_put(data->screen, data->x_screen, data->start++, color);
+		y += y_step;
+	}
+}
+
 static void	draw_screen(t_data *data)
 {
 	int	x;
