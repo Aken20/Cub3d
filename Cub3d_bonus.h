@@ -30,8 +30,8 @@
 # include "minilibx-linux/mlx.h"
 
 # ifdef __linux__
-	# define ZOOM_IN 24
-	# define ZOOM_OUT 27
+	# define ZOOM_IN 61
+	# define ZOOM_OUT 45
 	# define ESC 65307
 	# define RA 65363
 	# define LA 65361

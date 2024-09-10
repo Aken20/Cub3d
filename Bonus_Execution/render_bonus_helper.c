@@ -59,12 +59,10 @@ void	draw_minimap_charecter(t_data *data, int x, int m_x, int m_y)
 void	draw_minimap(t_data *data)
 {
 	int	x;
-	int	y;
 	int	m_x;
 	int	m_y;
 
 	x = ((data->map->rx / data->map->pixel) * data->mini_map_scale) - 100;
-	y = ((data->map->ry / data->map->pixel) * data->mini_map_scale) - 100;
 	m_x = 0;
 	m_y = 0;
 	while (m_y < 200)
