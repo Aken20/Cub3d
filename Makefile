@@ -18,6 +18,7 @@ FILES = main \
 		./parsing/parsing_map \
 		./parsing/parsing_textures \
 		./parsing/parsing_utils \
+		./parsing/parsing_map_utils \
 		./parsing/preparing_file_data \
 		./parsing/space_chars_check \
 

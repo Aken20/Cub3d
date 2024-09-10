@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: suibrahi <suibrahi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/10 04:30:17 by suibrahi          #+#    #+#             */
+/*   Updated: 2024/09/10 22:31:10 by suibrahi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Cub3d.h"
 
 
@@ -34,4 +46,28 @@ void exit_error(char *str, t_map *map, t_vars *vars)
     free_vars_stuct(vars);
     ft_printf("Error\n%s\n", str);
     exit(1);
+}
+
+
+int find_char_index(const char *str, char c)
+{
+    int i = 0;
+
+    // Iterate through the string until the null terminator is found
+    while (str[i] != '\0')
+    {
+        if (str[i] == c)
+            return i;
+        i++;
+    }
+
+    // If the character is not found, return -1
+    return -1;
+}
+
+int   valid_view_char(char c)
+{
+	if (c != 'N' && c != 'S' && c != 'W' && c != 'E')
+		return (0);
+	return (1);
 }
