@@ -35,6 +35,7 @@ int	ft_mouse_hocks(int x, int y, t_data *data)
 
 int	key_press(int keycode, t_data *data)
 {
+	// printf("keycode: %d\n", keycode);
 	if (keycode == ESC)
 		ft_quit_game(data);
 	if (keycode == SP)

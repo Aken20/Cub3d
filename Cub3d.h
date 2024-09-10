@@ -113,10 +113,12 @@ typedef struct s_data
 	t_img	*E_Wall;
 	t_img	*N_Wall;
 	t_img	*S_Wall;
-    float start;
-    float end;
+    float	start;
+    float	end;
 	void	*win;
 	void	*mlx;
+	int		x_screen;
+	int		line_height;
 	int		width;
 	int		height;
 	float	vx;
@@ -133,6 +135,11 @@ void extracting_the_map(t_map *map_data);
 // Exution ---- file name: execution.c ----
 
 int ft_hocks(int keycode, t_data *data);
+void	draw_wall(t_data *data, bool is_vert, t_img *img);
+float	get_hor_dest(t_data *data);
+float	get_vert_dest(t_data *data);
+float	d_to_r(float degree);
+int	wall_hit(float x, float y, t_data *data);
 int ft_render(t_data *data);
 void get_width(t_data *data);
 void ft_player_find(t_data *data);

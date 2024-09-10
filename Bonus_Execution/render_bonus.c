@@ -82,7 +82,8 @@ int	ft_render(t_data *data)
 	mlx_put_image_to_window(data->mlx, data->win, data->screen->img, 0, 0);
 	mlx_put_image_to_window(data->mlx, data->win, data->mini_map->img,
 		WIDTH - 220, HEIGHT - 220);
-	mlx_put_image_to_window(data->mlx, data->win, data->mini_map_frame->img,
-		WIDTH - 240, HEIGHT - 240);
+	if (SP == 49)
+		mlx_put_image_to_window(data->mlx, data->win, data->mini_map_frame->img,
+			WIDTH - 240, HEIGHT - 240);
 	return (0);
 }
