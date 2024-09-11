@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_textures.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: suibrahi <suibrahi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 23:09:38 by suibrahi          #+#    #+#             */
-/*   Updated: 2024/09/11 03:58:46 by suibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:02:26 by ahibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,19 @@ void	parsing_textures(t_map *map_data)
 
 int	define_texture(char **splitted, t_map *map_data)
 {
-	if (ft_strncmp(splitted[0], "NO", 2) == 0)
+	if (ft_strncmp(splitted[0], "NO", 2) == 0 && !splitted[2])
 	{
 		return (map_data->north_txture = ft_strdup(splitted[1]), 1);
 	}
-	else if (ft_strncmp(splitted[0], "SO", 2) == 0)
+	else if (ft_strncmp(splitted[0], "SO", 2) == 0 && !splitted[2])
 	{
 		return (map_data->south_txture = ft_strdup(splitted[1]), 1);
 	}
-	else if (ft_strncmp(splitted[0], "WE", 2) == 0)
+	else if (ft_strncmp(splitted[0], "WE", 2) == 0 && !splitted[2])
 	{
 		return (map_data->west_txture = ft_strdup(splitted[1]), 1);
 	}
-	else if (ft_strncmp(splitted[0], "EA", 2) == 0)
+	else if (ft_strncmp(splitted[0], "EA", 2) == 0 && !splitted[2])
 	{
 		return (map_data->east_txture = ft_strdup(splitted[1]), 1);
 	}

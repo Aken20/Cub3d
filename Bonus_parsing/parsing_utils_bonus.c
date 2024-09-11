@@ -6,7 +6,7 @@
 /*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 04:30:17 by suibrahi          #+#    #+#             */
-/*   Updated: 2024/09/11 07:57:36 by ahibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/11 22:34:52 by ahibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,11 @@ int	find_char_index(const char *str, char c)
 	while (str[i] != '\0')
 	{
 		if (str[i] == c)
+		{
+			while (str[i] == c)
+				i++;
 			return (i);
+		}
 		i++;
 	}
 	return (-1);
