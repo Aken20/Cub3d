@@ -6,11 +6,11 @@
 /*   By: suibrahi <suibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:18:57 by suibrahi          #+#    #+#             */
-/*   Updated: 2024/09/11 04:24:29 by suibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:51:05 by suibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Cub3d.h"
+#include "../Cub3d_bonus.h"
 
 void	checking_commas(t_map *map_data, char *color)
 {

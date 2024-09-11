@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: suibrahi <suibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 04:30:17 by suibrahi          #+#    #+#             */
-/*   Updated: 2024/09/11 22:56:58 by ahibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:44:02 by suibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	getting_the_height(t_map *map_data)
 	map_data->height = 0;
 	while (map_data->file[++vars.x])
 	{
-		printf("map_data->file[vars.x][0] = (%s)\n", map_data->file[vars.x]);
 		if (map_data->file[vars.x][0] == '1'
 			|| map_data->file[vars.x][0] == ' ')
 			map_data->height++;

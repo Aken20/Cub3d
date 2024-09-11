@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_map_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: suibrahi <suibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 22:47:53 by suibrahi          #+#    #+#             */
-/*   Updated: 2024/09/11 23:18:50 by ahibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:42:59 by suibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ bool	check_line_value(char *line, t_vars *vars)
 		vars->len = 0;
 		i++;
 	}
-	printf("line: %d\n", vars->len);
 	if (ft_strnstr(line, "NO ", 3)
 		|| ft_strnstr(line, "SO ", 3) || ft_strnstr(line, "WE ", 3)
 		|| ft_strnstr(line, "EA ", 3) || ft_strnstr(line, "S ", 2)

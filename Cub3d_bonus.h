@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: suibrahi <suibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 22:59:58 by ahibrahi          #+#    #+#             */
-/*   Updated: 2024/09/11 08:21:26 by ahibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/12 00:00:03 by suibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,6 @@ typedef struct s_ray
 typedef struct s_map
 {
 	char	**map;
-	int		p_x; // for testing
-	int		p_y; // for testing
-	int		p_s; // for testing
-	int		x; // for testing
-	int		y; // for testing
 	float	px;
 	float	py;
 	int		pixel;
@@ -246,7 +241,7 @@ int		define_texture(char **splitted, t_map *map_data);
 void	defining_colors(t_map *map_data);
 void	check_duplicated_colors(t_map *map_data);
 void	parsing_colors(t_map *map_data);
-int		define_colors(char **splitted, t_map *map_data);
+int		define_colors(char *splitted, t_map *map_data, char c);
 
 // parsing ----- file name: converting_colors ----
 
@@ -267,5 +262,8 @@ int		valid_surrounding_char(char c);
 void	exit_error(char *str, t_map *map, t_vars *vars);
 void	getting_the_height(t_map *map_data);
 int		ft_strcmp(const char *s1, const char *s2);
+int		valid_line_char(char c);
+bool	check_line_value(char *line, t_vars *vars);
+int		find_char_index(const char *str, char c);
 
 #endif

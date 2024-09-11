@@ -67,11 +67,6 @@ typedef struct s_img
 typedef struct s_map
 {
 	char	**map;
-	int		p_x; // for testing
-	int		p_y; // for testing
-	int		p_s; // for testing
-	int		x; // for testing
-	int		y; // for testing
 	float	px;
 	float	py;
 	int		pixel;

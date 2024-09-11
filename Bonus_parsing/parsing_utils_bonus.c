@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: suibrahi <suibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 04:30:17 by suibrahi          #+#    #+#             */
-/*   Updated: 2024/09/11 22:56:49 by ahibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:50:44 by suibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Cub3d.h"
+#include "../Cub3d_bonus.h"
 
 int	ft_strcmp(const char *s1, const char *s2)
 {

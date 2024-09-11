@@ -6,11 +6,11 @@
 /*   By: suibrahi <suibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 04:01:20 by suibrahi          #+#    #+#             */
-/*   Updated: 2024/09/11 04:10:34 by suibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:56:45 by suibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Cub3d.h"
+#include "../Cub3d_bonus.h"
 
 void	init_vars(t_vars *vars)
 {
@@ -62,7 +62,7 @@ void	fill_the_file(t_map *map_data, int len, char *map_file)
 	vars.fd = open(map_file, O_RDONLY);
 	if (vars.fd < 0)
 		exit_error("(Invalid file descriptor)", map_data, NULL);
-	map_data->file = (char **)malloc(sizeof(char *) * (len + 1));
+	map_data->file = (char **)ft_calloc(sizeof(char *), (len + 1));
 	if (!map_data->file)
 		exit_error("(Malloc failed)", map_data, NULL);
 	vars.line = get_next_line(vars.fd);
@@ -71,7 +71,8 @@ void	fill_the_file(t_map *map_data, int len, char *map_file)
 	vars.i = 0;
 	while (vars.line)
 	{
-		vars.j = 0;
+		if (!check_line_value(vars.line, &vars))
+			exit_error("(Invalid map)", map_data, NULL);
 		while (vars.line[vars.j] && vars.line[vars.j] != '\n')
 			vars.j++;
 		if (vars.j != 0)
