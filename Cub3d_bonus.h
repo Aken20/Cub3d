@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Cub3d_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: suibrahi <suibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 22:59:58 by ahibrahi          #+#    #+#             */
-/*   Updated: 2024/09/10 02:14:34 by ahibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/11 04:21:58 by suibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ typedef struct s_vars {
 	int			fd;
 	int			counter;
 	int 		iscolorfound;
+	int 		txturecounter;
 	int 		isviewfound;
 	char 		*line;
 	char 		**splitted;
@@ -230,6 +231,12 @@ void    check_only_spaces_map(t_map *map_data);
 void	check_unwanted_chars(t_map *map_data);
 int     ft_isspace(char c);
 
+// parsing ----- file name: parsing_map_utils_bonus ----
+void	check_duplicated_view_char(t_map *m_data);
+// parsing ----- file name: parsing_extra_bonus ----
+
+void	parsing_door_textures(t_map *map_data);
+void	parsing_flame_textures(t_map *map_data);
 
 // parsing ----- file name: parsing_textures ----
 void	defining_textures(t_map *map_data);

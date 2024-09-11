@@ -6,7 +6,7 @@
 /*   By: suibrahi <suibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:18:57 by suibrahi          #+#    #+#             */
-/*   Updated: 2024/09/10 21:21:46 by suibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/11 04:03:35 by suibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void	convert_the_color(t_map *map, char **splitted_color, char colortype)
 	if (colortype == 'c')
 		map->ceiling = (map->red << 16) | (map->green << 8) | map->blue;
 }
-
 
 void	converting_colors(t_map *map_data, char *color, char colortype)
 {

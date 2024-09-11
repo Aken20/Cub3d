@@ -36,7 +36,9 @@ BONUS_FILES = main_bonus \
 		./Bonus_parsing/converting_colors_bonus \
 		./Bonus_parsing/free_va_arg_bonus \
 		./Bonus_parsing/parsing_map_bonus \
+		./Bonus_parsing/parsing_map_utils \
 		./Bonus_parsing/parsing_utils_bonus \
+		./Bonus_parsing/parsing_extra_bonus \
 		./Bonus_parsing/parsing_colors_bonus \
 		./Bonus_parsing/parsing_textures_bonus \
 		./Bonus_parsing/space_chars_check_bonus \

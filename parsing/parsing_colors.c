@@ -6,10 +6,9 @@
 /*   By: suibrahi <suibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 06:26:46 by suibrahi          #+#    #+#             */
-/*   Updated: 2024/09/10 21:18:20 by suibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/11 04:04:38 by suibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../Cub3d.h"
 
@@ -61,7 +60,6 @@ void	check_duplicated_colors(t_map *map_data)
 			exit_error("(found duplicated color)", map_data, NULL);
 	}
 }
-
 
 void	check_after_space(t_map *map_data, char *color)
 {

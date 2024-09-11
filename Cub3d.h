@@ -47,11 +47,11 @@ typedef struct s_img
 {
 	int		width;
 	int		height;
+    int		bits_per_pixel;
+    int		line_length;
+    int		endian;
 	void	*img;
 	char	*addr;
-    int 	bits_per_pixel;
-    int 	line_length;
-    int 	endian;
 }				t_img;
 
 typedef struct s_map
@@ -79,13 +79,14 @@ typedef struct s_map
 	int		red;
 	int		green;
 	int		blue;
-	int 	floor;
-	int 	ceiling;
+	int		floor;
+	int		ceiling;
 	int		width;
 	int		height;
 }				t_map;
 
-typedef struct s_vars {
+typedef struct s_vars
+{
 	int			i;
 	int			j;
 	int			k;
@@ -98,12 +99,13 @@ typedef struct s_vars {
 	int			y;
 	int			fd;
 	int			counter;
-	int 		iscolorfound;
-	int 		isviewfound;
-	char 		*line;
-	char 		**splitted;
+	int			iscolorfound;
+	int			txturecounter;
+	int			isviewfound;
+	char		*line;
+	char		**splitted;
 	char		*tmp;
-}               t_vars;
+}		t_vars;
 
 typedef struct s_data
 {
@@ -113,8 +115,8 @@ typedef struct s_data
 	t_img	*E_Wall;
 	t_img	*N_Wall;
 	t_img	*S_Wall;
-    float	start;
-    float	end;
+	float	start;
+	float	end;
 	void	*win;
 	void	*mlx;
 	int		x_screen;

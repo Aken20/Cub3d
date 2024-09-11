@@ -6,7 +6,7 @@
 /*   By: suibrahi <suibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 23:09:38 by suibrahi          #+#    #+#             */
-/*   Updated: 2024/09/10 23:12:05 by suibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/11 03:58:46 by suibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,42 +38,35 @@ int	define_texture(char **splitted, t_map *map_data)
 {
 	if (ft_strncmp(splitted[0], "NO", 2) == 0)
 	{
-		if (map_data->north_txture
-			&& ft_strncmp(map_data->north_txture , splitted[1], ft_strlen(splitted[1])) == 0)
-			exit_error("(Found duplicated texture NO)", map_data, NULL);
 		return (map_data->north_txture = ft_strdup(splitted[1]), 1);
 	}
 	else if (ft_strncmp(splitted[0], "SO", 2) == 0)
 	{
-		if (map_data->south_txture && (ft_strncmp(map_data->south_txture , splitted[1], ft_strlen(splitted[1])) == 0))
-			exit_error("(Found duplicated texture SO)", map_data, NULL);
 		return (map_data->south_txture = ft_strdup(splitted[1]), 1);
 	}
 	else if (ft_strncmp(splitted[0], "WE", 2) == 0)
 	{
-		if (map_data->west_txture && (ft_strncmp(map_data->west_txture , splitted[1], ft_strlen(splitted[1])) == 0))
-			exit_error("(Found duplicated texture WE)", map_data, NULL);
 		return (map_data->west_txture = ft_strdup(splitted[1]), 1);
 	}
 	else if (ft_strncmp(splitted[0], "EA", 2) == 0)
 	{
-		if (map_data->east_txture && (ft_strncmp(map_data->east_txture , splitted[1], ft_strlen(splitted[1])) == 0))
-			exit_error("(Found duplicated texture EA)", map_data, NULL);
 		return (map_data->east_txture = ft_strdup(splitted[1]), 1);
 	}
 	return (4);
 }
 
-void check_duplicated_textures(t_map *map_data)
+void	check_duplicated_textures(t_map *map_data)
 {
-	t_vars vars;
+	t_vars	vars;
 
 	vars.x = -1;
 	vars.counter = 0;
 	while (map_data->file[++vars.x])
 	{
-		if (map_data->file[vars.x][0] == 'N' || map_data->file[vars.x][0] == 'S'
-			|| map_data->file[vars.x][0] == 'W' || map_data->file[vars.x][0] == 'E')
+		if (map_data->file[vars.x][0] == 'N'
+			|| map_data->file[vars.x][0] == 'S'
+			|| map_data->file[vars.x][0] == 'W'
+			|| map_data->file[vars.x][0] == 'E')
 		{
 			vars.splitted = ft_split(map_data->file[vars.x], ' ');
 			if (!vars.splitted[0] || !vars.splitted[1])
@@ -86,37 +79,47 @@ void check_duplicated_textures(t_map *map_data)
 	}
 }
 
-void defining_textures(t_map *map_data)
+void	texture_check(t_map *map_data, char **splitted, int *txturecounter)
 {
-	t_vars  vars;
-	int     txturecounter;
+	if (ft_strcmp(splitted[0], "NO") == 0
+		|| ft_strcmp(splitted[0], "SO") == 0
+		|| ft_strcmp(splitted[0], "WE") == 0
+		|| ft_strcmp(splitted[0], "EA") == 0)
+	{
+		*txturecounter += define_texture(splitted, map_data);
+		free_2d(&splitted);
+		splitted = NULL;
+	}
+	else if (ft_strcmp(splitted[0], "C") != 0
+		&& ft_strcmp(splitted[0], "F") != 0)
+		exit_error("(invalid texture data)", map_data, NULL);
+	if (splitted)
+	{
+		free_2d(&splitted);
+		splitted = NULL;
+	}
+}
+
+void	defining_textures(t_map *map_data)
+{
+	t_vars	vars;
 
 	check_duplicated_textures(map_data);
 	vars.x = -1;
-	txturecounter = 0;
+	vars.txturecounter = 0;
 	vars.splitted = NULL;
-	while (map_data->file[++vars.x] && txturecounter != 4)
+	while (map_data->file[++vars.x] && vars.txturecounter != 4)
 	{
-		if (map_data->file[vars.x][0] == '1' || map_data->file[vars.x][0] == '0')
-				exit_error("(wrong map position or undefined character)", map_data, NULL);
+		if (map_data->file[vars.x][0] == '1'
+			|| map_data->file[vars.x][0] == '0')
+			exit_error("(wrong map position or undefined character)",
+				map_data, NULL);
 		vars.splitted = ft_split(map_data->file[vars.x], ' ');
 		if (vars.splitted && vars.splitted[0] && vars.splitted[1])
 		{
-			if (ft_strcmp(vars.splitted[0], "NO") == 0 || ft_strcmp(vars.splitted[0], "SO") == 0
-			|| ft_strcmp(vars.splitted[0], "WE") == 0 || ft_strcmp(vars.splitted[0], "EA") == 0)
-			{
-				txturecounter += define_texture(vars.splitted, map_data);
-				free_2d(&vars.splitted);
-				vars.splitted = NULL;
-			} else if (ft_strcmp(vars.splitted[0], "C") != 0 && ft_strcmp(vars.splitted[0], "F") != 0)
-				exit_error("(Undefined character)", map_data, NULL);
-		}
-		if (vars.splitted)
-		{
-			free_2d(&vars.splitted);
-			vars.splitted = NULL;
+			texture_check(map_data, vars.splitted, &vars.txturecounter);
 		}
 	}
-	if (txturecounter != 4)
+	if (vars.txturecounter != 4)
 		exit_error("(Invalid texture or no texture found)", map_data, NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: suibrahi <suibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 21:23:05 by suibrahi          #+#    #+#             */
-/*   Updated: 2024/09/10 22:55:37 by suibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/11 04:03:59 by suibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void	check_view_positions(t_map *map_data, int y, int x)
 		|| (map_data->map[y][x + 1] != '1' && map_data->map[y][x + 1] != '0'))
 		exit_error("(Invalid view position)", map_data, NULL);
 }
-
 
 void	parse_view(t_map *map_data)
 {
