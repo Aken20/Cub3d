@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_textures_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: suibrahi <suibrahi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 04:15:22 by suibrahi          #+#    #+#             */
-/*   Updated: 2024/09/11 04:16:53 by suibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/11 07:50:08 by ahibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../Cub3d_bonus.h"
+#include "../Cub3d_bonus.h"
 
 void	parsing_textures(t_map *map_data)
 {

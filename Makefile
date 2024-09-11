@@ -36,7 +36,6 @@ BONUS_FILES = main_bonus \
 		./Bonus_parsing/converting_colors_bonus \
 		./Bonus_parsing/free_va_arg_bonus \
 		./Bonus_parsing/parsing_map_bonus \
-		./Bonus_parsing/parsing_map_utils \
 		./Bonus_parsing/parsing_utils_bonus \
 		./Bonus_parsing/parsing_extra_bonus \
 		./Bonus_parsing/parsing_colors_bonus \
@@ -46,7 +45,6 @@ BONUS_FILES = main_bonus \
 
 TEST_FILES = main_test
 
-PRINTF = printf/printf.a
 LIBFT = libft/libft.a
 
 ifeq ($(shell uname), Linux)
@@ -77,31 +75,27 @@ all: $(NAME)
 
 bonus: $(BONUS_NAME)
 
-$(PRINTF):
-	make -C printf
-
 $(LIBFT):
 	make -C libft
 
 $(MLX):
 	make -C $(MLX_DIR)
 
-$(NAME): $(OBJS) $(PRINTF) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(GNL) $(MLX) $(MLX_FLAGS) -o $(NAME)
+$(NAME): $(OBJS) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(GNL) $(MLX) $(MLX_FLAGS) -o $(NAME)
 
-$(BONUS_NAME): $(BOBJS) $(PRINTF) $(LIBFT) $(MLX)
-	$(CC) $(CFLAGS) $(BOBJS) $(LIBFT) $(PRINTF) $(GNL) $(MLX) $(MLX_FLAGS) -o $(BONUS_NAME)
+$(BONUS_NAME): $(BOBJS) $(LIBFT) $(MLX)
+	$(CC) $(CFLAGS) $(BOBJS) $(LIBFT) $(GNL) $(MLX) $(MLX_FLAGS) -o $(BONUS_NAME)
 
 
 clean:
-	make clean -C printf
 	make clean -C libft
 	make clean -C $(MLX_DIR)
 	$(RM) $(OBJS) $(BOBJS)
 
 fclean:
 	make clean
-	$(RM) $(NAME) $(BONUS_NAME) $(PRINTF) $(MLX) $(LIBFT)
+	$(RM) $(NAME) $(BONUS_NAME) $(MLX) $(LIBFT)
 
 re:
 	make fclean

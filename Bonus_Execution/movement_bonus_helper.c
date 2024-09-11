@@ -6,7 +6,7 @@
 /*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 05:13:12 by ahibrahi          #+#    #+#             */
-/*   Updated: 2024/09/10 01:00:52 by ahibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/11 07:35:22 by ahibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int	ft_mouse_hocks(int x, int y, t_data *data)
 
 int	key_press(int keycode, t_data *data)
 {
-	// printf("keycode: %d\n", keycode);
 	if (keycode == ESC)
 		ft_quit_game(data);
 	if (keycode == SP)

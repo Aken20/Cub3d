@@ -15,10 +15,10 @@
 void	ft_free_data(t_data *data)
 {
 	free(data->screen);
-	free(data->W_Wall);
-	free(data->E_Wall);
-	free(data->N_Wall);
-	free(data->S_Wall);
+	free(data->w_wall);
+	free(data->e_wall);
+	free(data->n_wall);
+	free(data->s_wall);
 	mlx_destroy_window(data->mlx, data->win);
 	free(data);
 }

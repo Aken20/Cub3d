@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: suibrahi <suibrahi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 04:30:17 by suibrahi          #+#    #+#             */
-/*   Updated: 2024/09/11 04:04:57 by suibrahi         ###   ########.fr       */
+/*   Updated: 2024/09/11 07:58:09 by ahibrahi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ void	exit_error(char *str, t_map *map, t_vars *vars)
 {
 	free_map_stuct(map);
 	free_vars_stuct(vars);
-	ft_printf("Error\n%s\n", str);
+	ft_putstr_fd("Error\n", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd("\n", 2);
 	exit(1);
 }
 

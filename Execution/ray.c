@@ -52,16 +52,16 @@ void	draw_textures(t_data *data, bool is_vert)
 	if (is_vert)
 	{
 		if (data->r_angle > 90 && data->r_angle < 270)
-			draw_wall(data, is_vert, data->W_Wall);
+			draw_wall(data, is_vert, data->w_wall);
 		else
-			draw_wall(data, is_vert, data->E_Wall);
+			draw_wall(data, is_vert, data->e_wall);
 	}
 	else
 	{
 		if (data->r_angle > 0 && data->r_angle < 180)
-			draw_wall(data, is_vert, data->N_Wall);
+			draw_wall(data, is_vert, data->n_wall);
 		else
-			draw_wall(data, is_vert, data->S_Wall);
+			draw_wall(data, is_vert, data->s_wall);
 	}
 }
 
