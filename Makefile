@@ -43,7 +43,6 @@ BONUS_FILES = main_bonus \
 		./Bonus_parsing/space_chars_check_bonus \
 		./Bonus_parsing/preparing_file_data_bonus \
 
-TEST_FILES = main_test
 
 LIBFT = libft/libft.a
 
@@ -61,11 +60,9 @@ ifeq ($(shell uname), Darwin)
 endif
 
 SRCS = $(addsuffix .c, $(FILES))
-TEST_SRCS = $(addsuffix .c, $(TEST_FILES))
 BSRCS = $(addsuffix .c, $(BONUS_FILES))
 
 OBJS = $(addsuffix .o, $(FILES))
-TEST_OBJS = $(addsuffix .o, $(TEST_FILES))
 BOBJS = $(addsuffix .o, $(BONUS_FILES))
 
 %.o: %.c

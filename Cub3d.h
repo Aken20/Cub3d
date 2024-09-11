@@ -216,5 +216,7 @@ void	exit_error(char *str, t_map *map, t_vars *vars);
 void	getting_the_height(t_map *map_data);
 int		ft_strcmp(const char *s1, const char *s2);
 int		find_char_index(const char *str, char c);
+int		valid_line_char(char c);
+bool	check_line_value(char *line, t_vars *vars);
 
 #endif
