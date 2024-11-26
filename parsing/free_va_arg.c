@@ -1,74 +1,61 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free_va_arg.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: suibrahi <suibrahi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/10 21:22:12 by suibrahi          #+#    #+#             */
+/*   Updated: 2024/09/10 21:22:55 by suibrahi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Cub3d.h"
 
-
-
-void free_all(int count, ...)
+void	free_2d(char ***ptr)
 {
-    va_list args;
-    void **ptr;
-    int i = -1; 
+	int	j;
 
-    va_start(args, count);
-    while (++i < count)
-    {
-        ptr = va_arg(args, void **);
-        if (*(ptr))
-        {
-            free(*(ptr));
-            *(ptr) = NULL;
-        }
-    }
-    va_end(args);
+	if (ptr && *ptr)
+	{
+		j = 0;
+		while ((*ptr)[j])
+		{
+			free((*ptr)[j]);
+			j++;
+		}
+		if (*ptr)
+			free(*ptr);
+		*ptr = NULL;
+	}
 }
 
-
-void free_all_2d(int count, ...)
+void	free_textures(t_map *map)
 {
-    va_list args;
-    void ***ptr;
-    int i, j;
-
-    va_start(args, count);
-    for (i = 0; i < count; i++)
-    {
-        ptr = va_arg(args, void ***);
-        if (ptr && *ptr)
-        {
-            j = 0;
-            while ((*ptr)[j])
-            {
-                free((*ptr)[j]);
-                j++;
-            }
-            if (*ptr)
-                free(*ptr);
-            *ptr = NULL;
-        }
-    }
-    va_end(args);
+	if (!map)
+		return ;
+	free(map->north_txture);
+	free(map->south_txture);
+	free(map->east_txture);
+	free(map->west_txture);
+	free(map->floor_color);
+	free(map->ceiling_color);
 }
 
-void free_textures(t_map *map)
+void	free_map_stuct(t_map *map)
 {
-    if (!map)
-        return;
-    free_all(6, &map->north_txture, &map->south_txture,
-        &map->east_txture, &map->west_txture,
-        &map->floor_color, &map->ceiling_color);
+	if (!map)
+		return ;
+	free_textures(map);
+	free_2d(&map->map);
+	free_2d(&map->file);
 }
 
-void free_map_stuct(t_map *map)
+void	free_vars_stuct(t_vars *vars)
 {
-    if (!map)
-        return;
-    free_textures(map);
-    free_all_2d(2, &map->map, &map->file);
-}
-
-void free_vars_stuct(t_vars *vars)
-{
-    if (!vars)
-        return;
-    free_all(2, &vars->line, &vars->tmp);
-    free_all_2d(1, &vars->splitted);
+	if (!vars)
+		return ;
+	free(vars->line);
+	free(vars->tmp);
+	free_2d(&vars->splitted);
 }

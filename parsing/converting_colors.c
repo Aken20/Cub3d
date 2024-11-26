@@ -1,76 +1,93 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   converting_colors.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/10 21:18:57 by suibrahi          #+#    #+#             */
+/*   Updated: 2024/09/11 22:40:13 by ahibrahi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Cub3d.h"
 
-
-void    checking_commas(t_map *map_data, char *color)
+void	checking_commas(t_map *map_data, char *color)
 {
-    t_vars vars;
+	t_vars	vars;
 
-    vars.i = -1;
-    vars.c = 0;
-    vars.counter = 0;
-    vars.len = ft_strlen(color);
-    if (!color)
-        exit_error("(Invalid color code)", map_data, NULL);
-    while (color[++vars.i]) 
-    {
-        if (color[0] == ',')
-            exit_error("(unexpected comma (color code))", map_data, NULL);
-        if (color[vars.len - 1] == ',')
-            exit_error("(Invalid color code)", map_data, NULL);
-        if (color[vars.i] == ',')
-        {
-            if (color[vars.i + 1] == ',')
-                exit_error("(found commas next to each other)", map_data, NULL);
-            vars.counter++;
-        }
-    }
-    if (vars.counter != 2)
-        exit_error("(invalid color code)", map_data, NULL);
+	vars.i = -1;
+	vars.c = 0;
+	vars.counter = 0;
+	vars.len = ft_strlen(color);
+	if (!color)
+		exit_error("(Invalid color code0)", map_data, NULL);
+	while (color[++vars.i])
+	{
+		if (color[0] == ',')
+			exit_error("(unexpected comma (color code))", map_data, NULL);
+		if (color[vars.len - 1] == ',')
+			exit_error("(Invalid color code1)", map_data, NULL);
+		if (color[vars.i] == ',')
+		{
+			if (color[vars.i + 1] == ',')
+				exit_error("(found commas next to each other)", map_data, NULL);
+			vars.counter++;
+		}
+	}
+	if (vars.counter != 2)
+		exit_error("(invalid color code2)", map_data, NULL);
 }
 
-
-void    convert_the_color(t_map *map, char **splitted_color, char colortype)
+void	convert_the_color(t_map *map, char **splitted_color, char colortype)
 {
-    t_vars vars;
+	t_vars	vars;
 
-    init_vars(&vars);
-    vars.i = -1;
-    while (splitted_color[++vars.i])
-    {
-        if (ft_atoi(splitted_color[vars.i]) > 255 || ft_atoi(splitted_color[vars.i]) < 0)
-        {
-            free(splitted_color);
-            exit_error("(valid code per decimal place is between 0 and 255 )", map, &vars);
-        } 
-    }
-    map->red = ft_atoi(splitted_color[0]);
-    map->green = ft_atoi(splitted_color[1]);
-    map->blue = ft_atoi(splitted_color[2]);
-    if (colortype == 'f')
-        map->floor = (map->red << 16) | (map->green << 8) | map->blue;
-    if (colortype == 'c')
-        map->ceiling = (map->red << 16) | (map->green << 8) | map->blue;
+	init_vars(&vars);
+	vars.i = -1;
+	while (splitted_color[++vars.i])
+	{
+		if (ft_atoi(splitted_color[vars.i]) > 255
+			|| ft_atoi(splitted_color[vars.i]) < 0)
+		{
+			free_2d(&(splitted_color));
+			exit_error("(valid code per decimal place is between 0 and 255 )",
+				map, &vars);
+		}
+	}
+	map->red = ft_atoi(splitted_color[0]);
+	map->green = ft_atoi(splitted_color[1]);
+	map->blue = ft_atoi(splitted_color[2]);
+	if (colortype == 'f')
+		map->floor = (map->red << 16) | (map->green << 8) | map->blue;
+	if (colortype == 'c')
+		map->ceiling = (map->red << 16) | (map->green << 8) | map->blue;
 }
 
-
-void converting_colors(t_map *map_data, char *color, char colortype)
+void	converting_colors(t_map *map_data, char *color, char colortype)
 {
-    t_vars vars;
+	t_vars	vars;
 
-    init_vars(&vars);
-    vars.i = -1;
-    vars.splitted = ft_split(color, ',');
-    if (!vars.splitted)
-        exit_error("(color code is missing)", map_data, &vars);
-    while (vars.splitted[++vars.i])
-    {
-        vars.j = -1;
-        while (vars.splitted[vars.i][++vars.j])
-        {
-            if (!ft_isdigit(vars.splitted[vars.i][vars.j]))
-                exit_error("(color code is not a number)", map_data, &vars);
-        }
-    }
-    convert_the_color(map_data, vars.splitted, colortype);
+	init_vars(&vars);
+	vars.i = -1;
+	vars.splitted = ft_split(color, ',');
+	if (!vars.splitted)
+		exit_error("(color code is missing)", map_data, &vars);
+	while (vars.splitted[++vars.i])
+	{
+		vars.j = -1;
+		while (vars.splitted[vars.i][++vars.j])
+		{
+			while (vars.splitted[vars.i][vars.j]
+				&& vars.splitted[vars.i][vars.j] == ' ')
+				vars.j++;
+			if (vars.splitted[vars.i][vars.j]
+				&& !ft_isdigit(vars.splitted[vars.i][vars.j]))
+				exit_error("(color code is not a number)", map_data, &vars);
+			if (vars.splitted[vars.i][vars.j] == '\0')
+				break ;
+		}
+	}
+	convert_the_color(map_data, vars.splitted, colortype);
+	free_2d(&vars.splitted);
 }
-

@@ -1,109 +1,91 @@
+/* ************************************************************************** */
+/*			                                                                */
+/*                                                        :::      ::::::::   */
+/*   render.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahibrahi <ahibrahi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/10 01:54:42 by ahibrahi          #+#    #+#             */
+/*   Updated: 2024/09/10 02:02:13 by ahibrahi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Cub3d.h"
 
-void my_mlx_pixel_put(t_img *img, int x, int y, int color)
+void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
-    char *dst;
+	char	*dst;
 
-    if (x < 0 || y < 0 || x > WIDTH || y > HEIGHT)
-        return ;
-    dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-    *(unsigned int*)dst = color;
+	if (x < 0 || y < 0 || x > WIDTH || y > HEIGHT)
+		return ;
+	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	*(unsigned int *)dst = color;
 }
 
-// int my_mlx_pixel_get(t_data *data, int x, int y, int color, int i)
-// {
-//     char *dst;
-
-//     if (!i)
-//     {
-//         dst = data->img_s->addr + (y * data->img_s->line_length + x * (data->img_s->bits_per_pixel / 8));
-//         *(unsigned int*)dst = color;
-//     }
-//     else 
-//     {
-//         dst = data->img_s->s_addr + (y * data->img_s->s_line_length + x * (data->img_s->s_bits_per_pixel / 8));
-//         *(unsigned int*)dst = color;
-//     }
-// }
-
-void ft_draw_player(t_data *data)
+int	my_mlx_pixel_get(t_img *img, int x, int y)
 {
-    int y;
-    int x;
-    int pixel;
+	char	*dst;
+	int		color;
 
-    pixel = data->map_s->pixel / 3;
-    y = 0;
-    x = 0;
-
-
-    while (y < pixel)
-    {
-        while (x < pixel)
-        {
-            my_mlx_pixel_put(data->mini_map, data->map_s->px + x, data->map_s->py + y, 0x0000fa);
-            x++;
-        }
-        x = 0;
-        y++;
-    }
+	color = 0;
+	if (x < 0 || y < 0 || x >= img->width || y >= img->height)
+		return (color);
+	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
+	color = (*(unsigned int *)dst);
+	return (color);
 }
 
-static void draw_minimap(t_data *data)
+void	draw_wall(t_data *data, bool is_vert, t_img *img)
 {
-    int x;
-    int y;
+	float	x;
+	float	y;
+	float	y_step;
+	int		color;
 
-    x = 0;
-    y = 0;
-    while (y < data->height)
-    {
-        while (x < data->width && data->map_s->map[y / data->map_s->pixel][x / data->map_s->pixel])
-        {
-            // printf("x: %d, y: %d\n", x, y);
-            if (data->map_s->map[y / data->map_s->pixel][x / data->map_s->pixel] == '1')
-                my_mlx_pixel_put(data->mini_map, x, y, 0x80FF33);
-            else
-                my_mlx_pixel_put(data->mini_map, x, y, 0xc8c8cc);
-            if (x % data->map_s->pixel < 1 || y % data->map_s->pixel < 1 || !data->map_s->map[y / data->map_s->pixel][x / data->map_s->pixel])
-                my_mlx_pixel_put(data->mini_map, x, y, 0x000000);
-            x++;
-        }
-        x = 0;
-        y++;
-    }
-    ft_draw_player(data);
+	y = 0;
+	color = 0;
+	y_step = (float)img->height / data->line_height;
+	if (is_vert)
+		x = ((float)((int)data->vy % data->map->pixel)
+				/ (data->map->pixel)) * img->width;
+	else
+		x = ((float)((int)data->hx % data->map->pixel)
+				/ (data->map->pixel)) * img->width;
+	while (data->start < data->end)
+	{
+		color = my_mlx_pixel_get(img, x, y);
+		my_mlx_pixel_put(data->screen, data->x_screen, data->start++, color);
+		y += y_step;
+	}
 }
 
-static void draw_screen(t_data *data)
+static void	draw_screen(t_data *data)
 {
-    int x;
-    int y;
+	int	x;
+	int	y;
 
-    x = 0;
-    y = 0;
-    while (y < HEIGHT)
-    {
-        while (x < WIDTH)
-        {
-            if (y < HEIGHT / 2)
-                my_mlx_pixel_put(data->screen, x, y, data->map_s->ceiling);
-            else
-                my_mlx_pixel_put(data->screen, x, y, data->map_s->floor);
-            x++;
-        }
-        x = 0;
-        y++;
-    }
-    draw_ray(data);
+	x = 0;
+	y = 0;
+	while (y < HEIGHT)
+	{
+		while (x < WIDTH)
+		{
+			if (y < HEIGHT / 2)
+				my_mlx_pixel_put(data->screen, x, y, data->map->ceiling);
+			else
+				my_mlx_pixel_put(data->screen, x, y, data->map->floor);
+			x++;
+		}
+		x = 0;
+		y++;
+	}
+	draw_ray(data);
 }
 
-int ft_render(t_data *data)
+int	ft_render(t_data *data)
 {
-    mlx_clear_window(data->mlx, data->win);
-    draw_minimap(data);
-    draw_screen(data);
-    mlx_put_image_to_window(data->mlx, data->win, data->screen->img, 0, 0);
-    mlx_put_image_to_window(data->mlx, data->win, data->mini_map->img, 0, 0);
-    return 0;
+	mlx_clear_window(data->mlx, data->win);
+	draw_screen(data);
+	mlx_put_image_to_window(data->mlx, data->win, data->screen->img, 0, 0);
+	return (0);
 }
