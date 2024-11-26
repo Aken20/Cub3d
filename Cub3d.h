@@ -24,6 +24,9 @@
 # include <stdarg.h>
 # include <errno.h>
 # include <stdbool.h>
+# include <stdarg.h>
+# include <errno.h>
+# include <stdbool.h>
 # include "libft/libft.h"
 # include <math.h>
 # include "libft/get_next_line.h"
@@ -97,8 +100,12 @@ typedef struct s_vars
 	int			k;
 	int			l;
 	int			len;
+	int			len;
 	int			m;
 	int			n;
+	int			x;
+	int			c;
+	int			y;
 	int			x;
 	int			c;
 	int			y;
@@ -215,3 +222,4 @@ int		valid_line_char(char c);
 bool	check_line_value(char *line, t_vars *vars);
 
 #endif
+

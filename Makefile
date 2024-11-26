@@ -3,6 +3,7 @@ BONUS_NAME = cub3d_bonus
 TEST_NAME = test_cub3d
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g3
 AR = ar -rcs
 RM = rm -f
 
@@ -60,6 +61,19 @@ ifeq ($(shell uname), Darwin)
 	OBJ_FLAGS = -Imlx
 endif
 
+ifeq ($(shell uname), Linux)
+	MLX_DIR = minilibx-linux
+	MLX = minilibx-linux/libmlx_Linux.a
+	MLX_FLAGS = -L/usr/lib -Iminilibx-linux -lXext -lX11 -lm -lz
+	OBJ_FLAGS = -I/usr/include -Iminilibx-linux -O3
+endif
+ifeq ($(shell uname), Darwin)
+	MLX_DIR = mlx
+	MLX = mlx/libmlx.a
+	MLX_FLAGS = -Lmlx -lmlx -framework OpenGL -framework AppKit
+	OBJ_FLAGS = -Imlx
+endif
+
 SRCS = $(addsuffix .c, $(FILES))
 BSRCS = $(addsuffix .c, $(BONUS_FILES))
 
@@ -76,6 +90,7 @@ bonus: $(BONUS_NAME)
 $(LIBFT):
 	make -C libft
 
+
 $(MLX):
 	make -C $(MLX_DIR)
 
@@ -89,6 +104,7 @@ $(BONUS_NAME): $(BOBJS) $(LIBFT) $(MLX)
 clean:
 	make clean -C libft
 	make clean -C $(MLX_DIR)
+	make clean -C $(MLX_DIR)
 	$(RM) $(OBJS) $(BOBJS)
 
 fclean:
@@ -98,5 +114,10 @@ fclean:
 re:
 	make fclean
 	make all
+re:
+	make fclean
+	make all
+
+.PHONY: test all clean fclean re
 
 .PHONY: test all clean fclean re
